@@ -1,0 +1,63 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap" >
+	<ul class="nav nav-tabs">
+		<li class="active"><a href="{:url('LevelSetting/set')}">分销设置</a></li>
+	</ul>
+	<form method="post" class="form-horizontal js-ajax-form margin-top-20" style="padding-top:50px;padding-left:50px;" action="{:url('LevelSetting/setPost')}">
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>设置分销等级:</label>
+			<div class="col-md-6 col-sm-10">
+				<select class="form-control" name="level_settings[level]" >
+								<option >请选择分销等级</option>
+								<option value="1" <eq name="$level_settings.level" value="1">selected</eq> >一级分销</option>
+								<option value="2" <eq name="$level_settings.level" value="2">selected</eq> >二级分销</option>
+								<option value="3" <eq name="$level_settings.level" value="3">selected</eq> >三级分销</option>
+				</select>
+			</div>
+		</div>
+    <div class="form-group" id="first">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>一级分销抽成(百分比):</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="text" class="form-control" name="level_settings[first_score]" value="{$level_settings.first_score|default=''}">
+			</div>
+		</div>
+    <div class="form-group" id="second"  >
+			<label class="col-sm-2 control-label">二级分销抽成(百分比):</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="text" class="form-control" <eq name="$level_settings.level" value="1">disabled="disabled"</eq> name="level_settings[second_score]" value="{$level_settings.second_score|default=''}">
+			</div>
+		</div>
+    <div class="form-group" id="third"  >
+			<label class="col-sm-2 control-label">三级分销抽成(百分比):</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="text" class="form-control" <neq name="$level_settings.level" value="3">disabled="disabled"</neq> name="level_settings[third_score]" value="{$level_settings.third_score|default=''}">
+			</div>
+		</div>
+		<div class="col-sm-offset-2 col-sm-10">
+			<button type="submit" class="btn btn-primary js-ajax-submit">{:lang("SAVE")}</button>
+		</div>
+	</form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+  $('select').change(function(){
+    var lev=$(this).val();
+    if(lev ==1)
+    {
+      $("#second,#third").find('input').attr("disabled","disabled");
+      $("#second,#third").find('input').val("");
+    }else if(lev == 2)
+    {
+      $("#second").find('input').removeAttr("disabled");
+      $("#third").find('input').attr("disabled","disabled");
+      $("#third").find('input').val("");
+    }else if(lev ==3)
+    {
+      $("#second,#third").find('input').removeAttr("disabled");
+    }
+  });
+</script>
+</body>
+</html>

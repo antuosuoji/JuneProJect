@@ -1,0 +1,48 @@
+<include file="public@head" />
+	<body>
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="{:url('user/profile/center')}"></a>
+			    <p>关注商品</p>
+			</div>
+		</div>
+			<notempty name="like">
+        <div class="cartBox">
+            <div class="shop_info" style="display: none;">
+                <div class="all_check">
+                    <input type="checkbox" id="shop_a" class="shopChoice">
+                    <label for="shop_a" class="shop"></label>
+                </div>
+                <div class="shop_name">全选</div>
+            </div>
+            <div class="order_content">
+              <foreach name="like" item="vo">
+                <ul class="order_lists">
+									<li class="list_con"><a href="{:url('goods/article/index',array('cid'=>$vo['object_cid'],'id'=>$vo['object_id']))}" style="background: url({:cmf_get_image_url($vo.goods_image)}) 50% no-repeat;"></a></li>
+                    <li class="list_price">
+                        <div class="list_text"><a href="{:url('goods/article/index',array('cid'=>$vo['object_cid'],'id'=>$vo['object_id']))}">{$vo.gname}</a></div>
+                        <p class="price">￥{$vo.gprice}</p>
+                    </li>
+                    <li class="list_sum" style="display: none;">
+                        <p class="sum_price" >￥980</p>
+                    </li>
+										<li class="list_op">
+											<a style="color:#707070" class="js-ajax-delete" href="{:url('Profile/likedle',array('id'=>$vo['id']))}"><p></p></a>
+                    </li>
+                </ul>
+              </foreach>
+								<div class="pagination" style="margin-bottom:40px;">{$page|default=''}</div>
+            </div>
+        </div>
+				<else/>
+				<div class="gwc_k" style="margin-top:180px;">
+						<div class="gwc_k_img">
+								<img src="__TMPL__/public/assets/images/default/guanzhu.png">
+								<p>您暂无关注的商品，赶快去关注吧~</p>
+						</div>
+				</div>
+			</notempty>
+	</body>
+		<include file="public@scripts" />
+		<include file="user@footer" />
+</html>

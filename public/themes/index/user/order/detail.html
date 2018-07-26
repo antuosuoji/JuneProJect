@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+  <include file="public@head" />
+	<body>
+
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="#" onclick="javascript:history.back(-1);"></a>
+			    <p>订单详情</p>
+			</div>
+		</div>
+
+        <div class="ddzt">
+            <div class="ddzt_ch">
+
+                <switch name="$order['pay_status']">
+                    <case value="0"><div>未付款<!--<span>（退款中）<span>--></div></case>
+                    <case value="1"><div>已付款<!--<span>（退款中）<span>--></div></case>
+                    <case value="2"><div>取消订单</div></case>
+                    <case value="3"><div>退款状态</div></case>
+                </switch>
+                <div>订单号：{$order.orderid}</div>
+            </div>
+        </div>
+
+		<div class="dizhi" style="margin-top: 0px;">
+            <div class="dz_tit">收货信息</div>
+            <div class="dd_yf">
+              <if condition = "$bill['l_order'] eq null">
+                <ul>
+                  <li>
+                    <a>
+                      <div>收货人</div>
+                      <div>{$order.receiver_name}</div>
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <div>联系电话</div>
+                      <div>{$order.receiver_mobile}</div>
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <div>收货地址</div>
+                      <div>{$order.receiver_province}&nbsp;{$order.receiver_city}&nbsp;{$order.receiver_area}&nbsp;{$order.receiver_address}&nbsp;</div>
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <div>支付时间</div>
+                      <eq name = "$order['pay_time']" value="0">
+                      <div>暂未支付</div>
+                      <else/>
+                      <div><?php echo date("Y-m-d,H:i:s",$order['pay_time']); ?></div>
+                      </eq>
+                    </a>
+                  </li>
+                  <li>
+                    <a>
+                      <div>下单时间</div>
+                      <div><?php echo date("Y-m-d,H:i:s",$order['inputtime']); ?></div>
+                    </a>
+                  </li>
+                </ul>
+                <else/>
+                <ul>
+                    <li>
+                      <a>
+                        <div>收货人</div>
+                        <div>{$bill.l_name}</div>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <div>联系电话</div>
+                        <div>{$bill.l_mobile}</div>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <div>收货地址</div>
+                        <div>{$bill.l_address}</div>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <div>快递单号</div>
+                        <div>{$bill.l_number}</div>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <div>配送物流</div>
+                        <div>{$bill.l_logistics}</div>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <div>下单时间</div>
+                        <div><?php echo date("Y-m-d,H:i:s",$bill['l_inputtime']);?></div>
+                      </a>
+                    </li>
+                    <li>
+                      <a>
+                        <div>发货时间</div>
+                        <div><?php echo date("Y-m-d,H:i:s",$bill['l_time']);?></div>
+                      </a>
+                    </li>
+
+                    <eq name = "$bill['l_times']" value="0">
+
+                      <else/>
+                      <li>
+                        <a>
+                          <div>收货时间</div>
+                          <div><?php echo date("Y-m-d,H:i:s",$bill['l_times']);?></div>
+                        </a>
+                      </li>
+                    </eq>
+                </ul>
+              </if>
+
+
+
+
+            </div>
+            <div class="caidai"></div>
+        </div>
+
+        <div class="heng"></div>
+
+        <div class="js_sp">
+            <ul>
+
+              <foreach name="order_detail" item="vo">
+
+                <li>
+                    <div class="js_sp_li">
+                        <div class="js_sp_img" style="background: url({:cmf_get_image_url($vo['goods_image'])}) 50% no-repeat;"></div>
+                        <div class="js_sp_text">
+                        <p>{$vo.gname}<br/>{$vo.goods_attr_value}</p>
+                        <p><span class="js_jg">{$vo.goods_price}</span><span>元</span></p>
+                        </div>
+                        <div class="js_sp_shu">×<span class="js_sp_shu_ch">{$vo.num}</span></div>
+                    </div>
+                </li>
+              </foreach>
+
+            </ul>
+        </div>
+
+        <div class="heng"></div>
+
+        <div class="js_fyxq">
+            <div class="js_fyxq_text">
+                <ul>
+                    <li><span>运费：</span><span>+{$order.freight} 元</span></li>
+                    <li><span>折扣：</span><span>-{$order.discount}元</span></li>
+                    <li><span>共<i style="font-size: 18px;color: #ff6c02;font-weight: normal;font-style: normal;"> {$num} </i>件商品，总计（含运费/折扣）：</span><span>{$order.total_actual}元</span></li>
+                    <li><span>可获得<i style="font-size: 18px;color: #ff6c02;font-weight: normal;font-style: normal;"> {$order.points} </i>积分</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="heng"></div>
+
+        <div class="dd_yf">
+            <ul>
+                <li>
+                    <a>
+                        <div>优惠券</div>
+                        <div>已选<span>{$order.coupon !== '0.00' ?'1':'0'}</span>张，可抵扣<span><i style="font-size: 15px;color: #ff6c02;font-weight: normal;font-style: normal;"> {$order.coupon} </i></span>元</div>
+                    </a>
+                </li>
+                <li style="height: initial;">
+
+                    <eq name="$invoice['order_id']" value="$orderid">
+                      <a>
+                          <div>发票信息</div>
+                          <div>{$invoice.type == '0' ? '个人':'公司'}（普通发票）商品明细</div>
+                          <div class="dd_fa_text">
+                              <p><span>{$invoice.type == '0' ? '姓名':'公司名称'}</span><span>{$invoice.company}</span></p>
+                              <eq name="$invoice.type" value="0">
+                              <br/>
+                              <else>
+                                <br/>
+                              <p><span>纳税人识别号</span><span>{$invoice.number}</span></p>
+                              <br/>
+                              </eq>
+                              <p><span>email</span><span>{$invoice.email}</span></p>
+                              <br/>
+                              <p><span>手机号码</span><span>{$invoice.tel}</span></p>
+                              <br/>
+                              <p><span>支付状态</span><span>{$invoice.pay_status == '0' ? '未支付':'已支付'}</span></p>
+                              <br/>
+                          </div>
+                      </a>
+                    <else/>
+                    <div class="heng"></div>
+                    <li>
+                    <a>
+                      <div>暂未填写发表明细</div>
+                    </a>
+                  </li>
+                  </eq>
+                </li>
+            </ul>
+        </div>
+
+        <div class="heng"></div>
+
+        <div class="dd_liuyan_bg">
+            <div class="dd_liuyan_ch">
+                <div class="dd_liuyan">发票明细说明：
+                  <br/>
+                  <br/>
+                  {$invoice.description}</div>
+            </div>
+        </div>
+
+        <div class="heng" style="margin-bottom: 80px;"></div>
+
+        <div class="footer3">
+            <div><span>订单金额：</span><span>{$order.total_actual}</span><span>元</span></div>
+              <if condition = "$order['pay_status'] eq 0">
+
+              <div> <a href="{:url('user/pay/index',array('orderid'=>$order['orderid']))}" style="color: #fff;">提交支付</a></div>
+
+              <elseif condition = "$order['pay_status'] eq 1">
+
+             <!-- <div><a href="{:url('user/order/refund',array('orderid'=>$order['orderid'],'total_actual'=>$order['total_actual']))}" style="color: #fff;">申请退款</a></div> -->
+
+             <eq name ="order['post_status']" value ="0" >
+             <div><a href="{:url('user/order/refund',array('orderid'=>$order['orderid'],'total_actual'=>$order['total_actual']))}" style="color: #fff;">申请退款</a></div>
+             <else/>
+             <div><a href="javascript:;" style="color: #fff;">订单详情</a></div>
+            </eq>
+               <elseif condition = "$order['pay_status'] eq 2">
+
+                 <div> <a href="#" style="color: #fff;">订单已取消</a></div>
+
+                 <elseif condition = "$order['pay_status'] eq 3">
+
+                      <eq name = "$order['is_refund']" value = "0">
+                      <div> <a href="#" style="color: #fff;">订单退款中</a></div>
+                      <else/>
+                      <div> <a href="#" style="color: #fff;">退款完成</a></div>
+                      </eq>
+            </if>
+        </div>
+
+	</body>
+</html>

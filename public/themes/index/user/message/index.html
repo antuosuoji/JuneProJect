@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<include file="public@head" />
+	<body>
+
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="{:url('user/profile/center')}"></a>
+			    <p>消息列表</p>
+			</div>
+		</div>
+		<ul class="youhui_tab1">
+			<foreach name="type" item="vo">
+			  <li <eq name="$Request.param.type" value="$vo['id']"> class="bg" </eq> onclick="javascript:location.href='{:url(\'message/index\',array(\'type\'=>$vo[\'id\']))}'">{$vo['name']}</li>
+		  </foreach>
+		</ul>
+<!--已读的li加class="bg"-->
+	   <notempty name="list">
+        <div class="xxlie" style="margin-top:0px;">
+            <ul>
+							<foreach name="list" item="vo">
+                <li>
+                    <a href="{:url('message/detail',array('id'=>$vo['id'],'mess_id'=>$vo['mess_id']))}">
+                        <span>{$vo.title|msubstr=###,0,15} <eq name="$vo.status" value="0"><div class="unread">未读</div><else/><div class="unread show2">已读</div></eq></span>
+                        <span>{$vo.inputtime|date='Y-m-d',###}</span>
+                    </a>
+                </li>
+							</foreach>
+            </ul>
+    				<div class="pagination">{$page|default=''}</div>
+        </div>
+				<else />
+				<div class="gwc_k" style="margin-top:180px;">
+						<div class="gwc_k_img">
+								<img src="__TMPL__/public/assets/images/default/message.png">
+								<p>暂无消息~</p>
+						</div>
+				</div>
+			</notempty>
+			<include file="user@footer" />
+	</body>
+
+</html>

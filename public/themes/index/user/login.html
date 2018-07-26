@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<include file="public@head" />
+<body>
+  <div class="dl_logo" onclick="javascript:location.href='/'">
+    <img src="__TMPL__/public/assets/images/default/dl_logo.png">
+
+  </div>
+  <div class="dl">
+    <form class="js-ajax-form dl_d" action="{:url('user/login/doLogin')}" method="post">
+        <div><input class="sjh" id="input_username" type="text" name="username" placeholder="手机号/邮箱/用户名"></div>
+        <div><input class="mm"  id="input_password" type="password" name="password" placeholder="密码"></div>
+	       <div class="form-group">
+				<input type="hidden" name="redirect" value="">
+        <input type="hidden" name="user_type" value="2">
+				<button class="btn btn-primary btn-block js-ajax-submit" type="submit">确定</button>
+				</div>
+    </form>
+    <div class="zct">
+      <div class="zct_ch">
+          <a href="{:url('user/register/index')}">还不是会员，请<span>注册</span></a>
+          <a href="{:url('user/login/findPassword')}">忘记密码？</a>
+      </div>
+    </div>
+    <div class="dl_sj">
+      <div class="or">OR</div>
+        <ul class="dl_sj_ch">
+          <li class="wxdl">
+            <div>
+              <a href="{:cmf_plugin_url('Wxlogin://Index/index')}">
+                <span style="background: url(__TMPL__/public/assets/images/default/wx.png) 50% no-repeat;"></span>
+                <span>微信账号登录</span>
+              </a>
+            </div>
+          </li>
+        </ul>
+    </div>
+  </div>
+	<include file="public@scripts" />
+</body>
+</html>

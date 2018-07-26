@@ -1,0 +1,63 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('AdminAttribute/lists',['typeid'=>$typeid])}">属性管理</a></li>
+        <li><a href="{:url('AdminAttribute/add',array('typeid'=>$typeid))}">添加属性</a></li>
+    </ul>
+    <form class="well form-inline margin-top-20" method="get" action="{:url('AdminAttribute/lists')}">
+        商品类别:
+        <select class="form-control" name="typeid" style="width: 140px;">
+            <option value='0'>全部</option>
+          	<foreach name="typesinfo" item="vo">
+              	<option value="{$vo.id}" <?php if($typeid == $vo->id) echo "selected='selected'"?> >{$vo.name}</option>
+            </foreach>
+        </select> &nbsp;&nbsp;
+        关键字:
+        <input type="text" class="form-control" name="keyword" style="width: 200px;"
+               value="{$Request.param.keyword|default=''}" placeholder="属性名称...">
+        <input type="submit" class="btn btn-primary" value="搜索"/>
+        <a class="btn btn-danger" href="{:url('AdminAttribute/lists',['typeid'=>$Request.param.typeid])}">清空</a>
+    </form>
+    <form method="post" class="js-ajax-form margin-top-20">
+        <div class="table-actions">
+            <!--<button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>-->
+        </div>
+        <table class="table table-hover table-bordered table-list">
+            <thead>
+            <tr>
+                <th width="50">ID</th>
+                <th>属性名称</th>
+                <th>所属类别</th>
+                <th>是否可选</th>
+                <th>录入方式</th>
+                <th>可选值</th>
+                <th width="160">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="attrinfo" item="vo">
+                <tr>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.name}</td>
+                    <td>{$vo.typename}</td>
+                    <td>{$vo.attr_type === '0' ? "唯一" : "可选" }</td>
+                    <td>{$vo.inputtype}</td>
+                    <td>{$vo.content}</td>
+                    <td>
+                        <a class="js-ajax-edit" href="{:url('AdminAttribute/edit',['id'=>$vo['id'],'typeid'=>$typeid])}">编辑</a>
+                        <a class="js-ajax-delete" href="{:url('AdminAttribute/delete',['id'=>$vo['id']])}">删除</a>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+        <div class="table-actions">
+        </div>
+    </form>
+    <ul class="pagination">{$page|default=''}</ul>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

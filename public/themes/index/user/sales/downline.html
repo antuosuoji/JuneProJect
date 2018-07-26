@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<include file="public@head" />
+	<body>
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="{:url('sales/index')}"></a>
+			    <p>我的下线</p>
+			</div>
+		</div>
+
+        <ul class="fx4_tab1" style="margin-top:70px;">
+            <li class="bg">一级(<span>{$level_1|count=###}</span>)</li>
+            <li>二级(<span>{$level_2|count=###}</span>)</li>
+            <li>三级(<span>{$level_3|count=###}</span>)</li>
+        </ul>
+
+        <ul class="fx4_tab2" style="margin-bottom:40px;">
+            <li class="active">
+							<notempty name="level_1">
+                <table class="fx4_bg">
+									<foreach name="level_1" item="vo">
+                    <tr>
+                        <td><php>echo getUserInfoById($vo['userid'])['user_login']</php></td>
+                        <td>{$vo['inputtime']|date='Y-m-d H:i:s',###}</td>
+                    </tr>
+									</foreach>
+                </table>
+								<else/>
+								<div class="gwc_k" style="margin-top:180px;">
+									<div class="gwc_k_img">
+										<img src="__TMPL__/public/assets/images/default/downline.png">
+										<p>暂无下级会员~</p>
+									</div>
+								</div>
+							</notempty>
+            </li>
+            <li>
+							<notempty name="level_2">
+                <table class="fx4_bg">
+									<foreach name="level_2" item="vo">
+										<tr>
+												<td><php>echo getUserInfoById($vo['userid'])['user_login']</php></td>
+												<td>{$vo['inputtime']|date='Y-m-d H:i:s',###}</td>
+										</tr>
+									</foreach>
+                </table>
+								<else/>
+								<div class="gwc_k" style="margin-top:180px;">
+									<div class="gwc_k_img">
+										<img src="__TMPL__/public/assets/images/default/downline.png">
+										<p>暂无下级会员~</p>
+									</div>
+								</div>
+							</notempty>
+            </li>
+            <li>
+							<notempty name="level_3">
+                <table class="fx4_bg">
+									<foreach name="level_3" item="vo">
+										<tr>
+												<td><php>echo getUserInfoById($vo['userid'])['user_login']</php></td>
+												<td>{$vo['inputtime']|date='Y-m-d H:i:s',###}</td>
+										</tr>
+									</foreach>
+                </table>
+								<else/>
+								<div class="gwc_k" style="margin-top:180px;">
+									<div class="gwc_k_img">
+										<img src="__TMPL__/public/assets/images/default/downline.png">
+										<p>暂无下级会员~</p>
+									</div>
+								</div>
+							</notempty>
+            </li>
+        </ul>
+				<include file="user@footer" />
+	</body>
+</html>

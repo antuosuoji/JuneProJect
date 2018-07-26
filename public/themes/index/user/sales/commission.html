@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<include file="public@head" />
+	<body>
+
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="{:url('sales/index')}" ></a>
+			    <p>累计佣金</p>
+			</div>
+		</div>
+        <div class="fx2_1" style="margin-top:70px;">
+            <div class="fx2_1_ch">
+                <div>累计佣金</div>
+                <div>+{$total}元</div>
+            </div>
+        </div>
+			<notempty name="list">
+        <table class="fx2_2" style="margin-bottom:140px;">
+            <tr>
+                <th>佣金</th>
+                <th>来源订单号</th>
+                <th>时间</th>
+            </tr>
+						<foreach name="list" item="vo">
+	            <tr>
+	                <td>+{$vo['commission']}</td>
+	                <td>{$vo['orderid']}</td>
+	                <td>{$vo['inputtime']|date='Y-m-d',###}</td>
+	            </tr>
+						</foreach>
+        </table>
+				<div class="pagination">{$page|default=''}</div>
+				<else/>
+				<div class="gwc_k" style="margin-top:180px;">
+						<div class="gwc_k_img">
+								<img src="__TMPL__/public/assets/images/default/comm.png">
+								<p>暂无佣金~</p>
+						</div>
+				</div>
+			</notempty>
+				<include file="user@footer" />
+	</body>
+</html>

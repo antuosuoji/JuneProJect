@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>芊芊宝贝|收货管理</title>
+
+<include file="public@head" />
+</head>
+	<body>
+
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="#" onclick="javascript:history.back(-1);"></a>
+			    <p>收货地址管理</p>
+			</div>
+		</div>
+		<div class="xgma">
+				<form class="js-ajax-form" action="{:url('user/Profile/addressPost')}" method="post">
+						<input type="hidden" name="id" value="{$ress.id}">
+						 <div>
+								 <span>收货地址</span>
+								 <input type="text" name="address" placeholder="请输入收货地址" value="{$ress.address}">
+						 </div>
+						 <div>
+								 <span>姓名</span>
+								 <input type="text" name="name" placeholder="请输入姓名" value="{$ress.name}">
+						 </div>
+						 <div>
+								 <span>手机号</span>
+								 <input type="text" name="phone" placeholder="请输入手机号" value="{$ress.phone}">
+						 </div>
+
+
+						 <a class="xgma_qr"><button class="btn btn-primary btn-block js-ajax-submit" type="submit">确认</button></a>
+				</form>
+		</div>
+
+	</body>
+	<include file="public@scripts" />
+</html>

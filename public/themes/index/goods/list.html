@@ -1,0 +1,79 @@
+<extend name="public@base" />
+<block name="banner">
+  <div class="banner2">
+    <div class="swiper-container">
+      <div class="swiper-wrapper">
+          <slides id="2" >
+             <div class="swiper-slide"><a href="{$vo.url}" target="_blank"><img src="{:cmf_get_image_url($vo.image)}"></a></div>
+          </slides>
+      </div>
+      <!-- Add Pagination -->
+      <div class="swiper-pagination" style="display: none;"></div>
+      <!-- Add Arrows -->
+      <div class="swiper-button-next" style="display: none;"></div>
+      <div class="swiper-button-prev" style="display: none;"></div>
+    </div>
+  </div>
+</block>
+<block name="body">
+  <div class="heng"></div>
+
+  <div class="sp1">
+    <form class="sp1_ch" method="get" action="{$Request.pathinfo}">
+      <select class="sales">
+                    <option value="0" <eq name="$Request.get.sales" value="0">selected</eq> >销量</option>
+                    <option value="1" <eq name="$Request.get.sales" value="1">selected</eq> >销量升序</option>
+                    <option value="2" <eq name="$Request.get.sales" value="2">selected</eq> >销量降序</option>
+                </select>
+      <select class="price">
+                    <option value="0" <eq name="$Request.get.price" value="0">selected</eq> >价格</option>
+                    <option value="1" <eq name="$Request.get.price" value="1">selected</eq> >价格升序</option>
+                    <option value="2" <eq name="$Request.get.price" value="2">selected</eq> >价格降序</option>
+                </select>
+      <select class="news">
+                    <option value="0" <eq name="$Request.get.news" value="0">selected</eq> >新品</option>
+                    <option value="1" <eq name="$Request.get.news" value="1">selected</eq> >新品升序</option>
+                    <option value="2"<eq name="$Request.get.news" value="2">selected</eq> >新品降序</option>
+                </select>
+    </form>
+  </div>
+  <div class="heng"></div>
+
+  <div class="sp2">
+    <div class="sp2_ch">
+      <ul class="sp2_ul">
+
+        <notempty name="list">
+        <foreach name="list" item="vo">
+          <li>
+            <a href="{:url('goods/Article/index',['id'=>$vo['gid']])}">
+              <div style="background: url({:cmf_get_image_url($vo.goods_image)}) 50% no-repeat;background-size: 100%;"></div>
+              <div>{$vo.gname}</div>
+              <div><span>价格：¥ </span><span>{$vo.gprice}</span></div>
+            </a>
+            <div class="jiaru" onclick="javascript:location.href='{:url(\'goods/Article/index\',[\'id\'=>$vo[\'gid\']])}'">查看详情</div>
+          </li>
+        </foreach>
+        <else />
+
+				<div class="gwc_k" style="margin-top:180px;">
+						<div class="gwc_k_img">
+								<img src="__TMPL__/public/assets/images/default/tanhao2.png">
+								<p>暂无此类商品~</p>
+						</div>
+						<a class="gwc_k_t" href="/">主人再去重新搜索下吧！</a>
+				</div>
+			</notempty>
+      </ul>
+    </div>
+    <div class="pagination">{$page|default=''}</div>
+  </div>
+  <div class="heng"></div>
+  <script type="text/javascript">
+    $('.sales,.price,.news').change(function() {
+      var url = $(this).parent().attr('action') + "?" + $(this).attr('class') + "=" + $(this).val();
+      location.href = "/" + url;
+    });
+  </script>
+
+</block>

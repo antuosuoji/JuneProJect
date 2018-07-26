@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<include file="public@head"/>
+	<body>
+
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="{:url('user/balance/index')}"></a>
+			    <p>提现信息</p>
+			</div>
+		</div>
+
+       <div class="txxx">
+           <form method="post" class="js-ajax-form" action="{:url('user/balance/balancePut')}">
+                <div class="rxxx_inp">
+                    <span>提现金额（元）</span>
+                    <input type="text" name="money" placeholder="请输入提现金额">
+                </div>
+				        <div class="txxx_yj">
+				            <div class="txxx_yj_ch">
+				                <div class="txxx_yj_tit">请选择提现方式</div>
+				                <ul class="txxx_yjfs">
+				                    <li class="bg">
+				                        <span style="background: url(__TMPL__/public/assets/images/default/wxzf.png) 50% no-repeat;"></span>
+				                        <span>提现到微信钱包</span>
+				                    </li>
+				                    <!-- <li>
+				                        <span style="background: url(__TMPL__/public/assets/images/default/yezf.png) 50% no-repeat;"></span>
+				                        <span>提现到银行卡</span>
+				                    </li> -->
+				                </ul>
+				            </div>
+				        </div>
+                <a class="txxx_qr"><button class="js-ajax-submit" type="submit" >提现</button></a>
+           </form>
+       </div>
+
+       <div class="txxx_tz">
+           <div class="txxx_tz_ch">
+               <div class="txxx_tz_fl">余额大于100可提现</div>
+               <!-- <a class="txxx_tz_fr" href="{:url('balance/perfectCard')}">完善提现资料</a> -->
+           </div>
+       </div>
+			 <script src="__STATIC__/js/wind.js"></script>
+			 <include file="public@scripts" />
+			<script type="text/javascript">
+			 function  beforesubmit()
+			 {
+					var str=$('input[name=money]').val();
+
+
+					 if(isNull(str))
+					 {
+						 Wind.use('noty', function () {
+							 noty({
+								 text: '请填写金额',
+								 type: 'error',
+								 layout: 'center',
+								 modal: true,
+								 timeout: 800,
+							 }).show();
+						 })
+						 return false;
+				 }
+			 }
+			 function isNull( str ){
+				 if ( str == "" ) return true;
+				 var regu = "^[ ]+$";
+				 var re = new RegExp(regu);
+				 return re.test(str);
+				 }
+			</script>
+
+	</body>
+</html>

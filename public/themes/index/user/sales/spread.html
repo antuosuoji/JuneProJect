@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<include file="public@head" />
+	<body>
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="{:url('sales/index')}"></a>
+			    <p>推广二维码</p>
+			</div>
+		</div>
+	<include file="user/sales@head" />
+        <div class="tgewm" style="margin-bottom:50px;">
+            <div class="tgewm_ch">
+                <p style="font-weight: bold;color: #707070;">分享方法</p>
+                <p style="margin-top: 20px;"><span style="color: #707070;">邀请码：</span><span style="color: #ff6c00">{$mobile}</span></p>
+                <p style="margin-top: 7px;">好友注册时，直接写此推广码即可</p>
+                <p style="font-weight: bold;color: #707070;margin-top: 36px;">扫码分享</p>
+                <p style="margin-top: 20px;">邀请你的好友来扫码，好友扫此二维码后系统会默认输入你的邀请码（你的好友无需输入）</p>
+                <div style="width: 100%;text-align: center;">
+                    <img style="padding:80px 0px; margin-top:-52px;" src="{$url}">
+                </div>
+            </div>
+        </div>
+<include file="user@footer" />
+	</body>
+</html>

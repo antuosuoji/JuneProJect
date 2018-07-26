@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html>
+<include file="public@head" />
+	<body>
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="{:url('sales/index')}"></a>
+			    <p>分销佣金</p>
+			</div>
+		</div>
+        <ul class="fxyj_tab1" style="margin-top:70px;">
+            <li <eq name="$Request.param.level" value="1"> class="bg" </eq> onclick="javascript:location.href='{:url(\'sales/levelcommission\',array(\'level\'=>1))}'" >一级(<span>{$level_1}</span>)</li>
+            <li <eq name="$Request.param.level" value="2"> class="bg" </eq> onclick="javascript:location.href='{:url(\'sales/levelcommission\',array(\'level\'=>2))}'">二级(<span>{$level_2}</span>)</li>
+            <li <eq name="$Request.param.level" value="3"> class="bg" </eq> onclick="javascript:location.href='{:url(\'sales/levelcommission\',array(\'level\'=>3))}'">三级(<span>{$level_3}</span>)</li>
+        </ul>
+			   <?php if(count($list) > 0):?>
+	        <ul class="fxyj_tab2" >
+	            <li class="active">
+	                <table class="fxyj_bg">
+										<foreach name="list" item="vo">
+	                    <tr>
+	                        <td><php>echo getUserInfoById($vo['child_userid'])['user_login']</php></td>
+	                        <td>¥{$vo['commission']}</td>
+	                    </tr>
+	                  </foreach>
+	                </table>
+	            </li>
+	        </ul>
+					<div class="pagination" style="margin-bottom:20px;">{$page|default=''}</div>
+				<?php else:?>
+					<div class="gwc_k" style="margin-top:180px;">
+							<div class="gwc_k_img">
+									<img src="__TMPL__/public/assets/images/default/comm.png">
+									<p>暂无佣金~</p>
+							</div>
+					</div>
+			  <?php endif;?>
+				<include file="user@footer" />
+	</body>
+</html>

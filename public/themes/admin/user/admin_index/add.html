@@ -1,0 +1,61 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+		<li ><a href="{:url('AdminIndex/index')}">会员列表</a></li>
+		<li class="active"><a href="{:url('AdminIndex/add')}">添加会员</a></li>
+	</ul>
+	<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('AdminIndex/add')}">
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>用户名:</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="text" class="form-control" name="user_login" value="">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">用户昵称:</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="text" class="form-control" name="user_nickname" value="" placeholder="请输入昵称...">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>所属会员组:</label>
+			<div class="col-md-6 col-sm-10">
+				<select class="form-control" name="group_id" >
+						<foreach name="groupInfo" item="vo">
+								<option value="{$vo.id}">{$vo.name}</option>
+						</foreach>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>邮箱:</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="text" class="form-control" name="user_email" value="" placeholder="请输入邮箱...">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>状态:</label>
+			<div class="col-md-6 col-sm-10">
+				<select class="form-control" name="user_status" >
+								<option value="0" >禁用</option>
+								<option value="1" selected>正常</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>密码:</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="password" class="form-control" name="user_pass" value="" placeholder="请输入密码...">
+			</div>
+		</div>
+		<div class="col-sm-offset-2 col-sm-10">
+			<button type="submit" class="btn btn-primary js-ajax-submit">{:lang("SAVE")}</button>
+			<a class="btn btn-default" href="__URL__">返回</a>
+		</div>
+	</form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<include file="public@head"/>
+	<body>
+
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="javascript:;" onclick="javascript:history.back(-1);"></a>
+			    <p>{$category.name}</p>
+			</div>
+		</div>
+
+        <div class="ggao2">
+            <div class="ggao2_ch">
+                <div class="ggao2_tit">{$article.post_title}</div>
+                <div class="ggao2_text">
+									<!--没有设置文章缩略图-->
+									<empty name="article.more.thumbnail">
+											<else/>
+   								<img src=" {:cmf_get_image_url($article.more.thumbnail)}"/>
+									</empty>
+
+									<!--调用文章的相册-->
+									<notempty name="article.more.photos">
+										<foreach name="article.more.photos" item="photo">
+    							<img src=" {:cmf_get_image_url($photo.url)}" alt={$photo.name}/>
+    						</foreach>
+								</notempty>
+
+									<!--文章内容-->
+							{$article.post_content}
+                </div>
+            </div>
+        </div>
+
+	</body>
+</html>

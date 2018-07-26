@@ -1,0 +1,60 @@
+<include file="public@head" />
+	<body>
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="{:url('user/profile/center')}"></a>
+
+			    <p>收货地址管理</p>
+			</div>
+		</div>
+        <ul class="dzgl">
+					<foreach name="ress" item="vo">
+					  <li>
+                <div class="dz_gn">
+									<eq name="vo.isdefault" value="1">
+									<div class="dz_mr bg">默认地址</div>
+									<else />
+									<a href="{:url('Profile/open',array('id'=>$vo['id']))}"  class="js-ajax-dialog-btn dz_mr" data-msg="确定启用吗">地址<i style="font-size:12px;">(点击为默认)</i></a>
+									</eq>
+
+                    <div class="dz_bs">
+												<span onclick="javascript:location.href='{:url(\'profile/addressx\',array(\'id\'=>$vo['id']))}'">编辑</span>
+                        <span><a style="color:#707070" class="js-ajax-delete" href="{:url('Profile/adddle',array('id'=>$vo['id']))}">删除</a></span>
+                    </div>
+                </div>
+
+								<div class="dzgl_text">
+                    <div class="dzgl_text_ch">
+                        <p class="address">{$vo.receiver_province}{$vo.receiver_city}{$vo.receiver_area}{$vo.address}</p>
+												<input type="hidden" name="id" value="{$vo.id}">
+                        <p><span class="name">{$vo.name}</span><span class="phone">{$vo.phone}</span></p>
+												<span style="margin-left:275px"><i style="font-size:13px;">(点击确认收货地址)</i></span>
+                    </div>
+                </div>
+
+								<div class="heng"></div>
+            </li>
+					</foreach>
+        </ul>
+					<?php if(\think\Request::instance()->param('from')):?>
+					<div class="dz_tianjia"><a href="{:url('profile/addresss',array('from'=>$Request.param.from))}">添加收货地址</a></div>
+				  <?php else:?>
+				  <div class="dz_tianjia"><a href="{:url('profile/addresss')}">添加收货地址</a></div>
+			   <?php endif;?>
+				<include file="public@scripts" />
+	</body>
+	<script type="text/javascript">
+	  var  url="{:cookie('order_back_url')}";
+	  var from="{$Request.param.from}";
+		if(from)
+		{
+			$('.dzgl li').each(function(k,v){
+				$(v).children('.dzgl_text').click(function(){
+					var id=$(this).find('input[name=id]').val();
+					location.href=url+"/useradd/"+id;
+				});
+			});
+		}
+	</script>
+	<include file="user@footer" />
+</html>

@@ -1,0 +1,65 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+		<li><a href="{:url('AdminAttribute/lists',['typeid'=>$typeid])}">属性列表</a></li>
+		<li class="active"><a href="{:url('AdminAttribute/add')}">添加属性</a></li>
+	</ul>
+	<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('AdminAttribute/add')}">
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>属性名称:</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="text" class="form-control" name="name" value="">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>所属商品类别:</label>
+			<div class="col-md-6 col-sm-10">
+				<select class="form-control" name="type_id" >
+						<foreach name="typesinfo" item="vo">
+								<option value="{$vo.id}" <?php if($typeid == $vo->id) echo "selected='selected'"?>>{$vo.name}</option>
+						</foreach>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>商品属性是否可选:</label>
+			<div class="col-md-6 col-sm-10">
+					<input type="radio" class="" style="margin-top:10px;" name="attr_type" value="0" ><span style="margin-right: 10px;">唯一属性</span>
+					<input type="radio" class="" style="margin-top:10px;" name="attr_type" value="1" ><span style="margin-top:10px;">单选属性</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>该属性值的录入方式:</label>
+			<div class="col-md-6 col-sm-10">
+					<input type="radio" class="selfinput" style="margin-top:10px;" name="inputtype" value="0"><span style="margin-right: 10px;">手工录入</span>
+					<input type="radio" class="selectinput" style="margin-top:10px;" name="inputtype" value="1"><span style="margin-top:10px;">从下面的列表中选择（一行代表一个可选值）</span>
+			</div>
+		</div>
+		<div class="form-group" >
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>可选值列表:</label>
+			<div class="col-md-6 col-sm-10">
+				<textarea class="form-control" name="content" style="height: 80px;"></textarea>
+			</div>
+		</div>
+		<div class="col-sm-offset-2 col-sm-10">
+			<button type="submit" class="btn btn-primary js-ajax-submit">{:lang("SAVE")}</button>
+			<a class="btn btn-default" href="{:url('AdminAttribute/lists',['typeid'=>$typeid])}">返回</a>
+		</div>
+	</form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+	 $('.selfinput').click(function(){
+		 $('textarea[name=content]').attr("disabled","disabled");
+		 $('textarea[name=content]').val("");
+
+	 });
+	 $('.selectinput').click(function(){
+		  $('textarea[name=content]').removeAttr("disabled");
+	 });
+</script>
+</body>
+</html>

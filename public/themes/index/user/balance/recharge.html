@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<include file="public@head"/>
+	<body>
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="{:url('balance/index')}"></a>
+			    <p>余额充值</p>
+			</div>
+		</div>
+       <div class="yecz">
+           <form method="post" action="{:url('user/balance/rechargePost')}" onsubmit="return beforesubmit()">
+                <div>
+                    <span>充值金额（元）</span>
+                    <input type="text" name="money" placeholder="请输入充值金额">
+                </div>
+								<div class="js_zf_ch">
+									<span >支付方式</span>
+									<ul class="js_zffs" style="margin-top:20px;text-align:center">
+										<li class="bg">
+											<span style="background: url(__TMPL__/public/assets/images/default/wxzf.png) 50% no-repeat;"></span>
+											<span>微信支付</span>
+											<input type="hidden" name="pay" value="wechat">
+										</li>
+									</ul>
+								</div>
+                <a class="yecz_qr" style="margin-top:0px;"><input type="submit" value="充值"></a>
+           </form>
+       </div>
+			 <include file="user@footer" />
+			 <script src="__STATIC__/js/wind.js"></script>
+			 <script type="text/javascript">
+			  function  beforesubmit()
+				{
+          var str=$('input[name=money]').val();
+
+
+						if(isNull(str))
+						{
+							Wind.use('noty', function () {
+								noty({
+									text: '请填写金额',
+									type: 'error',
+									layout: 'center',
+									modal: true,
+									timeout: 800,
+								}).show();
+							})
+							return false;
+				  }
+				}
+				function isNull( str ){
+					if ( str == "" ) return true;
+					var regu = "^[ ]+$";
+					var re = new RegExp(regu);
+					return re.test(str);
+					}
+			 </script>
+	</body>
+</html>

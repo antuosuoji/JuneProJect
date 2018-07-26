@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+	<include file="public@head" />
+	<body>
+
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="{:url('user/profile/center')}"></a>
+			    <p>修改手机号</p>
+			</div>
+		</div>
+
+       <div class="ziliao">
+          	<form class="js-ajax-form" action="{:url('user/Profile/editMobile')}" method="post">
+                <div>
+                    <span>旧手机号</span>
+                	<input type="text" readonly class="form-control" placeholder="手机号" value="{$mobile}" id="js-mobile-input" name="username"><br>
+                </div>
+                <div>
+                    <span>验证码</span>
+                    <input style="width: 180px;margin-right: 140px;" type="text" class="form-control" placeholder="手机验证码" name="verification_code"><br>
+                    <a  id='getcode' class="js-get-mobile-code" data-wait-msg="[second]后才能再次获取" data-mobile-input="#js-mobile-input" data-url="{:url('user/VerificationCode/send',array('type'=>'editmobile'))}">获取手机验证码</a>
+                </div>
+                <div>
+                    <span>新手机号</span>
+                  <input type="text" class="form-control" placeholder="新手机号" name="mobile"><br>
+                </div>
+								<a class="ziliao_qr"><button class="btn btn-primary btn-block js-ajax-submit" type="submit">立即修改</button></a>
+           </form>
+       </div>
+			 <div class="txxx_tz">
+					 <div class="txxx_tz_ch">
+							 <div class="txxx_tz_fl">注：如果您的手机号已不能接收验证码，请联系客服修改</div>
+					 </div>
+			 </div>
+  <style media="screen">
+   #getcode{position: absolute;width: 120px;height: 50px;padding: 0px;margin-top: -10px;right: 20px;background: none;background: #ff6c02;line-height: 50px;color: #fff;text-align: center;border: 0px;font-size: 14px;}
+  </style>
+	</body>
+		<include file="public@scripts" />
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<include file="public@head" />
+	<body>
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="javascript:history.back(-1);"></a>
+			    <p>购物车</p>
+			</div>
+		</div>
+		   <notempty name="list">
+        <div class="cartBox">
+            <div class="shop_info" style="display: none;">
+                <div class="all_check">
+                    <input type="checkbox" id="shop_a" class="shopChoice">
+                    <label for="shop_a" class="shop"></label>
+                </div>
+                <div class="shop_name">全选</div>
+            </div>
+            <div class="order_content">
+							<foreach name="list" item="vo">
+	                <ul class="order_lists">
+	                    <li class="list_con"><a href="{:url('goods/Article/index',array('id'=>$vo.goods_id))}" style="background: url({:cmf_get_image_url($vo.goods_image)}) 50% no-repeat;"></a></li>
+	                    <li class="list_price">
+	                        <div class="list_text"><a href="{:url('goods/Article/index',array('id'=>$vo.goods_id))}">{$vo.gname}{$vo.goods_attr_value}</a></div>
+	                        <p class="price">￥{$vo.gprice}</p>
+	                    </li>
+	                    <li class="list_sum" style="display: none;">
+	                        <p class="sum_price" >{$vo.gprice * $vo.num}</p>
+	                    </li>
+	                    <li class="list_op">
+	                        <input type="checkbox" id="checkbox_2" class="son_check" checked="checked" >
+	                        <label for="checkbox_2" class="mark"></label>
+	                        <p class="delBtn"></p>
+	                    </li>
+
+											<li class="list_amount">
+	                        <div class="xzsl">选择数量：</div>
+	                        <div class="amount_box">
+	                            <a href="javascript:;" class="reduce reSty"></a>
+	                            <input type="text" value="{$vo.num}" class="sum">
+	                            <a href="javascript:;" class="plus"></a>
+														<input type="hidden" name="id" value="{$vo.id}">
+	                        </div>
+	                    </li>
+	                    <div class="heng"></div>
+	                </ul>
+							</foreach>
+            </div>
+						<div class="pagination">{$page|default=''}</div>
+        </div>
+				<else/>
+				<div class="gwc_k" style="margin-top:180px;">
+						<div class="gwc_k_img">
+								<img src="__TMPL__/public/assets/images/default/gwc_k.png">
+								<p>购物车空空如也~</p>
+						</div>
+						<a class="gwc_k_t" href="/">主人快去找点东东吧！</a>
+				</div>
+			</notempty>
+        <div class="bar-wrapper footer4">
+            <div class="bar-right">
+                <div class="totalMoney">合计:<strong class="total_text">0.00</strong></div>
+                <div class="calBtn " ><a   href="javascript:;"  onclick="checklogin()">去结算</a></div>
+            </div>
+        </div>
+        <section class="my_model">
+            <div class="my_model_ch">
+            <p>您确认要删除该宝贝吗？</p>
+            <div class="opBtn"><a href="javascript:;" class="dialog-close">关闭</a><a href="javascript:;" class="dialog-sure">确定</a></div>
+            </div>
+        </section>
+        <script type="text/javascript" src="__TMPL__/public/assets/js/default/gwc.js"></script>
+				<script src="__STATIC__/js/wind.js"></script>
+				<script type="text/javascript">
+     			function checklogin()
+					{
+						  Wind.use('noty', function () {
+								$.ajax({
+									url:"{:url('user/Index/isLogin')}",
+									type:"GET",
+									dataType:"JSON",
+									success : function(data){
+										if(data.code == 0)
+										{
+											noty({
+												text: data.msg,
+												type: 'success',
+												layout: 'center',
+												modal: true,
+												timeout: 800,
+												callback: {
+													  afterClose: function () {
+															window.location.href = "{:url('user/Login/index')}";
+														}
+												}
+											}).show();
+										}else
+										{
+											var len=$('.order_content ul').children('.list_op').find(":checked").length;
+											if(len <= 0){
+												noty({
+													text: "请您勾选商品后提交",
+													type: 'success',
+													layout: 'center',
+													modal: true,
+													timeout: 800,
+												}).show();
+											}else
+											{
+												var cid='';
+												var num='';
+												$('.order_content ul').children('.list_op').find(':checked').each(function(k,v){
+												  cid	+= $(this).parent().siblings('.list_amount').children('.amount_box').children('input[name=id]').val()+',';
+												  num	+= $(this).parent().siblings('.list_amount').children('.amount_box').children('.sum').val()+',';
+												});
+												window.location.href="{:url('user/Order/buildOrder','',false)}/cid/"+cid+"/num/"+num;
+											}
+										}
+									}
+								});
+							})
+					}
+				</script>
+	</body>
+</html>

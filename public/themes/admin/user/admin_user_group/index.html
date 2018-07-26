@@ -1,0 +1,54 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a>会员等级</a></li>
+        <li><a href="{:url('AdminUserGroup/add')}">添加等级</a></li>
+    </ul>
+
+    <form method="post" class="js-ajax-form">
+        <table class="table table-hover table-bordered">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>会员级别</th>
+                <th>积分下限</th>
+                <th>积分上限</th>
+                <th>商品折扣率</th>
+                <th>启用折扣</th>
+                <th>{:lang('ACTIONS')}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="userGroups" item="vo">
+                <tr>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.name}</td>
+                    <td>{$vo.lower_point}</td>
+                    <td>{$vo.upper_point}</td>
+                    <td>{$vo.discount}</td>
+                    <td>
+                      <eq name="vo.is_show" value="0">
+                        <a href="{:url('AdminUserGroup/open',array('id'=>$vo['id']))}"  class="js-ajax-dialog-btn" data-msg="确定启用吗">否</a>
+                      <else/>
+                        <a href="{:url('AdminUserGroup/close',array('id'=>$vo['id']))}"  class="js-ajax-dialog-btn" data-msg="确定关闭吗">√</a>
+                         <span class="js-ajax-dialog-btn" ></span>
+                      </eq>
+                    </td>
+                    <td>
+                            <a href="{:url('AdminUserGroup/edit',array('id'=>$vo['id']))}"
+                               class="js-ajax-edit" >编辑</a>
+                            <a href="{:url('AdminUserGroup/delete',array('id'=>$vo['id']))}"
+                               class="js-ajax-delete" >删除</a>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+        <div class="pagination">{$page}</div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

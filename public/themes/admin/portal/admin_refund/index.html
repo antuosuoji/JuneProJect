@@ -1,0 +1,90 @@
+<include file="public@header"/>
+</head>
+<body>
+  <div class="wrap js-check-wrap">
+
+    <ul class="nav nav-tabs"><li class="active"><a href="#">退款管理</a></li></ul>
+
+    <form class="well form-inline margin-top-20" method="get" action="{:url('AdminRefund/index')}">
+        退款状态:
+      <select class="form-control" name="is_evaluate" style="width: 90px;">
+              <option value=''>全部</option>
+              <option value="1" <eq name="$Request.param.is_evaluate" value="1">selected</eq> >待处理</option>
+              <option value="2" <eq name="$Request.param.is_evaluate" value="2">selected</eq> >已处理</option>
+      </select> &nbsp;&nbsp;
+
+        退款订单号:
+        <input type="text" class="form-control" name="orderid" style="width: 200px;"
+               value="{$Request.param.orderid|default=''}" placeholder="请输入退款订单号...">
+
+        手机号:
+        <input type="text" class="form-control" name="tel" style="width: 200px;"
+               value="{$Request.param.tel|default=''}" placeholder="请输入手机号...">
+        <input type="submit" class="btn btn-primary" value="搜索"/>
+        <a class="btn btn-danger" href="{:url('AdminRefund/index')}">清空</a>
+    </form>
+
+<form method="post" class="js-ajax-form margin-top-20">
+  <!-- <div class="table-actions">
+    <div class="table-actions">
+      <button class="btn btn-danger btn-sm js-ajax-submit" type="submit"
+              data-action="{:url('AdminOrder/delete')}" data-subcheck="true" data-msg="发单表暂不支持删除功能!">
+          {:lang('DELETE')}
+      </button>
+    </div>
+  </div> -->
+<table class="table table-hover table-bordered table-list">
+          <thead>
+            <tr>
+              <th width="10"><input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x"></th>
+                <th width="30">ID</th>
+                <th width="80">订单编号</th>
+                <th width="80">退款金额</th>
+                <th width="100">退款人名</th>
+                <th width="80">联系电话</th>
+                <th width="80">退款状态</th>
+                <th width="80">退款时间</th>
+                <th width="200">退款理由</th>
+                <th width="80">操作</th>
+            </tr>
+            </thead>
+      <tbody>
+
+          <foreach name ="refund" item = "vo">
+              <tr>
+                <td>
+                    <input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]">
+                </td>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.orderid}</td>
+                    <td>{$vo.order_money}</td>
+                    <td>{$vo.username}</td>
+                    <td>{$vo.tel}</td>
+                    <eq name = "$vo.is_evaluate" value="1">
+                    <td style="color:red">待处理&nbsp;<i class="fa fa-window-close" aria-hidden="true"></i></td>
+                    <else name = "$vo.is_evaluate" value ="2">
+                    <td style="color:blue">已处理&nbsp;<i class="fa fa-check-square" aria-hidden="true"></i></td>
+                    </eq>
+                    <td><?php echo date("Y-m-d",$vo['createtime']);?></td>
+                    <td>{$vo.order_explain | strip_tags=### | msubstr=###,0,12 }</td>
+
+                    <td>
+                      <a class="js-ajax-edit" href="{:url('AdminRefund/edit',['id'=>$vo['id']])}" >查看</a>
+                      <!-- <a class="js-ajax-delete" href="#">删除</a> -->
+                  </td>
+              </tr>
+    </foreach>
+      </tbody>
+</table>
+
+        <div class="table-actions">
+
+        </div>
+    </form>
+
+
+<ul class="pagination">{$page|default=''}</ul>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

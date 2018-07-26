@@ -1,0 +1,285 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+		<li ><a href="{:url('AdminRefund/index')}">退款列表</a></li>
+		<li class="active"><a href="#">退款详情</a></li>
+	</ul>
+&nbsp;
+<div class="order-box">
+  <table class="table table-bordered"  align="content">
+
+	<tr><td class="well" align="center" colspan="4"><strong>退款提交信息</strong></td></tr>
+  <tr>
+  <td align="center" ><strong>退款单号:</strong></td>
+  <td width="380">{$refund['orderid']}</td>
+  <td align="center" ><strong>退款时间:</strong></td>
+  <td><?php echo date("Y-m-d H:i:s",$refund['createtime']);?></td>
+
+  </tr>
+  <tr>
+  <td align="center" ><strong>退款人:</strong></td>
+  <td>{$refund['username']}</td>
+  <td align="center" ><strong>联系电话:</strong></td>
+  <td>{$refund['tel']}</td>
+  </tr>
+	<tr>
+		<td align="center"><strong>会&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;员:</strong></td>
+    <td colspan="3">{$user.user_nickname}</td>
+  </tr>
+  <tr>
+		<td align="center"><strong>退款金额:</strong></td>
+    <td colspan="3">{$refund.order_money}</td>
+  </tr>
+
+	<tr>
+		<td align="center"><strong>当前状态:</strong></td>
+    <td colspan="3">{$refund.is_evaluate == '1' ? '<a style="color:red">待处理</a>' : '		<span style="color:blue">已处理&nbsp;<i class="fa fa-check-square" aria-hidden="true"></i></span>'}</td>
+  </tr>
+
+	<tr>
+		<td align="center"><strong>退款操作:</strong></td>
+    <td colspan="3">{$refund.is_operation == '0' ? '用户提交信息' : '管理员提交'}</td>
+  </tr>
+
+
+  <tr>
+		<td align="center"><strong>处理时间:</strong></td>
+    <eq name ="$refund.updatetime" value="0">
+          <td colspan="3">暂未处理</td>
+    <else/>
+          <td colspan="3"><?php echo date("Y-m-d H:i:s",$refund['updatetime']);?></td>
+  </eq>
+  </tr>
+
+	<tr>
+		<td align="center"><strong>退款说明:</strong></td>
+    <td colspan="3">
+
+			  {$refund.order_explain}
+
+		</td>
+  </tr>
+
+  </table>
+
+
+
+	<!--商品信息-->
+		<table class="table table-bordered">
+		<tr><td class="well" colspan="5"align="center"><strong>商品信息及费用信息</strong></td></tr>
+						<tr>
+								<th width="200">商品名称</th>
+								<th width="300">商品规格</th>
+								<th width="200">商品单价</th>
+								<th width="200">商品小计</th>
+								<th width="100">数量</th>
+						</tr>
+
+		<foreach name="order_detail" item="vo">
+						<tr>
+								<td >{$vo.gname}</td>
+								<td width="420">{$vo.goods_attr_value}</td>
+								<td >{$vo.goods_price}	</td>
+								<td >{$vo.goods_price}</td>
+								<td >{$vo.num}</td>
+						</tr>
+		</foreach>
+
+						<tr>
+							<td colspan="5" align="right" >合计:{$order.total_price}¥</td>
+						</tr>
+
+
+						<tr>
+								<th width="300">总计</th>
+								<th width="300">折扣</th>
+								<th width="300">优惠券</th>
+								<th width="300">运费</th>
+								<th >应付</th>
+						</tr>
+
+
+						<tr>
+								<td >{$order.total_price}</td>
+								<td >-{$order.discount}</td>
+								<td >-{$order.coupon}</td>
+								<td >+{$order.freight}</td>
+								<td >{$order.total_actual}¥</td>
+						</tr>
+
+		</table>
+
+		<!--商品信息-->
+		<table class="table table-bordered"  align="content">
+
+		<tr><td class="well" align="center" colspan="4" ><strong>商品发货地址信息</strong></td></tr>
+
+		<if condition = "$bill['l_order'] eq null">
+			<tr>
+		  <td align="center" ><strong>收货人:</strong></td>
+		  <td>{$order['receiver_name']}</td>
+		  <td align="center" ><strong>联系电话:</strong></td>
+		  <td>{$order['receiver_mobile']}</td>
+		  </tr>
+			<tr>
+			<td align="center" ><strong>下单时间:</strong></td>
+			<td><?php echo date("Y-m-d,H:i:s",$order['inputtime']) ?></td>
+		  <td align="center" ><strong>支付时间:</strong></td>
+	    <td ><?php echo date("Y-m-d,H:i:s",$order['pay_time']) ?></td>
+		  </tr>
+			<tr>
+				<td align="center"><strong>收获地址:</strong></td>
+				<td colspan="3">{$order['receiver_province']}&nbsp;{$order['receiver_city']}&nbsp;{$order['receiver_area']}&nbsp;{$order['receiver_address']}&nbsp;</td>
+			</tr>
+			<tr>
+		  <td align="center"><strong>配送物流:</strong></td>
+			<td colspan="3">{$bill['l_logistics'] == null ? '暂未填写' : $bill['l_logistics']}
+
+			</td>
+			</tr>
+
+			<tr>
+				<td align="center"><strong>快递单号:</strong></td>
+				<td colspan="3">{$bill['l_number'] == null ? '暂未填写' : $bill['l_number']}
+					<!-- <a href="#"  class="js-ajax-dialog-btn" data-msg="现不支持查看信息">查看物流</a> -->
+				</td>
+		  </tr>
+
+			<else/>
+			<tr>
+		  <td align="center" ><strong>收货人:</strong></td>
+		  <td>{$bill['l_name']}</td>
+		  <td align="center" ><strong>联系电话:</strong></td>
+		  <td>{$bill['l_mobile']}</td>
+		  </tr>
+
+			<tr>
+			<td align="center" ><strong>下单时间:</strong></td>
+			<td><?php echo date("Y-m-d,H:i:s",$bill['l_inputtime']) ?></td>
+		  <td align="center" ><strong>发货时间:</strong></td>
+	    <td ><?php echo date("Y-m-d,H:i:s",$bill['l_time']) ?></td>
+		  </tr>
+
+			<tr>
+				<td align="center"><strong>收获地址:</strong></td>
+		    <td colspan="3">{$bill['l_address']}</td>
+		  </tr>
+
+		  <tr>
+		  <td align="center"><strong>配送物流:</strong></td>
+			<td colspan="3">{$bill['l_logistics']}
+
+			</td>
+			</tr>
+
+			<tr>
+				<td align="center"><strong>快递单号:</strong></td>
+		    <td colspan="3">{$bill['l_number']}
+					<!-- <a href="#"  class="js-ajax-dialog-btn" data-msg="现不支持查看信息">查看物流</a> -->
+				</td>
+		  </tr>
+
+		</if>
+
+
+	  </table>
+
+
+		<!--发票信息-->
+		<table class="table table-bordered"  align="content">
+
+		<tr><td class="well" align="center" colspan="4"><strong>发票信息</strong></td></tr>
+
+			<eq name = "$info['order_id']" value = "$refund['orderid']">
+			<tr>
+		  <td align="center" ><strong>发票类型:</strong></td>
+		  <td>{$info.type == '0' ? '个人':'公司'}</td>
+		  <td align="center" ><strong>{$info.type == '0' ? '姓名':'公司名称'}:</strong></td>
+		  <td>{$info.company}</td>
+		  </tr>
+
+			<tr>
+			<td align="center" ><strong>手机号码:</strong></td>
+			<td>{$info.tel}</td>
+		  <td align="center" ><strong>纳税人识别号:</strong></td>
+	    <td >{$info.number}</td>
+		  </tr>
+
+			<tr>
+				<td align="center"><strong>邮箱地址:</strong></td>
+		    <td colspan="3">{$info.email}</td>
+		  </tr>
+
+		  <tr>
+		  <td align="center"><strong>描述信息:</strong></td>
+			<td colspan="3">
+
+				{$info['description']}
+
+			</td>
+			</tr>
+
+		<else/>
+		<tr>
+		<td colspan="4">暂无发票信息</td>
+		</tr>
+		</eq>
+
+	  </table>
+
+
+<!--操作-->
+
+</tr>
+</table>
+<table class="table  table-bordered">
+<tr><td class="well" align="center" colspan="3"><strong>当前可执行操作</strong></td></tr>
+<tr>
+<td align="content">
+  <if condition = "$refund['is_evaluate'] eq 1">
+
+		<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('AdminRefund/upd')}">
+
+		请填写退款说明:
+		<textarea name="content" rows="8" cols="50"width="1159px" required placeholder="写您详细填写操作退款原因,备注个人姓名!"></textarea>
+		<br/>
+		<input type="hidden" name="id" value="{$refund['id']}">
+		<input type="hidden" name="orderid" value="{$refund['orderid']}">
+		<input type="hidden" name="money" value="{$refund['order_money']}">
+		<div class="col-sm-offset-2 col-sm-10">
+			<button type="submit" class="btn btn-primary js-ajax-submit" name="agree" value="0">同意退款</button>
+			<button type="submit" class="btn btn-primary js-ajax-submit" name="agree" value="1">取消退款</button>
+			<a class="btn btn-default" href="__URL__">返回</a>
+		</div>
+	</form>
+
+	<elseif condition = "$refund['is_evaluate']">
+	<span style="color:#18BC9C">操作记录:</span>
+	{$refund['is_evaluate'] == '2' ? '<span style="color:blue;font-weight:bold;" >(退款)&nbsp;</span>':'<span style="color:blue;font-weight:bold;">(取消退款)&nbsp;</span>'}信息说明
+
+
+</td>
+	<tr>
+	<td colspan="4">	<span style="color:#18BC9C">填写时间:&nbsp;&nbsp;</span><?php echo date("Y-m-d H:i:s",$refund['updatetime']);?></td>
+	</tr>
+	<tr>
+	<td colspan="4"><span style="color:#18BC9C">详细说明:&nbsp;&nbsp;</span>{$refund['content']}</td>
+	</tr>
+	<tr>
+	<td colspan="4"><a class="btn btn-default" href="__URL__">返回</a></td>
+	</tr>
+  </if>
+
+
+</td>
+</tr>
+
+</table>
+</div>
+
+
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

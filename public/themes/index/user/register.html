@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<include file="public@head" />
+<body>
+	<div class="header3">
+		<div class="header3_ch">
+			<a class="fanhui2" href="javascript:history.back(-1);"></a>
+				<p>用户注册</p>
+		</div>
+	</div>
+	<div class="zc">
+		<form class="zc_z js-ajax-form" action="{:url('user/Register/doRegister')}" method="post">
+				<div><input class="sjh" type="text" name="username" id="js-mobile-input" placeholder="请输入手机号"></div>
+				<div>
+					<div class="col-md-3">
+						<input type="text" name="captcha" placeholder="图形验证码" class="form-control"><br>
+						<captcha height="38" width="160" font-size="20" style="cursor: pointer;position: absolute;right: 20px;top: 14px;"><br><br>
+					</div>
+				</div>
+				<div style="position:relative;"><input class="yzm" type="text" name="verification_code" placeholder="请输入手机验证码">
+					<a  id='getcode' class="js-get-mobile-code" data-wait-msg="[second]后才能再次获取" data-mobile-input="#js-mobile-input" data-url="{:url('user/VerificationCode/send',array('type'=>'register'))}">获取手机验证码</a>
+				</div>
+				<?php if(\think\Request::instance()->param('code')) :?>
+				  <input class="sjh" type="hidden" name="invitation_code" value="{$Request.param.code}"  placeholder="请输入邀请码">
+				<?php else:?>
+				  <div><input class="sjh" type="text" name="invitation_code" placeholder="请输入邀请码"></div>
+		    <?php endif;?>
+				<div><input class="mm" type="password" name="password" placeholder="请输入密码"></div>
+				<div><input class="qrmm" type="password" name="password_confirm" placeholder="请确认密码"></div>
+				<div><input class="zcxy" type="checkbox" name="xieyi" checked="checked" ><a href="#">用户注册协议</a></div>
+				<div>
+					<button class="btn btn-primary btn-block js-ajax-submit" type="submit" style="">注册</button>
+				</div>
+
+		</form>
+		<div class="dlt">
+			<div class="dlt_ch">
+					<a href="{:url('user/login/index')}">如果已经是会员，请<span>登录</span></a>
+			</div>
+		</div>
+		<style media="screen">
+		 #getcode{position: absolute;width: 140px;height: 66px;padding: 0px;top: 0px;right: 0px;background: #ff6c02;line-height: 66px;color: #fff;text-align: center;border: 0px;font-size: 14px;border-radius: 0px 33px 33px 0px;
+		 }
+		</style>
+	</div>
+		<include file="public@scripts" />
+</body>
+</html>

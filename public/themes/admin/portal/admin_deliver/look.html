@@ -1,0 +1,194 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<div class="nav">
+		<ul class="nav nav-tabs">
+
+			<li class="lists"><a href="#" id="lists">订单列表</a></li>
+			<!-- <li class="lists"><span href="{:url('admin_deliver/index')}">订单列表</saan></li> -->
+			<li class="active"><a href="#">查看订单</a></li>
+		</ul>
+
+	</div>
+
+&nbsp;
+<div class="order-box">
+  <table class="table table-bordered"  align="content">
+
+	<tr><td class="well" align="center" colspan="4"><strong>基本信息</strong></td></tr>
+  <tr>
+  <td align="center" ><strong>订单号:</strong></td>
+  <td>{$bill['l_order']}</td>
+  <td align="center" ><strong>下单时间:</strong></td>
+  <td><?php echo date("Y-m-d,H:i:s",$bill['l_inputtime']) ?></td>
+  </tr>
+  <tr>
+  <td align="center" ><strong>收货人:</strong></td>
+  <td>{$bill['l_name']}</td>
+  <td align="center" ><strong>联系电话:</strong></td>
+  <td>{$bill['l_mobile']}</td>
+  </tr>
+
+	<tr>
+		<td align="center"><strong>发货地址:</strong></td>
+    <td colspan="3">{$bill['l_address']}</td>
+  </tr>
+
+	<tr>
+		<td align="center"><strong>订单状态:</strong></td>
+    <td colspan="3">
+			<switch name = "$bill['is_evaluate']">
+					<case value="0">订单正常</case>
+					<case value="1"><a>申请退款</a></case>
+			</switch>
+		</td>
+  </tr>
+
+  <tr>
+  <td align="center"><strong>配送物流:</strong></td>
+	<td colspan="3">{$bill['l_logistics']}
+	<if condition = "$bill['l_status'] eq 1">
+		<span style="color:#18BC9C">&nbsp;&nbsp;(已发货)&nbsp;<i class="fa fa-check-square" aria-hidden="true"></i></span>
+	<elseif condition = "$bill['l_status'] eq 2">
+		<span style="color:blue">&nbsp;&nbsp;(已收货)&nbsp;<i class="fa fa-check-square" aria-hidden="true"></i></span>
+	</if>
+	</td>
+	</tr>
+
+	<tr>
+		<td align="center"><strong>快递单号:</strong></td>
+    <td colspan="3">{$bill['l_number']}
+			<!-- <a href="#"  class="js-ajax-dialog-btn" data-msg="现不支持查看信息">查看物流</a> -->
+			<!-- <a href="{:url('admin_deliver/dquery',array('number'=>$bill['l_number'],'logistics'=>$bill['l_logistics']))}">查看物流</a> -->
+			<!-- <a href="#" id="logisticss" value="{$bill['l_number']},{$bill['l_logistics']}">查看物流</a> -->
+		</td>
+  </tr>
+  <tr>
+		<td align="center"><strong>发货时间:</strong></td>
+    <td colspan="3"><?php echo date("Y-m-d,H:i:s",$bill['l_time']) ?></td>
+  </tr>
+
+	<tr>
+		<td align="center"><strong>收货时间:</strong></td>
+    <td colspan="3"><?php echo date("Y-m-d,H:i:s",$bill['l_times']) ?></td>
+  </tr>
+
+  </table>
+
+
+	<!--商品信息-->
+	  <table class="table table-bordered">
+	  <th class="well" colspan="5"align="right">商品信息</th>
+	          <tr>
+	              <th width="280px">商品名称</th>
+								<th width="280px">商品规格</th>
+	              <th width="">商品单价</th>
+	              <th width="">商品小计</th>
+	              <th width="">数量</th>
+	          </tr>
+
+						<foreach name="order_detail" item="vo">
+	          <tr>
+	              <td >{$vo.gname}</td>
+								<td >{$vo.goods_attr_value}</td>
+	              <td >{$vo.goods_price}	</td>
+	              <td >{$vo.goods_price}</td>
+	              <td >{$vo.num}</td>
+	          </tr>
+					</foreach>
+						<tr>
+							<td colspan="5" align="right" >合计:{$order.total_price}</td>
+						</tr>
+
+	  </table>
+		<!--费用信息-->
+		  <table class="table table-bordered">
+		  <th class="well" colspan="5"align="right">费用信息</th>
+		          <tr>
+		              <th width="280px">总计</th>
+		              <th width="280px">折扣</th>
+		              <th width="230px">优惠券</th>
+		              <th width="230px">运费</th>
+		              <th >应付</th>
+		          </tr>
+
+
+		          <tr>
+		              <td >{$order.total_price}</td>
+		              <td >-{$order.discount}</td>
+		              <td >-{$order.coupon}</td>
+		              <td >+{$order.freight}</td>
+		              <td align="right">总价:{$order.total_actual}</td>
+		          </tr>
+		  </table>
+<!--操作-->
+</div>
+<table class="table table-bordered">
+<th class="well" colspan="5"align="right">当前可执行操作</th>
+				<tr>
+						<th width="180">订单状态	</th>
+						<th width="600" rowspan="3">
+
+							<if condition = "$bill['l_status'] eq 1">
+							<eq name = "$bill['is_evaluate']" value = "1">
+							<a href="#" class="btn js-ajax-dialog-btn btn-primary"  data-msg="请在退款处理栏目进行操作">申请退款</a>
+						  <else name = "$bill['is_evaluate']" value = "0">
+							<!-- <a href="{:url('AdminInvoice/open',array('lid'=>$bill['lid']))}" class="btn js-ajax-dialog-btn btn-primary"  data-msg="确定启用吗">收货</a> -->
+							<a  class="btn btn-primary">发货中...</a>
+						 </eq>
+							<else>
+							<eq name = "$bill['is_evaluate']" value = "1">
+							<a href="#" class="btn js-ajax-dialog-btn btn-primary"  data-msg="请在退款处理栏目进行操作">申请退款</a>
+							<else name = "$bill['is_evaluate']" value = "0">
+							<a href="#" class="btn js-ajax-dialog-btn btn-primary"  data-msg="状态已为收货">已收货</a>
+						</eq>
+							</if>
+							<span class="btn btn-default" href="__URL__" id="actives">返回</span>
+						</th>
+				</tr>
+
+</table>
+<script type="text/javascript">
+
+	$("#lists").on('click',function(){
+	window.location.href='{:url('admin_deliver/index')}';
+});
+	$("#actives").on('click',function(){
+	window.location.href='{:url('__URL__')}';
+});
+$("#logisticss").on('click',function(){
+	window.location.href='{:url('admin_deliver/dquery',array('number'=>$bill['l_number'],'logistics'=>$bill['l_logistics']))}';
+})
+
+</script>
+<script src="__STATIC__/js/admin.js"></script>
+		<style media="print" type="text/css">
+		    .noprint {
+		    display:none
+		    }
+		    .print {
+		        margin-left:25%
+		    }
+		     @page
+		    {
+		        size:  auto;   /* auto is the initial value */
+		        margin: 0mm;  /* this affects the margin in the printer settings */
+		    }
+		</style>
+<script type="text/javascript">
+function my_print()
+{
+	var str="<div style='margin-top:60px;text-align:center;'>";
+	str += "<h2 style='margin-bottom:20px;'>发货单</h2>"
+	str += $('.order-box')[0].innerHTML;
+	var oldstr = document.body.innerHTML;
+	document.body.innerHTML = str+"</div>";
+	window.print();
+	document.body.innerHTML = oldstr;
+	return false;
+}
+</script>
+ <input value="打印" type="button" onclick="javascript:my_print();" />
+</body>
+</html>

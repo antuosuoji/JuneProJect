@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<include file="public@head" />
+	<body>
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="javascript:;" onclick="javascript:history.back(-1);"></a>
+			    <p>添加收货地址</p>
+			</div>
+		</div>
+
+       <div class="dztj">
+           	<form class="js-ajax-form" action="{:url('user/Profile/addresss')}" method="post">
+                <div>
+                    <span>姓名</span>
+                    <input type="text" name="name" placeholder="请输入收货人姓名">
+                </div>
+                <div>
+                    <span>手机号</span>
+                    <input type="text" name="phone" placeholder="请输入收货人联系手机号">
+                </div>
+                <div>
+                    <span>所在地区</span>
+                    <a href="#" class="btn btn-info btn-lg active" role="button" id="sel_city">点击选取省市区</a>
+                </div>
+                <div>
+                    <span>详细地址</span>
+                    <textarea name="address" placeholder="请输入详细地址信息，如道路、门牌号、小区、楼栋号、单元室等"></textarea>
+                </div>
+								<input type="hidden" name="receiver_province"	value="" id="fz_city1">
+								<input type="hidden" name="receiver_city" 		value="" id="fz_city2">
+								<input type="hidden" name="receiver_area" 		value="" id="fz_city3">
+                <a class="dztj_qr"><button class="btn btn-primary btn-block js-ajax-submit" type="submit">确认</button></a>
+								<notempty   name="$Request.param.from">
+				  				 <input type="hidden" name="from" value="{$Request.param.from}">
+								</notempty  >
+           </form>
+       </div>
+
+<script src="__TMPL__/public/assets/js/default/picker.min.js"></script>
+<script src="__TMPL__/public/assets/js/default/city.js"></script>
+<script src="__TMPL__/public/assets/js/default/dizhi.js"></script>
+<include file="public@scripts" />
+<include file="user@footer" />
+	</body>
+</html>

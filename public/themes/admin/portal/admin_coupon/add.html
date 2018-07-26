@@ -1,0 +1,65 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+		<li ><a href="{:url('AdminCoupon/index')}">所有类别</a></li>
+		<li class="active"><a href="{:url('AdminCoupon/add')}">添加优惠券</a></li>
+	</ul>
+	<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('AdminCoupon/add')}">
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>名称:</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="text" class="form-control" name="name" value="">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>面值(元):</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="text" class="form-control" name="money" value="">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>满减条件(元):</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="text" class="form-control" name="least_money" value="">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>开始时间:</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="text" class="form-control js-bootstrap-date" name="start_time" value="">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>结束时间:</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="text" class="form-control js-bootstrap-date" name="end_time" value="">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>状态:</label>
+			<div class="col-md-6 col-sm-10">
+				<select class="form-control" name="status" >
+								<option value="0" selected >启用</option>
+								<option value="1"  >关闭</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">使用说明:</label>
+			<div class="col-md-6 col-sm-10">
+				<textarea class="form-control" name="description" style="height: 60px;"
+									placeholder="请填写说明..."></textarea>
+			</div>
+		</div>
+		<div class="col-sm-offset-2 col-sm-10">
+			<button type="submit" class="btn btn-primary js-ajax-submit">{:lang("SAVE")}</button>
+			<a class="btn btn-default" href="__URL__">返回</a>
+		</div>
+	</form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

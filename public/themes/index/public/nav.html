@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <include file="public@head"/>
+	<body>
+
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="javascript:history.back(-1);"></a>
+			    <p>全部分类</p>
+			</div>
+		</div>
+
+		<div class="dh_tit" style="margin-top: 80px;">
+		    <div><p>热门分类</p></div>
+	    </div>
+		<div class="heng"></div>
+
+		<div class="dh_bg">
+			<ul class="dh_ul">
+        <foreach name="cats" item="vo">
+			    <li>
+            <a href="{:url('goods/List/index',array('id'=>$vo.id))}">
+    			    	<div style="background: url({:cmf_get_image_url($vo.more.thumbnail)}) 50% no-repeat;"></div>
+    			    	<p>{$vo.name}</p>
+			      </a>
+        </li>
+        </foreach>
+		    </ul>
+		</div>
+		<div class="heng"></div>
+		<div class="dh_tit">
+		    <div><p>客户服务</p></div>
+	    </div>
+		<div class="heng"></div>
+		<div class="dh2_bg">
+			<ul class="dh2_ul">
+			    <li><a href="{:url('user/Profile/center')}">
+			    	<div style="background: url(__TMPL__/public/assets/images/default/dh2_1.png) 50% no-repeat;"></div>
+			    	<p>个人中心</p>
+			    </a></li>
+			    <li><a href="{:cmf_url('portal/List/index',array('id'=>1))}">
+			    	<div style="background: url(__TMPL__/public/assets/images/default/dh2_2.png) 50% no-repeat;"></div>
+			    	<p>商城公告</p>
+			    </a></li>
+			    <li><a href="#">
+			    	<div style="background: url(__TMPL__/public/assets/images/default/dh2_3.png) 50% no-repeat;"></div>
+			    	<p>联系客服</p>
+			    </a></li>
+			    <li><a href="{:cmf_url('portal/List/index',array('id'=>4))}">
+			    	<div style="background: url(__TMPL__/public/assets/images/default/dh2_4.png) 50% no-repeat;"></div>
+			    	<p>常见问题</p>
+			    </a></li>
+		    </ul>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,49 @@
+<include file="public@head" />
+	<body>
+
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="#" onclick="javascript:history.back(-1);"></a>
+			    <p>商品评价列表</p>
+			</div>
+		</div>
+
+		<ul class="wddd_tab1">
+      <li class="bg">状态</li>
+        </ul>
+        <div class="heng"></div>
+        <ul class="wddd_tab2">
+            <li class="active">
+                <div class="wddd_tab2_ul1">
+                    <div class="wddd_tab2_li1">
+                        <div class="ddh">订单号：{$orderid}</div>
+                        <foreach name="detail" item="vo">
+                        <div class="dd_sp">
+                            <a href="{:url('goods/article/index',array('cid'=>$vo['category_id'],'id'=>$vo['gid']))}">
+                                <div class="dd_img" style="background:  url({:cmf_get_image_url($vo['goods_image'])}) 50% no-repeat;"></div>
+                            </a>
+                            <div class="dd_text">
+                                <p>{$vo.gname}<br/>{$vo.goods_attr_value}</p>
+                                <p>￥{$vo.goods_price}</p>
+                            </div>
+                            <div class="dd_shu"><span>×</span><span>{$vo.num}</span></div>
+                        </div>
+                        <div class="dd_zt">
+                            <p><span></span><span></span></p>
+                              <eq name = "vo['is_evaluate']" value="0">
+                              <p class="dd_dsh"><a href="{:url('user/evaluate/index',array('id'=>$vo['id']))}" style="color: #fff;">去评价</a></p>
+                              <else/>
+                                <p class="dd_dfh">已评价</p>
+                            </eq>
+                        </div>
+
+                        <div class="heng"></div>
+                      </foreach>
+                    </div>
+
+                </div>
+            </li>
+
+        </ul>
+	</body>
+</html>

@@ -1,0 +1,62 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('AdminCoupon/index')}">所有类别</a></li>
+        <li><a href="{:url('AdminCoupon/add')}">添加优惠券</a></li>
+        <li><a href="{:url('AdminCoupon/manageCoupon')}">发放情况</a></li>
+    </ul>
+    <form method="post" class="js-ajax-form margin-top-20">
+        <div class="table-actions">
+            <!--<button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>-->
+        </div>
+        <table class="table table-hover table-bordered table-list">
+            <thead>
+            <tr>
+                <th width="50">ID</th>
+                <th>名称</th>
+                <th>面值</th>
+                <th>最小使用金额</th>
+                <th>开始时间</th>
+                <th>结束时间</th>
+                <th>状态</th>
+                <th width="160">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="coupons" item="vo">
+                <tr>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.name}</td>
+                    <td>{$vo.money}</td>
+                    <td>{$vo.least_money}</td>
+                    <td>{$vo.start_time | date="Y-m-d",###}</td>
+                    <td>{$vo.end_time | date="Y-m-d",###}</td>
+                    <td>
+                      <eq name="vo.status" value="1">
+                        <a href="{:url('AdminCoupon/open',array('id'=>$vo['id']))}"  class="js-ajax-dialog-btn" data-msg="确定启用吗">关闭</a>
+                      <else/>
+                        <a href="{:url('AdminCoupon/close',array('id'=>$vo['id']))}"  class="js-ajax-dialog-btn" data-msg="确定关闭吗">启用</a>
+                         <span class="js-ajax-dialog-btn" ></span>
+                      </eq>
+                    </td>
+                    <td>
+                        <a class="js-ajax-edit" href="{:url('AdminCoupon/edit',['id'=>$vo['id']])}">编辑</a>
+                        <!-- <a class="js-ajax-delete" href="{:url('AdminCoupon/delete',['id'=>$vo['id']])}">删除</a> -->
+                        <a class="" href="{:url('AdminCoupon/grantCoupon',['typeid'=>$vo['id']])}">[发放]</a>
+                        <a class="" href="{:url('AdminCoupon/manageCoupon',['typeid'=>$vo['id']])}">[查看]</a>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+        <div class="table-actions">
+            <!--<button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>-->
+        </div>
+    </form>
+    <ul class="pagination">{$page|default=''}</ul>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

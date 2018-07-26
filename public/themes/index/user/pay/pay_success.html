@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<include file="public@head" />
+	<body>
+
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="/"></a>
+			    <p>支付成功</p>
+			</div>
+		</div>
+
+		<div class="zfcg_1">
+			<div class="zfcg_1_ch">
+				<div class="zfcg_che" style="background:url(__TMPL__/public/assets/images/default/che.png) 50% no-repeat;background-size: 60px;"></div>
+				<div class="zfcg_1_fr">
+					<p>订单支付成功</p>
+					<p>您的包裹整装待发</p>
+				</div>
+			</div>
+		</div>
+		<div class="zfcg_2">
+			<div class="zfcg_2_ch">
+				<div class="zfcg_dz" style="background:url(__TMPL__/public/assets/images/default/dz.png) 50% no-repeat;background-size: 24px;"></div>
+				<div class="zfcg_2_fr">
+					<p><span>{$info['receiver_name']}</span><span>{$info['receiver_mobile']}</span></p>
+					<p>{$info['receiver_province']}{$info['receiver_city']}{$info['receiver_area']}{$info['receiver_address']}</p>
+
+
+
+				</div>
+			</div>
+		</div>
+		<div class="zfcg_3">
+			<div class="zfcg_3_ch">
+				<div>实付金额</div>
+				<div>¥{$info['total_actual']}</div>
+			</div>
+		</div>
+		<div class="zfcg_4">
+			<div class="zfcg_4_ch">
+				<a href="{:url('user/order/detail',['id'=>$info['id']])}">订单详情</a>
+				<a href="/">返回首页</a>
+			</div>
+		</div>
+	</body>
+</html>

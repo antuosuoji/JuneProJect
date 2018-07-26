@@ -1,0 +1,80 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+		<li ><a href="{:url('AdminIndex/index')}">会员列表</a></li>
+		<li class="active"><a href="{:url('AdminIndex/edit')}">编辑会员</a></li>
+	</ul>
+	<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('AdminIndex/post_edit')}">
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>用户名:</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="text" class="form-control" name="user_login" readonly value="{$memberinfo.user_login}">
+				<input type="hidden" class="form-control" name="id" value="{$memberinfo.id}">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">用户昵称:</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="text" class="form-control" name="user_nickname" value="{$memberinfo.user_nickname}" placeholder="请输入昵称...">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>所属会员组:</label>
+			<div class="col-md-6 col-sm-10">
+				<select class="form-control" name="group_id" >
+						<foreach name="groupInfo" item="vo">
+								<option value="{$vo.id}" <?php if($memberinfo['group_id'] == $vo['id']) echo "selected='selected'"?>>{$vo.name}</option>
+						</foreach>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>积分:</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="text" class="form-control" name="score" value="{$memberinfo.score}" placeholder="请输入整数...">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>邮箱:</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="text" class="form-control" name="user_email" value="{$memberinfo.user_email}" placeholder="请输入邮箱...">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>手机号:</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="text" class="form-control" name="mobile" value="{$memberinfo.mobile}" placeholder="请输入手机号...">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>状态:</label>
+			<div class="col-md-6 col-sm-10">
+				<select class="form-control" name="user_status" >
+								<option value="0" <?php if($memberinfo['user_status'] == 0) echo "selected='selected'"?>>禁用</option>
+								<option value="1" <?php if($memberinfo['user_status'] == 1) echo "selected='selected'"?>>正常</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>密码:</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="password" class="form-control" name="user_pass" value="" placeholder="不做修改请留空...">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>确认密码:</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="password" class="form-control" name="repassword" value="" placeholder="不做修改请留空...">
+			</div>
+		</div>
+		<div class="col-sm-offset-2 col-sm-10">
+			<button type="submit" class="btn btn-primary js-ajax-submit">{:lang("SAVE")}</button>
+			<a class="btn btn-default" href="__URL__">返回</a>
+		</div>
+	</form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

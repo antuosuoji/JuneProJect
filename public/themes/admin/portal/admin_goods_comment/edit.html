@@ -1,0 +1,37 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+		<li ><a href="{:url('AdminGoodsComment/index')}">评论管理</a></li>
+		<li class="active"><a href="{:url('AdminGoodsComment/edit')}">查看评论</a></li>
+	</ul>
+	<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('AdminType/edit')}">
+
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>评论人:</label>
+			<div class="col-md-6 col-sm-10" style="margin-top:8px;">
+				<span >{$commentInfo.userid}</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>评论商品:</label>
+			<div class="col-md-6 col-sm-10" style="margin-top:8px;">
+				<span>{$commentInfo.goods_id}</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>评论内容:</label>
+			<div class="col-md-6 col-sm-10" style="margin-top:8px;">
+				<span>{$commentInfo.content}</span>
+			</div>
+		</div>
+		<div class="col-sm-offset-2 col-sm-10">
+			<a class="btn btn-default" href="__URL__">返回</a>
+		</div>
+	</form>
+
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

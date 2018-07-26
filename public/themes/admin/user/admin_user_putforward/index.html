@@ -1,0 +1,83 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('AdminUserPutforward/index')}">会员提现申请</a></li>
+    </ul>
+    <form class="well form-inline margin-top-20" method="get" action="{:url('AdminUserPutforward/index')}">
+      审核状态:
+      <select class="form-control" name="status" style="width: 140px;">
+          <option value=''>全部</option>
+              <option value="0" <eq name="$Request.param.status" value="0">selected</eq> >未审核</option>
+              <option value="1" <eq name="$Request.param.status" value="1">selected</eq> >已通过</option>
+              <option value="2" <eq name="$Request.param.status" value="2">selected</eq> >已拒绝</option>
+      </select> &nbsp;&nbsp;
+        会员:
+        <input type="text" class="form-control" name="keyword" style="width: 250px;margin-right:10px;"
+               value="{$Request.param.keyword|default=''}" placeholder="请输入会员名/手机号...">
+        <input type="submit" class="btn btn-primary" value="搜索"/>
+        <a class="btn btn-danger" href="{:url('AdminUserPutforward/index')}">清空</a>
+    </form>
+    <form method="post" class="js-ajax-form margin-top-20" >
+        <div class="table-actions">
+            <!-- <button type="submit" class="btn btn-danger btn-sm js-ajax-submit"   data-action="{:url('AdminPutForward/delete')}" data-subcheck="true" data-msg="您确定删除吗？">删除</button> -->
+        </div>
+
+        <table class="table table-hover table-bordered table-list">
+            <thead>
+            <tr>
+                <th width="50">
+                   <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+                 </th>
+                <th width="50">ID</th>
+                <th>会员</th>
+                <th>金额</th>
+                <th>时间</th>
+                <th>状态</th>
+                <th>审核时间</th>
+                <th>审核人</th>
+                <th width="160">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="list" item="vo">
+                <tr>
+                    <th width="50">
+                       <input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]"
+                              value="{$vo.id}" title="ID:{$vo.id}">
+                     </th>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.user_login}</td>
+                    <td>{$vo.money}</td>
+                    <td>{$vo.inputtime | date="Y-m-d H:i:s",###}</td>
+                    <td>
+                      <switch name="$vo.status">
+                          <case value="0">未审核</case>
+                          <case value="1">已通过</case>
+                          <case value="2">已拒绝</case>
+                      </switch>
+                    </td>
+                    <td>{$vo.pass_time  ? date("Y-m-d H:i:s",$vo.pass_time) : "-"}</td>
+                    <td>{$vo.admin_userid ?  getUserInfoById($vo['admin_userid'])['user_login'] : ""}</td>
+                    <td>
+                        <!-- <a class="js-ajax-delete" href="{:url('AdminPutForward/delete',['id'=>$vo['id']])}">删除</a> -->
+                        <eq name="$vo.status" value="0">
+                        <a href="{:url('AdminUserPutforward/access',array('id'=>$vo['id']))}"  class="js-ajax-dialog-btn" data-msg="确定通过审核吗">审核</a>
+                        <a href="{:url('AdminUserPutforward/refuse',array('id'=>$vo['id']))}"  class="js-ajax-dialog-btn" data-msg="确定拒绝吗">拒绝</a>
+                        <else/>
+                        已审核
+                       </eq>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+        <div class="table-actions">
+        </div>
+    </form>
+    <ul class="pagination">{$page|default=''}</ul>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

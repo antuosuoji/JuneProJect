@@ -1,0 +1,20 @@
+<div class="inh1">
+    <div class="tx">
+      <div>
+        <a >
+          <if condition="empty($avatar)">
+            <img src="__TMPL__/public/assets/images/headicon_128.png" class="headicon" width="128" />
+          <else />
+          <?php if(file_exists('./upload/'.$avatar)):?>
+            <img src="__ROOT__/upload/{$avatar}" class="headicon" width="128"/>
+            <?php else:?>
+            <img src="{$avatar}" class="headicon" width="128"/>
+          <?php endif;?>
+          </if>
+        </a>
+      </div>
+    </div>
+    <!-- <div class="hyy"><span>你好，{$user_nickname|default='未填写'}</span><span>积分：{$score}分</span></div> -->
+    <div class="hyy"><span>&nbsp;&nbsp;&nbsp;&nbsp;你好，{$user_nickname|default='未填写'}</span><span></span></div>
+
+</div>

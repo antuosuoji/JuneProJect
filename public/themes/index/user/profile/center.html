@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<include file="public@head" />
+	<body>
+
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="javascript:;" onclick="javascript:history.back(-1);"></a>
+			    <p>用户中心</p>
+			</div>
+		</div>
+
+        <div class="inh1">
+            <div class="tx">
+							<div>
+								<a href="{:url('profile/edit')}">
+									<if condition="empty($avatar)">
+										<img src="__TMPL__/public/assets/images/headicon_128.png" class="headicon" width="128" />
+									<else />
+									<?php if(file_exists('./upload/'.$avatar)):?>
+										<img src="__ROOT__/upload/{$avatar}" class="headicon" width="128"/>
+										<?php else:?>
+										<img src="{$avatar}" class="headicon" width="128"/>
+									<?php endif;?>
+									</if>
+								</a>
+							</div>
+						</div>
+            <div class="hyy"><span>你好，{$user_nickname|default='未填写'}</span><br/>
+							<span>积分：{$score}分</span><span>余额：{$balance}元</span></div>
+
+        </div>
+				<if condition="empty($mobile)">
+				<div class="heng"></div>
+				<div class="inh2">
+            <div class="inh2_tit" onclick="javascript:location.href='{:url(\'profile/binding\')}'" style="color:red;border-bottom:0px;background: url(__TMPL__/public/assets/images/default/tz2.png) 94% 50% no-repeat;">绑定手机号	</div>
+						<div class="" style="padding: 0px 28px;">
+								如果您用手机号注册过或者您想通过微信购物请绑定您的手机号码
+						</div>
+				</if>
+				</div>
+				<div class="heng"></div>
+        <div class="inh2">
+            <div class="inh2_tit">我的订单</div>
+            <div class="inh2_ch">
+                <ul>
+
+									<li>
+											<a href="{:url('order/index',array('all'=>1))}">
+													<div style="background: url(__TMPL__/public/assets/images/default/inh2_3.png) 50% no-repeat;"></div>
+													<p>全部</p>
+											</a>
+									</li>
+
+                    <li>
+                        <a href='{:url(\'Order/index\',array(\'pay_status\'=>0))}'>
+                            <div style="background: url(__TMPL__/public/assets/images/default/inh2_1.png) 50% no-repeat;"></div>
+														<p>待付款 {$pcont == '0' ? '' : "(<i><san style='color:red'>$pcont</span></i>)"}</p>
+                        	</a>
+                    </li>
+                    <li>
+                        <a href='{:url(\'Order/index\',array(\'post_status\'=>1))}'>
+                            <div style="background: url(__TMPL__/public/assets/images/default/inh2_2.png) 50% no-repeat;"></div>
+														<p>待收货 {$ycont == '0' ? '' : "(<i><san style='color:red'>$ycont</span></i>)"}</p>
+
+                        </a>
+                    </li>
+                    <li>
+                        <a href='{:url(\'Order/index\',array(\'post_status\'=>2))}'>
+                            <div style="background: url(__TMPL__/public/assets/images/default/inh2_4.png) 50% no-repeat;"></div>
+														<p>已完成{$scont == '0' ? '' : "(<i><san style='color:red'>$scont</span></i>)"}</p>
+                        </a>
+                    </li>
+                    <li>
+                        <a href='{:url(\'Order/index\',array(\'order_status\'=>3))}'>
+                            <div style="background: url(__TMPL__/public/assets/images/default/inh2_5.png) 50% no-repeat;"></div>
+														<p>退款售后{$qcont == '0' ? '' : "(<i><san style='color:red'>$qcont</span></i>)"}</p>
+											  </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="heng"></div>
+
+        <div class="inh3">
+            <ul>
+							<li class="inh_xx">
+                    <a href="{:url('user/message/index',array('type'=>2))}">站内消息<span>未读消息（<i>{$mess_num}</i>）</span></a>
+                </li>
+                <li>
+                    <a href="{:url('user/balance/index')}">我的余额</a>
+                </li>
+                <li>
+                    <a href="{:url('user/integral/index')}">我的积分</a>
+                </li>
+                <li>
+                    <a href="{:url('user/coupon/index',array('status'=>0))}">优惠券</a>
+                </li>
+                <li>
+                    <a href="{:url('user/sales/index')}">我的分销</a>
+                </li>
+                <li>
+                    <a href="{:url('user/profile/like')}">关注商品</a>
+                </li>
+								<!-- <li>
+                    <a href="{:url('user/evaluate/index')}">我的评价</a>
+                </li> -->
+            </ul>
+        </div>
+        <div class="heng"></div>
+        <div class="inh4" >
+            <ul >
+                <li>
+                    <a href="{:url('user/profile/password')}">修改密码</a>
+                </li>
+                <li>
+                    <a href="{:url('user/profile/address')}">收货地址管理</a>
+                </li>
+                <li>
+                    <a href="{:url('portal/page/index',array('id'=>8))}">客户服务</a>
+                </li>
+								<li>
+										<a href="{:url('user/index/logout')}">退出登录</a>
+								</li>
+            </ul>
+        </div>
+				<div class="heng" style="height:78px;"></div>
+  <include file="user@footer" />
+	<include file="public@scripts" />
+	</body>
+</html>

@@ -1,0 +1,153 @@
+<include file="public@header"/>
+</head>
+<body>
+  <div class="wrap js-check-wrap">
+
+    <ul class="nav nav-tabs"><li class="active"><a href="#">订单管理</a></li></ul>
+
+    <form class="well form-inline margin-top-20" method="get" action="{:url('AdminOrder/index')}">
+        订单情况:
+      <select class="form-control" name="order_status" style="width: 90px;">
+              <option value=''>全部</option>
+              <option value="0" <eq name="$Request.param.order_status" value="0">selected</eq> >未确认</option>
+              <option value="1" <eq name="$Request.param.order_status" value="1">selected</eq> >已确认</option>
+              <option value="2" <eq name="$Request.param.order_status" value="2">selected</eq> >已销毁</option>
+      </select> &nbsp;&nbsp;
+
+        支付情况:
+        <select class="form-control" name="pay_status" style="width: 90px;">
+                <option value=''>全部</option>
+                <option value="0" <eq name="$Request.param.pay_status" value="0">selected</eq> >未支付</option>
+                <option value="1" <eq name="$Request.param.pay_status" value="1">selected</eq> >已支付</option>
+        </select> &nbsp;&nbsp;
+
+        发货状态:
+        <select class="form-control" name="post_status" style="width: 90px;">
+                <option value=''>全部</option>
+                <option value="0" <eq name="$Request.param.post_status" value="0">selected</eq> >未发货</option>
+                <option value="1" <eq name="$Request.param.post_status" value="1">selected</eq> >已发货</option>
+                <option value="2" <eq name="$Request.param.post_status" value="2">selected</eq> >已收货</option>
+        </select> &nbsp;&nbsp;
+        订单编号:
+        <input type="text" class="form-control" name="orderid" style="width: 200px;"
+               value="{$Request.param.orderid|default=''}" placeholder="请输入订单编号...">
+
+        收货人:
+        <input type="text" class="form-control" name="receiver_name" style="width: 180px;"
+               value="{$Request.param.receiver_name|default=''}" placeholder="请输入收货人姓名...">
+        <input type="submit" class="btn btn-primary" value="搜索"/>
+        <a class="btn btn-danger" href="{:url('AdminOrder/index')}">清空</a>
+    </form>
+
+<form method="post" class="js-ajax-form margin-top-20">
+
+  <!-- <div class="table-actions">
+    <div class="table-actions">
+      <button class="btn btn-danger btn-sm js-ajax-submit" type="submit"
+              data-action="{:url('AdminOrder/delete')}" data-subcheck="true" data-msg="您确定删除吗？">
+          {:lang('DELETE')}
+      </button>
+
+    </div>
+  </div> -->
+
+<table class="table table-hover table-bordered table-list">
+          <thead>
+            <tr>
+              <th width="50"><input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x"></th>
+                <th>ID</th>
+                <th width="220">订单编号</th>
+                <th >收货人</th>
+                <th >应付金额</th>
+                <th >订单状态</th>
+                <th >支付状态</th>
+                <th >发货状态</th>
+                <th width="210">下单时间</th>
+                <th width="100">操作</th>
+            </tr>
+            </thead>
+      <tbody>
+
+          <foreach name="order" item="vo">
+              <tr>
+                <td>
+                    <input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="selectid[]" value="{$vo.id}">
+                </td>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.orderid}</td>
+                    <td>{$vo.receiver_name}</td>
+                    <td>{$vo.total_price}</td>
+
+                    <if condition="$vo['order_status'] eq 0">
+                    <td style="color:red">未确认&nbsp;<i class="fa fa-window-close" aria-hidden="true"></i></td>
+                    <elseif condition="$vo['order_status'] eq 1">
+                    <td style="color:blue">已确认&nbsp;<i class="fa fa-check-square" aria-hidden="true"></i></td>
+                    <elseif condition="$vo['order_status'] eq 2">
+                    <td style="color:red">取单订单&nbsp;<i class="fa fa-window-close" aria-hidden="true"></i></td>
+                    <elseif condition="$vo['order_status'] eq 3">
+                    <td style="color:red">申请退款&nbsp;<i class="fa fa-window-close" aria-hidden="true"></i></td>
+
+                    <else>
+                    <td>已销毁&nbsp;<i class="fa fa-window-close" aria-hidden="true"></i></td>
+                    </if>
+
+
+                    <if condition="$vo['pay_status'] eq 0">
+                    <td style="color:red">未支付&nbsp;<i class="fa fa-window-close" aria-hidden="true"></i></td>
+                    <elseif condition="$vo['pay_status'] eq 1">
+                    <td style="color:blue">已支付&nbsp;<i class="fa fa-check-square" aria-hidden="true"></i></td>
+                    <elseif condition="$vo['pay_status'] eq 2">
+                    <td style="color:red">取单订单&nbsp;<i class="fa fa-window-close" aria-hidden="true"></i></td>
+                    <elseif condition="$vo['pay_status'] eq 3">
+                    <eq name = "$vo['pay_time']" value ="0">
+                     <td style="color:red">未支付&nbsp;<i class="fa fa-window-close" aria-hidden="true"></i></td>
+                    <else/>
+                      <td style="color:blue">已支付&nbsp;<i class="fa fa-check-square" aria-hidden="true"></i></td>
+                    </eq>
+                    </if>
+
+                    <if condition="$vo['post_status'] eq 0">
+                    <td style="color:red">未发货&nbsp;<i class="fa fa-window-close" aria-hidden="true"></i></td>
+                    <elseif condition="$vo['post_status'] eq 1">
+                    <td style="color:#18BC9C">已发货&nbsp;<i class="fa fa-check-square" aria-hidden="true"></i></td>
+                    <elseif condition="$vo['post_status'] eq 2">
+                    <td style="color:blue">已收货&nbsp;<i class="fa fa-check-square" aria-hidden="true"></i></td>
+                    <elseif condition="$vo['post_status'] eq 3">
+                    <if condition="$vo['post_time'] eq 0 && $vo['post_times'] eq 0">
+                    <td style="color:red">未发货&nbsp;<i class="fa fa-window-close" aria-hidden="true"></i></td>
+                      <else/>
+                        <eq name ="$vo['post_times']" value ="0">
+                        <td style="color:blue">发货状态&nbsp;</i></td>
+                        <else/>
+                        <td style="color:blue">收货状态&nbsp;</i></td>
+                       </eq>
+                    </if>
+                    <elseif condition="$vo['post_status'] eq 4">
+                    <td style="color:blue">已收货&nbsp;<i class="fa fa-check-square" aria-hidden="true"></i></td>
+                    </if>
+                     <if condition = "$vo['inputtime'] eq 0">
+                    <td><?php echo date("Y-m-d,H:i:s",time()) ?></td>
+                    <else>
+                    <td><?php echo date("Y-m-d,H:i:s",$vo['inputtime']) ?></td>
+                    </if>
+                    <td>
+                        <a class="js-ajax-edit" href="{:url('AdminOrder/edit',['id'=>$vo['id']])}">编辑</a>
+                        <!-- <a class="js-ajax-delete" href="{:url('AdminOrder/delete',['id'=>$vo['id']])}">删除</a> -->
+
+                  </td>
+              </tr>
+            </foreach>
+      </tbody>
+</table>
+
+        <div class="table-actions">
+
+        </div>
+    </form>
+
+
+<ul class="pagination">{$page|default=''}</ul>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+		<li ><a href="{:url('AdminMessage/index')}">消息管理</a></li>
+		<li class="active"><a href="{:url('AdminMessage/view')}">查看消息</a></li>
+	</ul>
+	<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('AdminMessage/edit')}">
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>名称:</label>
+			<div class="col-md-6 col-sm-10">
+				<span>{$messInfo.title}</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>类别:</label>
+			<div class="col-md-6 col-sm-10">
+				<span>{$messInfo.name}</span>
+
+			</div>
+		</div>
+		<div class="form-group" id="post_method">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>发送方式:</label>
+			<div class="col-md-6 col-sm-10">
+				<eq name="$messInfo.mode" value="0">
+					<span>会员组</span>
+					<else/>
+					<span>会员</span>
+				</eq>
+			</div>
+		</div>
+		<eq name="$messInfo.mode" value="0">
+				<div class="form-group"  id="user">
+					<label class="col-sm-2 control-label"><span class="form-required">*</span>会员组:</label>
+					<div class="col-md-6 col-sm-10">
+            <volist name="groupsInfo" id="vo">
+							<?php if(in_array($vo['id'],$messInfo->userids)):?>
+							<span style="padding-right:10px;">{$vo.name}</span>
+							<?php endif;?>
+						</volist>
+					</div>
+				</div>
+		<else/>
+				<div class="form-group"  id="user">
+					<label class="col-sm-2 control-label"><span class="form-required">*</span>会员:</label>
+					<div class="col-md-6 col-sm-10">
+						<volist name="usersInfo" id="vo">
+							<?php if(in_array($vo['id'],$messInfo->userids)):?>
+							<span style="padding-right:10px;">{$vo.user_login}</span>
+							<?php endif;?>
+						</volist>
+					</div>
+				</div>
+		</eq>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>内容:</label>
+			<div class="col-md-6 col-sm-10">
+		  	<span>
+					{$messInfo.content}
+				</span>
+			</div>
+		</div>
+		<div class="col-sm-offset-2 col-sm-10">
+			<!-- <button type="submit" class="btn btn-primary js-ajax-submit">{:lang("SAVE")}</button> -->
+			<a class="btn btn-default" href="__URL__">返回</a>
+		</div>
+	</form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

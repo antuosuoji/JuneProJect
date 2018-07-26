@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+	<include file="public@head" />
+	<body>
+
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="javascript:;" onclick="javascript:history.back(-1);"></a>
+			    <p>修改资料</p>
+			</div>
+		</div>
+
+       <div class="ziliao">
+          	<form class="js-ajax-form" action="{:url('user/profile/editPost')}" method="post">
+								<div class="ziliao_tx">
+										<a href="{:url('profile/avatar')}">
+										<if condition="empty($avatar)">
+                    <div class="zl_tx"><div><img src="__TMPL__/public/assets/images/headicon_128.png"></div></div>
+										<else />
+										<?php if(file_exists('./upload/'.$avatar)):?>
+										<div class="zl_tx"><div><img src="__ROOT__/upload/{$avatar}"></div></div>
+											<?php else:?>
+											<div class="zl_tx"><div><img src="{$avatar}"></div></div>
+										<?php endif;?>
+
+									</if>
+								</a>
+								<!-- <div class="hyy"><span>你好，{$user_nickname|default='未填写'}</span><span>积分：{$score}分</span></div> -->
+                </div>
+								<if condition="empty($mobile)">
+		                <div>
+		                    <span>手机号</span>
+		                    <a style="list-style:normal;" href="{:url('user/profile/binding')}">请尽快绑定手机号</a>
+		                </div>
+								<else/>
+										<div>
+												<span>手机号</span>
+												<a style="list-style:normal;" href="{:url('user/profile/editmobile')}">{$mobile}</a>
+										</div>
+							  </if>
+
+                <div>
+                    <span>昵称</span>
+                    <input style="height:68px;" type="text" name="user_nickname" placeholder="请输入昵称" value="{$user_nickname}">
+                </div>
+
+								<div class="form-group" style="margin-bottom:0px;">
+									<span for="input-sex">性别</span>
+								<php>
+									$sexs=array("0"=>"保密","1"=>"男","2"=>"女");
+								</php>
+								<select id="input-sex" name="sex" style="height:68px;">
+									<foreach name="sexs" item="vo">
+									<php>$sexselected=$key==$sex?"selected":"";</php>
+										<option value="{$key}" {$sexselected}>{$vo}</option>
+									</foreach>
+								</select>
+								</div>
+
+                <div>
+                    <span style="border:0px;">生日</span>
+										<input style="box-shadow:none;border:0px;" class=" form-control js-bootstrap-date" type="text" id="input-birthday" placeholder="2013-01-04" name="birthday" value="{:date('Y-m-d',$birthday)}">
+                </div>
+
+                <div style="height: 168px;">
+                    <span>个性签名</span>
+                    <textarea style=" resize: none;float: right;  height: 124px;  width: 320px;  padding: 0px;  margin-top: 20px;  border: none;  line-height: 25px;  font-size: 16px;  color: #a7a7a7;  font-family: 'Microsoft Yahei', Helvetica, Arial, sans-serif;" type="" name="signature" placeholder="请您抒写自己的个性签名吧!" value="">{$signature}</textarea>
+                </div>
+
+								<a class="ziliao_qr"><button class="btn btn-primary btn-block js-ajax-submit" type="submit">确认修改</button></a>
+           </form>
+       </div>
+  <link href="__TMPL__/public/assets/simpleboot3/themes/simpleboot3/bootstrap.min.css" rel="stylesheet">
+
+	</body>
+		<include file="public@scripts" />
+</html>

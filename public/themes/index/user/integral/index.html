@@ -1,0 +1,49 @@
+
+<include file="public@head" />
+	<body>
+
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="{:url('user/profile/center')}"></a>
+			    <p>我的积分</p>
+			</div>
+		</div>
+			 <notempty name="inte">
+        <ul class="jifen_tab2" style="margin-top:80px;">
+            <li class="active">
+                <table class="jifen_bg" style="margin-top:0px;">
+                    <tr>
+                        <th>积分</th>
+                        <th>说明</th>
+                        <th>时间</th>
+                    </tr>
+										<foreach name="inte" item="vo">
+											<eq name="$vo['pay_status']" value="0">
+											<else/>
+											<tr>
+												<td>
+													{$vo['is_refund']== 0 ? '+':'-'}
+													{$vo.points}
+												</td>
+												<td>{$vo['is_refund']== 0 ? '消费得':'退款减'}积分</td>
+												<td><?php echo date("Y-m-d",$vo['inputtime']) ?></td>
+											 </tr>
+											</eq>
+									</foreach>
+                </table>
+            </li>
+        </ul>
+				<div class="pagination" style="margin-bottom:120px;">{$page|default=''}</div>
+				<else />
+				<div class="gwc_k" style="margin-top:180px;">
+						<div class="gwc_k_img">
+								<img src="__TMPL__/public/assets/images/default/tanhao2.png">
+								<p>暂无积分记录~</p>
+						</div>
+						<a class="gwc_k_t" href="/">主人快去购买东东吧！</a>
+				</div>
+			</notempty>
+				<include file="public@scripts" />
+				<include file="user@footer" />
+	</body>
+</html>

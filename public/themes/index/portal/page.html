@@ -1,0 +1,33 @@
+<include file="public@head"/>
+	<body>
+
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="{:url('user/profile/center')}"></a>
+			    <p>客户服务</p>
+			</div>
+		</div>
+        <div class="ggao2" style="margin-bottom:120px;">
+            <div class="ggao2_ch">
+                <!-- <div class="ggao2_tit">{$page.post_title}</div> -->
+                <div class="ggao2_text">
+									<!--没有设置文章缩略图-->
+									<empty name="page.more.thumbnail">
+											<else/>
+   								<img src=" {:cmf_get_image_url($page.more.thumbnail)}"/>
+									</empty>
+									<!--调用文章的相册-->
+									<notempty name="page.more.photos">
+										<foreach name="page.more.photos" item="photo">
+    							<img src=" {:cmf_get_image_url($photo.url)}" alt={$photo.name}/>
+    						</foreach>
+								</notempty>
+
+									<!--文章内容-->
+							{$page.post_content}
+                </div>
+            </div>
+        </div>
+				<include file="user@footer" />
+	</body>
+</html>

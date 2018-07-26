@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<include file="public@head"/>
+<body>
+
+  <div class="header2">
+    <div class="header2_ch">
+      <a class="fanhui" href="{:url('user/profile/center')}"></a>
+        <p>优惠券</p>
+    </div>
+  </div>
+
+  <ul class="youhui_tab1">
+    <li <eq name="$Request.param.status" value="0"> class="bg" </eq> onclick="javascript:location.href='{:url(\'Coupon/index\',array(\'status\'=>0))}'">未使用</li>
+    <li <eq name="$Request.param.status" value="1"> class="bg" </eq>  onclick="javascript:location.href='{:url(\'Coupon/index\',array(\'status\'=>1))}'">已使用</li>
+  </ul>
+	<notempty name="coupon">
+  <ul class="youhui_tab2">
+    <li class="active">
+    <div class="youhui_ul">
+    <foreach name="coupon" item="vo">
+        <div class="youhui_li <eq name="$vo.status" value="1"> grey </eq>"  >
+          <div class="youhui_fl">
+            <p>¥<span>{$vo.money}</span></p>
+            <p>满<span>{$vo.least_money}</span>元可用</p>
+            <p><span><?php echo date("Y-m-d",$vo['start_time']) ?></span> 至 <span><?php echo date("Y-m-d",$vo['end_time']) ?></span></p>
+          </div>
+          <div class="youhui_fr">
+            <eq name="$Request.param.status" value = '0'>
+            <a href="/"  data-msg="确定使用优惠券吗">立即使用</a>
+            <else/>
+            <a href="{:url(\'Coupon/delete\',array(\'id'\=>$vo[\'id\']))}" class="js-ajax-dialog-btn" data-msg="确定删除吗">使用完毕</a>
+            </eq>
+          </div>
+        </div>
+    </foreach>
+      </div>
+    </li>
+  </ul>
+<div class="pagination" style="margin-bottom:120px;">{$page|default=''}</div>
+<else/>
+<div class="gwc_k" style="margin-top:180px;">
+    <div class="gwc_k_img">
+        <img src="__TMPL__/public/assets/images/default/comm.png">
+        <p><eq name="$Request.param.status" value="1">暂无使用记录~<else/>您暂无优惠券~</eq></p>
+    </div>
+</div>
+</notempty>
+<include file="public@scripts" />
+<include file="user@footer" />
+
+</body>
+</html>

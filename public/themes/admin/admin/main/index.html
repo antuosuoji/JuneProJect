@@ -1,0 +1,399 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">控制台</h3>
+  </div>
+  <div class="panel-body home-info">
+    <div class="row">
+      <div class="col-sm-3 col-xs-6">
+        <div class="sm-st clearfix">
+          <span class="sm-st-icon st-red"><i class="fa fa-users"></i></span>
+          <div class="sm-st-info">
+            <span>{$user_count}</span> 总会员数
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3 col-xs-6">
+        <div class="sm-st clearfix">
+          <span class="sm-st-icon st-violet"><i class="fa fa-shopping-bag"></i></span>
+          <div class="sm-st-info">
+            <span>{$order_count}</span> 总订单数
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3 col-xs-6">
+        <div class="sm-st clearfix">
+          <span class="sm-st-icon st-blue"><i class="fa fa-book"></i></span>
+          <div class="sm-st-info">
+            <span>{$view_count}</span> 总访问数
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3 col-xs-6">
+        <div class="sm-st clearfix">
+          <span class="sm-st-icon st-green"><i class="fa fa-cny"></i></span>
+          <div class="sm-st-info">
+            <span>{$order_total}</span> 总金额(元)
+          </div>
+        </div>
+      </div>
+    </div>
+    </ul>
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">订单统计</h3>
+  </div>
+  <div class="panel-body home-info">
+    <ul class="list-inline">
+      <li>总订单：</li>
+      <li>未支付：</li>
+      <li>已支付：</li>
+      <li>申请退款：</li>
+      <li>退款成功：</li>
+    </ul>
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">系统概览</h3>
+  </div>
+  <div class="panel-body home-info">
+    <ul class="list-inline">
+      <li>版本信息：ChinaCMS 版本号: V1.0</li>
+      <li>网站域名：{$_SERVER['SERVER_NAME']}</li>
+      <li>服务器IP：
+        <?php echo get_client_ip();?>
+      </li>
+      <li>调试模式：{$Think.config.app_debug? 'yes':'no'}</li>
+      <li>时区：{:date_default_timezone_get()}</li>
+      <li>环境信息：{$Think.server.SERVER_SOFTWARE}</li>
+    </ul>
+  </div>
+</div>
+</case>
+<include file="public@header" />
+<style media="screen">
+  .col-sm-3 {
+    width: 25%;
+    float: left !important;
+  }
+
+  .st-red {
+    background-color: #F05050 !important;
+  }
+
+  .st-green {
+    background-color: #27C24C !important;
+  }
+
+  .st-violet {
+    background-color: #7266ba !important;
+    ;
+  }
+
+  .st-blue {
+    background-color: #23b7e5 !important;
+  }
+
+  .sm-st-icon {
+    width: 60px;
+    height: 60px;
+    display: inline-block;
+    line-height: 60px;
+    text-align: center;
+    font-size: 30px;
+    background: #eee;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    float: left;
+    margin-right: 10px;
+    color: #fff;
+    padding-top: 13;
+  }
+
+  .sm-st {
+    background: #fff;
+    padding: 20px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    margin-bottom: 20px;
+    -webkit-box-shadow: 0 1px 0px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 0px rgba(0, 0, 0, 0.05)
+  }
+
+  .sm-st-info span {
+    display: block;
+    font-size: 24px;
+    font-weight: 60
+  }
+
+  .row {
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+</style>
+<style>
+  .home-info li em {
+    float: left;
+    width: 120px;
+    font-style: normal;
+  }
+
+  .list-inline>li {
+    display: block;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 10px;
+  }
+
+  .home-info ul {
+    padding: 0;
+    margin: 0;
+  }
+
+  .panel {
+    margin-bottom: 0;
+  }
+
+  .grid-sizer {
+    width: 10%;
+  }
+
+  .grid-item {
+    margin-bottom: 5px;
+    padding: 5px;
+  }
+
+  .col-xs-1,
+  .col-sm-1,
+  .col-md-1,
+  .col-lg-1,
+  .col-xs-2,
+  .col-sm-2,
+  .col-md-2,
+  .col-lg-2,
+  .col-xs-3,
+  .col-sm-3,
+  .col-md-3,
+  .col-lg-3,
+  .col-xs-4,
+  .col-sm-4,
+  .col-md-4,
+  .col-lg-4,
+  .col-xs-5,
+  .col-sm-5,
+  .col-md-5,
+  .col-lg-5,
+  .col-xs-6,
+  .col-sm-6,
+  .col-md-6,
+  .col-lg-6,
+  .col-xs-7,
+  .col-sm-7,
+  .col-md-7,
+  .col-lg-7,
+  .col-xs-8,
+  .col-sm-8,
+  .col-md-8,
+  .col-lg-8,
+  .col-xs-9,
+  .col-sm-9,
+  .col-md-9,
+  .col-lg-9,
+  .col-xs-10,
+  .col-sm-10,
+  .col-md-10,
+  .col-lg-10,
+  .col-xs-11,
+  .col-sm-11,
+  .col-md-11,
+  .col-lg-11,
+  .col-xs-12,
+  .col-sm-12,
+  .col-md-12,
+  .col-lg-12 {
+    padding-left: 5px;
+    padding-right: 5px;
+    float: none;
+  }
+</style>
+<hook name="admin_before_head_end" />
+</head>
+
+<body>
+  <div class="wrap">
+    <empty name="has_smtp_setting">
+      <div class="grid-item col-md-12">
+        <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-bottom: 0;">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+          <strong>提示!</strong> 邮箱配置未完成,无法进行邮件发送!
+          <a href="#" data-dismiss="alert" aria-label="Close" onclick="parent.openapp('{:url('Mailer/index')}','admin_mailer_index','邮箱配置');">现在设置</a>
+        </div>
+      </div>
+    </empty>
+
+    <if condition="!extension_loaded('fileinfo')">
+      <div class="grid-item col-md-12">
+        <div class="alert alert-danger alert-dismissible fade in" role="alert" style="margin-bottom: 0;">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+          <strong>提示!</strong> php_fileinfo扩展没有开启，无法正常上传文件！
+        </div>
+      </div>
+    </if>
+
+    <div class="home-grid">
+      <!-- width of .grid-sizer used for columnWidth -->
+      <div class="grid-sizer"></div>
+      <foreach name="dashboard_widgets" item="vo">
+        <if condition="$vo.is_system">
+          <div class="grid-item col-md-12" data-system="1" data-widget="{$vo.name}">
+            <div class="dashboard-box"></div>
+          </div>
+          <else/>
+          <present name="dashboard_widget_plugins[$vo['name']]">
+            <div class="grid-item col-md-{$dashboard_widget_plugins[$vo['name']]['width']}" data-system="0" data-widget="{$vo.name}">
+              <div class="dashboard-box">{$dashboard_widget_plugins[$vo.name]['view']}</div>
+            </div>
+          </present>
+
+        </if>
+
+      </foreach>
+    </div>
+  </div>
+  <script src="__STATIC__/js/admin.js"></script>
+  <php>
+    $lang_set=defined('LANG_SET')?LANG_SET:''; $thinkcmf_version=defined('THINKCMF_VERSION')?THINKCMF_VERSION:'';
+  </php>
+  <script>
+    Wind.css('dragula');
+    Wind.use('masonry', 'imagesloaded', 'dragula', function() {
+      var $homeGrid = $('.home-grid').masonry({
+        // set itemSelector so .grid-sizer is not used in layout
+        itemSelector: '.grid-item',
+        // use element for option
+        columnWidth: '.grid-sizer',
+        percentPosition: true,
+        horizontalOrder: false,
+        transitionDuration: 0
+      });
+
+      $homeGrid.masonry('on', 'layoutComplete', function(event, laidOutItems) {});
+
+
+      $homeGrid.masonry();
+
+      var containers = [];
+      $('.home-grid .grid-item').each(function() {
+        containers.push(this);
+      });
+      dragula(containers, {
+        isContainer: function(el) {
+          return false; // only elements in drake.containers will be taken into account
+        },
+        moves: function(el, source, handle, sibling) {
+          return true; // elements are always draggable by default
+        },
+        accepts: function(el, target, source, sibling) {
+          return true; // elements can be dropped in any of the `containers` by default
+        },
+        invalid: function(el, handle) {
+          return false; // don't prevent any drags from initiating by default
+        },
+        direction: 'vertical', // Y axis is considered when determining where an element would be dropped
+        copy: false, // elements are moved by default, not copied
+        copySortSource: false, // elements in copy-source containers can be reordered
+        revertOnSpill: false, // spilling will put the element back where it was dragged from, if this is true
+        removeOnSpill: false, // spilling will `.remove` the element, if this is true
+        mirrorContainer: document.body, // set the element that gets mirror elements appended
+        ignoreInputTextSelection: true // allows users to select input text, see details below
+      }).on('drop', function(el, target, source, sibling) {
+        var $target = $(target);
+        var targetClasses = $target.attr('class');
+        var targetDataWidget = $target.data('widget');
+        var targetDataSystem = $target.data('system');
+        var $source = $(source);
+        var sourceClasses = $source.attr('class');
+        var sourceDataWidget = $source.data('widget');
+        var sourceDataSystem = $source.data('system');
+        $(source).append($(target).find('.dashboard-box').not('.gu-transit'));
+        $(target).append(el);
+        $target.attr('class', sourceClasses);
+        $target.data('widget', sourceDataWidget);
+        $target.data('system', sourceDataSystem);
+
+        $source.attr('class', targetClasses);
+        $source.data('widget', targetDataWidget);
+        $source.data('system', targetDataSystem);
+        $homeGrid.masonry();
+
+        _widgetSort();
+      }).on('shadow', function(el, container, source) {
+        $homeGrid.masonry();
+      });
+
+
+    });
+
+    function _widgetSort() {
+
+      var widgets = [];
+      $('.home-grid .grid-item').each(function() {
+        var $this = $(this);
+
+        widgets.push({
+          name: $this.data('widget'),
+          is_system: $this.data('system')
+        });
+      });
+
+      $.ajax({
+        url: "{:url('main/dashboardWidget')}",
+        type: 'post',
+        dataType: 'json',
+        data: {
+          widgets: widgets
+        },
+        success: function(data) {
+
+        },
+        error: function() {
+
+        },
+        complete: function() {
+
+        }
+      });
+    }
+
+    //获取官方通知
+    $.getJSON("//www.thinkcmf.com/service/sms_jsonp.php?lang={$lang_set}&v={$thinkcmf_version}&callback=?",
+      function(data) {
+        var tpl = '<li><em class="title"></em><span class="content"></span></li>';
+        var $notices = $("#thinkcmf-notices");
+        $notices.empty();
+        if (data.length > 0) {
+          $('#thinkcmf-notices-grid').show();
+          $.each(data, function(i, n) {
+            var $tpl = $(tpl);
+            $(".title", $tpl).html(n.title);
+            $(".content", $tpl).html(n.content);
+            $notices.append($tpl);
+          });
+        } else {
+          $notices.append("<li>^_^,{:lang('NO_NOTICE')}~~</li>");
+        }
+
+      });
+  </script>
+  <hook name="admin_before_body_end" />
+</body>
+
+</html>

@@ -1,0 +1,110 @@
+<include file="public@header"/>
+</head>
+<body>
+  <div class="wrap js-check-wrap">
+
+    <ul class="nav nav-tabs"><li class="active"><a href="#">发票管理</a></li></ul>
+
+    <form class="well form-inline margin-top-20" method="get" action="{:url('AdminInvoice/index')}">
+        发票类型:
+      <select class="form-control" name="type" style="width: 90px;">
+              <option value=''>全部</option>
+              <option value="0" <eq name="$Request.param.type" value="0">selected</eq> >个人</option>
+              <option value="1" <eq name="$Request.param.type" value="1">selected</eq> >公司</option>
+      </select> &nbsp;&nbsp;
+
+        支付情况:
+        <select class="form-control" name="pay_status" style="width: 90px;">
+                <option value=''>全部</option>
+                <option value="0" <eq name="$Request.param.pay_status" value="0">selected</eq> >未支付</option>
+                <option value="1" <eq name="$Request.param.pay_status" value="1">selected</eq> >已支付</option>
+        </select> &nbsp;&nbsp;
+
+
+        <!-- 识别号:
+        <input type="text" class="form-control" name="number" style="width: 200px;"
+               value="{$Request.param.number|default=''}" placeholder="请输入纳税人识别号..."> -->
+
+        手机号:
+        <input type="text" class="form-control" name="tel" style="width: 200px;"
+               value="{$Request.param.tel|default=''}" placeholder="请输入手机号...">
+        <input type="submit" class="btn btn-primary" value="搜索"/>
+        <a class="btn btn-danger" href="{:url('AdminInvoice/index')}">清空</a>
+    </form>
+
+<form method="post" class="js-ajax-form margin-top-20">
+  <!-- <div class="table-actions">
+    <div class="table-actions">
+      <button class="btn btn-danger btn-sm js-ajax-submit" type="submit"
+              data-action="{:url('AdminOrder/delete')}" data-subcheck="true" data-msg="发单表暂不支持删除功能!">
+          {:lang('DELETE')}
+      </button>
+    </div>
+  </div> -->
+<table class="table table-hover table-bordered table-list">
+          <thead>
+            <tr>
+              <th width="50"><input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x"></th>
+                <th>ID</th>
+                <th width="220">订单编号</th>
+                <th >支付状态</th>
+                <th >订单状态</th>
+                <th >发票类型</th>
+                <th >公司名称/姓名</th>
+                <!-- <th >纳税人识别号</th> -->
+                <th >手机号</th>
+                <th >邮箱</th>
+                <th >操作</th>
+            </tr>
+            </thead>
+      <tbody>
+
+        <foreach name ="invoice" item = "vo">
+              <tr>
+                <td>
+                    <input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]">
+                </td>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.order_id}</td>
+                    <eq name = "$vo.pay_status" value ='0'>
+                      <td style="color:red">未支付&nbsp;<i class="fa fa-window-close" aria-hidden="true"></i></td>
+                      <else/>
+                     <td style="color:blue">已支付&nbsp;<i class="fa fa-check-square" aria-hidden="true"></i></td>
+                    </eq>
+                      <switch name="$vo['is_evaluate']">
+                        <case value="0">
+                          <td style="color:blue">正常&nbsp;<i class="fa fa-check-square" aria-hidden="true"></i></td>
+                        </case>
+                        <case value="1">
+                          <td style="color:red">申请退款&nbsp;<i class="fa fa-window-close" aria-hidden="true"></i></td>
+                        </case>
+                        <case value="3">
+                          <td style="color:red">订单取消&nbsp;<i class="fa fa-window-close" aria-hidden="true"></i></td>
+                        </case>
+                      </switch>
+                    <eq name = "$vo.type" value ='0'><td>个人</td><else/><td>公司</td></eq>
+                    <td>{$vo.company}</td>
+                    <!-- <td>{$vo.number}</td> -->
+                    <td>{$vo.tel}</td>
+                    <td>{$vo.email}</td>
+                    <td>
+                      <a class="js-ajax-edit" href="{:url('AdminInvoice/look',['id'=>$vo['id']])}">查看</a>
+                      <!-- <a class="js-ajax-delete" href="{:url('AdminInvoice/delete')}">删除</a> -->
+                  </td>
+              </tr>
+    </foreach>
+
+      </tbody>
+</table>
+
+        <div class="table-actions">
+
+        </div>
+    </form>
+
+
+<ul class="pagination">{$page|default=''}</ul>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<include file="public@head" />
+<body>
+  <div class="header2">
+    <div class="header2_ch">
+      <!-- <a class="fanhui" href="javascript:;" onclick="javascript:history.back(-1);"></a> -->
+      <a class="fanhui" href="__URL__"></a>
+      <p>支付方式</p>
+    </div>
+  </div>
+  <div class="syt">
+      <div class="syt_ch">
+          <ul class="syt_ul">
+              <li>
+                  <a href="javascript:;">
+                      <div>订单号</div>
+                      <div id="orderid">{$info.orderid}</div>
+                  </a>
+              </li>
+              <li>
+                  <a href="javascript:;">
+                      <div>订单金额</div>
+                      <div><span>¥{$info.total_actual}<span></div>
+                  </a>
+              </li>
+      </div>
+  </div>
+  <div class="heng"></div>
+  <form class="" action="{:url('Pay/pay')}" method="post">
+  <input type="hidden" name="orderid" value="{$Request.param.orderid}">
+  <div class="js_zf">
+    <div class="js_zf_ch">
+      <div class="js_zf_tit">请选择支付方式</div>
+      <ul class="js_zffs">
+        <li class="bg">
+          <span style="background: url(__TMPL__/public/assets/images/default/wxzf.png) 50% no-repeat;"></span>
+          <span>微信支付</span>
+          <input type="hidden" name="pay" value="wechat">
+        </li>
+        <li>
+          <span style="background: url(__TMPL__/public/assets/images/default/yezf.png) 50% no-repeat;"></span>
+          <span>余额支付</span>
+          <input type="hidden" name="pay" value="yue" disabled>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="heng" style="margin-bottom: 80px;"></div>
+  <div class="footer3">
+    <div><span>合计：</span><span>¥</span><span>{$info.total_actual}</span></div>
+    <div onclick="formsubmit()" id='yue' style="display:none">支付</div>
+    <div onclick="javascript:$(this).parent().parent().submit()" id='wechat' >支付</div>
+  </div>
+  </form>
+  <script type="text/javascript">
+    $('.js_zffs').children('li').click(function () {
+      $(this).children('input').removeAttr("disabled");
+      $(this).siblings().children('input').attr("disabled",true);
+      if($(this).children('input').val()== 'wechat')
+      {
+        $('#yue').hide();
+        $('#wechat').show();
+      }else
+      {
+        $('#yue').show();
+        $('#wechat').hide();
+      }
+    });
+        function formsubmit(){
+        Wind.use('noty', function () {
+         var url= $('form').attr('action');
+          $.ajax({
+            url:url,
+            type:'POST',
+            data:$('form').serialize(),
+            dataType:'JSON',
+            success:function(data){
+                // console.log(data);
+                if(data.code == 0)
+                {
+                  noty({
+                    text: data.msg,
+                    type: 'error',
+                    layout: 'center',
+                    modal: true,
+                    timeout: 800,
+                  }).show();
+                }else if(data.code ==1)
+                {
+                  noty({
+                    text: data.msg,
+                    type: 'success',
+                    layout: 'center',
+                    modal: true,
+                    timeout: 800,
+                    callback: {
+                        afterClose: function () {
+                          location.href=data.url;
+                        }
+                    }
+                  }).show();
+                }
+            }
+          });
+        })
+      }
+  </script>
+  <style media="screen">
+    #wechat{width: 160px;height: 100%;float: right;background: #ff6c02;font-size: 25px;text-align: center;}
+  </style>
+
+
+<script src="__STATIC__/js/wind.js"></script>
+</body>
+</html>

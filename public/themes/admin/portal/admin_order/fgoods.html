@@ -1,0 +1,111 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+
+		<li class="active"><a href="{:url('AdminOrder/edit')}">订单发货</a></li>
+	</ul>
+&nbsp;
+<div class="order-box">
+  <table class="table table-bordered"  align="content" >
+  <th class="well" colspan="4" align="right">基本信息</th>
+  <tr>
+	<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('AdminOrder/fgoods')}">
+  <th align="left" width=300>订单号：</th>
+  <td>{$goods['orderid']}</td>
+	<input type="hidden" name="orderid" value="{$goods['orderid']}">
+	<input type="hidden" name="oid" value="{$goods['id']}">
+  <th align="right" width=300>下单时间：</th>
+	<td><?php echo date("Y-m-d H:i:s",$goods['inputtime']) ?></td>
+	<input type="hidden" name="inputtime" value="{$goods['inputtime']}">
+  </tr>
+  <tr>
+  <th align="left" width=300>收货人:</th>
+  <td name="l_name">{$goods['receiver_name']}</td>
+ 	<input type="hidden" name="l_name" value="{$goods['receiver_name']}">
+  <th align="right" width=300>联系电话:</th>
+  <td>{$goods['receiver_mobile']}</td>
+		<input type="hidden" name="receiver_mobile" value="{$goods['receiver_mobile']}">
+  </tr>
+  <tr>
+  <th align="left" width=300>收货地址:</th>
+  <td td  colspan="3">{$goods['receiver_province']}{$goods['receiver_city']}{$goods['receiver_area']}{$goods['receiver_address']}</td>
+	<input type="hidden" name="l_address" value="{$goods['receiver_province']}{$goods['receiver_city']}{$goods['receiver_area']}{$goods['receiver_address']}">
+  </tr>
+
+
+		<tr>
+		<th align="left" width=300>配送物流:</th>
+		<td colspan="3"><input class="form-control"  type="text" required name="post_logistics"  placeholder="配送物流....."/></td>
+		</tr>
+
+		<input type="hidden" name="uid" value="{$goods['userid']}">
+
+		<tr>
+		<th align="left" width=300>快递单号:</th>
+		<td colspan="3" ><input class="form-control"  type="text" required name="post_number" placeholder="快递单号...."/></td>
+		</tr>
+
+
+
+  </table>
+
+	<!--商品信息-->
+	  <table class="table table-bordered">
+	  <th class="well" colspan="5"align="right">商品信息</th>
+	          <tr>
+	              <th width="300px">商品名称</th>
+								<th width="330px">商品规格</th>
+	              <th width="">商品单价</th>
+	              <th width="">商品小计</th>
+	              <th width="">数量</th>
+	          </tr>
+
+						<foreach name="order_detail" item="vo">
+	          <tr>
+	              <td >{$vo.gname}</td>
+								<td >{$vo.goods_attr_value}</td>
+	              <td >{$vo.goods_price}	</td>
+	              <td >{$vo.goods_price}</td>
+	              <td >{$vo.num}</td>
+	          </tr>
+					</foreach>
+						<tr>
+							<td colspan="5" align="right" >合计:{$goods.total_price}</td>
+						</tr>
+
+	  </table>
+
+		<!--费用信息-->
+		  <table class="table table-bordered">
+		  <th class="well" colspan="5"align="right">费用信息</th>
+		          <tr>
+		              <th width="300px">总计</th>
+		              <th width="330px">折扣</th>
+		              <th width="200px">优惠券</th>
+		              <th width="200px">运费</th>
+		              <th >应付</th>
+		          </tr>
+
+
+
+		          <tr>
+		              <td >{$goods.total_price}</td>
+		              <td >-{$goods.discount}</td>
+		              <td >-{$goods.coupon}</td>
+		              <td >+{$goods.freight}</td>
+		              <td align="right">总价:{$goods.total_actual}</td>
+		          </tr>
+		  </table>
+
+</div>
+<div class="col-sm-offset-2 col-sm-10">
+		<button type="submit" class="btn btn-primary js-ajax-submit" >确认发货</button>
+		<a class="btn btn-default" onclick="history.back(-1)">返回</a>
+</div>
+	</form>
+
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

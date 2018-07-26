@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<include file="public@head"/>
+	<body>
+
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="{:url('user/balance/index')}" ></a>
+			    <p>提现信息</p>
+			</div>
+		</div>
+
+       <div class="txxx">
+           <form method="post" class="js-ajax-form" action="{:url('user/balance/perfectCard')}">
+								 <div class="rxxx_inp">
+										<span>金额</span>
+										<input type="text" name="money" placeholder="请输入金额">
+								</div>
+                <div class="rxxx_inp">
+                    <span>用户姓名</span>
+                    <input type="text" name="name" placeholder="请输入用户姓名">
+                </div>
+                <div class="rxxx_inp">
+                    <span>银行卡号</span>
+                    <input type="text" name="cardid" placeholder="请输入银行卡号">
+                </div>
+                 <div class="rxxx_inp">
+                    <span>开户行</span>
+                    <input type="text" name="cardname" placeholder="请输入开户行名称">
+                </div>
+
+                <div class="txzl_zhu" style="margin-left: 20px">
+                	<i>注：请确认填写正确，避免因信息有误造成提现失败。</i>
+                </div>
+                <a class="txxx_qr"><button class="js-ajax-submit" type="submit" >提交</button></a>
+           </form>
+       </div>
+				 <include file="public@scripts" />
+	</body>
+</html>

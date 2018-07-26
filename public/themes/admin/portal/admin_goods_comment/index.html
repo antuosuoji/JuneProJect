@@ -1,0 +1,75 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="{:url('AdminGoodsComment/index')}">评论管理</a></li>
+    </ul>
+    <form class="well form-inline margin-top-20" method="get" action="{:url('AdminGoodsComment/index')}">
+
+        评论内容:
+        <input type="text" class="form-control" name="keyword" style="width: 200px;margin-right:10px;"
+               value="{$Request.param.keyword|default=''}" placeholder="评论内容...">
+        <input type="submit" class="btn btn-primary" value="搜索"/>
+        <a class="btn btn-danger" href="{:url('AdminGoodsComment/index')}">清空</a>
+    </form>
+    <form method="post" class="js-ajax-form margin-top-20" action="{:url('AdminGoodsComment/delete')}">
+        <div class="table-actions">
+            <button type="submit" class="btn btn-danger btn-sm js-ajax-submit"   data-action="{:url('AdminGoodsComment/delete')}" data-subcheck="true" data-msg="您确定删除吗？">删除</button>
+        </div>
+
+        <table class="table table-hover table-bordered table-list">
+            <thead>
+            <tr>
+                <th width="50">
+                   <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+                 </th>
+                <th width="50">ID</th>
+                <th>用户名</th>
+                <th>评价内容</th>
+                <th>商品</th>
+                <th>评分</th>
+                <th>评价时间</th>
+                <th>ip地址</th>
+                <th>审核</th>
+                <th width="160">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="goodsComment" item="vo">
+                <tr>
+                    <th width="50">
+                       <input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="selectid[]"
+                              value="{$vo.id}" title="ID:{$vo.id}">
+                     </th>
+                    <td>{$vo.id}</td>
+                    <td>{$vo.userid}</td>
+                    <td>{$vo.content | msubstr=###,0,20}</td>
+                    <td>{$vo.goods_id}</td>
+                    <td>
+                      <?php for($i=1;$i<=$vo->score;$i++):?>
+                            <img src="__STATIC__/images/star-on.png" alt="">
+                      <?php endfor;?>
+                    </td>
+                    <td>{$vo.inputtime | date="Y-m-d H:i:s",###}</td>
+                    <td>{$vo.ip}</td>
+                    <td>{$vo.verify}</td>
+                    <td>
+                      <?php if($vo->getData('verify') == 0):?>
+                        <a  class="js-ajax-delete" href="{:url('AdminGoodsComment/verify',['id'=>$vo['id']])}" data-msg="确定审核吗">审核</a>
+                      <?php endif;?>
+                        <a class="js-ajax-edit" href="{:url('AdminGoodsComment/edit',['id'=>$vo['id']])}">查看</a>
+                        <a class="js-ajax-delete" href="{:url('AdminGoodsComment/delete',['id'=>$vo['id']])}">删除</a>
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+        <div class="table-actions">
+        </div>
+    </form>
+    <ul class="pagination">{$page|default=''}</ul>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

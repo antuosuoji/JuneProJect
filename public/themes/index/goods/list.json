@@ -1,0 +1,12 @@
+{
+    "name": "商品列表页",
+    "action": "goods/List/index",
+    "description": "商品列表模板文件",
+    "order": 10.0,
+    "more": {
+        "vars": {
+        },
+        "widgets": {
+        }
+    }
+}

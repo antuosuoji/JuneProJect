@@ -1,0 +1,324 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+		<li ><a href="{:url('AdminOrder/index')}">订单列表</a></li>
+		<li class="active"><a href="{:url('AdminOrder/edit')}">查看订单</a></li>
+	</ul>
+&nbsp;
+<div class="order-box">
+  <table class="table  table-bordered">
+  <th class="well" colspan="4"align="right">基本信息</th>
+	<!--订单号-->
+
+  <tr>
+  <th align="left" width=300>订单号：</th>
+  <td>{$order['orderid']}</td>
+  <th align="right" width=300>订单状态：</th>
+
+	<switch name = "$order['order_status']" >
+		<case value = "0" ><td style="color:red">订单未确认&nbsp;&nbsp;&nbsp;<i class="fa fa-window-close" aria-hidden="true"></i></td></case>
+		<case value = "1" ><td style="color:blue">订单已确认&nbsp;&nbsp;&nbsp;<i class="fa fa-check-square" aria-hidden="true"></i></td></case>
+		<case value = "2" ><td style="color:red">订单销毁&nbsp;&nbsp;&nbsp;<i class="fa fa-window-close" aria-hidden="true"></i></td></case>
+		<case value = "3" ><td style="color:red">申请退款&nbsp;&nbsp;&nbsp;<i class="fa fa-window-close" aria-hidden="true"></i></td></case>
+	</switch>
+
+  </tr>
+
+	<!--会员-->
+	<tr>
+  <th align="left" width=300>会员:</th>
+  <td>{$order.user_nickname}</td>
+
+	<!--支付状态-->
+  <th align="right" width=300>支付状态:</th>
+
+	<switch name = "$order['pay_status']">
+		<case value = "0"><td style="color:red">未支付&nbsp;&nbsp;&nbsp;<i class="fa fa-window-close" aria-hidden="true"></i></td></case>
+		<case value = "1"><td style="color:blue">已支付&nbsp;&nbsp;&nbsp;<i class="fa fa-check-square" aria-hidden="true"></i></td></case>
+		<case value = "2">
+			<eq name = "order['pay_time']" value = '0'>
+				<td style="color:red">未支付&nbsp;&nbsp;&nbsp;<i class="fa fa-window-close" aria-hidden="true"></i></td>
+			  <else/>
+				<td style="color:blue">已支付&nbsp;&nbsp;&nbsp;<i class="fa fa-check-square" aria-hidden="true"></i></td>
+			</eq>
+		</case>
+		<case value = "3">
+			<eq name = "order['pay_time']" value = '0'>
+				<td style="color:red">未支付&nbsp;&nbsp;&nbsp;<i class="fa fa-window-close" aria-hidden="true"></i></td>
+			  <else/>
+				<td style="color:blue">已支付&nbsp;&nbsp;&nbsp;<i class="fa fa-check-square" aria-hidden="true"></i></td>
+			</eq>
+		</case>
+	</switch>
+
+
+	</tr>
+
+  <tr>
+	<!--订单总价-->
+	  <th align="right" width=300>实际总价:</th>
+	  <td>{$order.total_actual}</td>
+	<!--发货状态-->
+  <th align="left" width=300>发货状态:</th>
+	<switch name = "$order['post_status']">
+		<case value = "0"><td style="color:red">未发货&nbsp;&nbsp;&nbsp;<i class="fa fa-window-close" aria-hidden="true"></i></td></case>
+		<case value = "1"><td style="color:#18BC9C">已发货&nbsp;&nbsp;<i class="fa fa-check-square" aria-hidden="true"></i></td></case>
+		<case value = "2"><td style="color:blue">已收货&nbsp;&nbsp;<i class="fa fa-check-square" aria-hidden="true"></i></td></case>
+		<case value = "3">
+			    <if condition="$order['post_time'] eq 0 && $order['post_times'] eq 0">
+						<td style="color:red">未发货&nbsp;&nbsp;&nbsp;<i class="fa fa-window-close" aria-hidden="true"></i></td></case>
+						<else/>
+						<eq name = "$order['post_times']" value ="0">
+							<!-- <td style="color:blue">已发货&nbsp;&nbsp;<i class="fa fa-truck" aria-hidden="true"></i>&nbsp;...</td> -->
+							<td style="color:blue">发货状态&nbsp;&nbsp;</td>
+					  <else/>
+						  <td style="color:blue">收货状态&nbsp;&nbsp;</td>
+						</eq>
+					</if>
+		</case>
+		<!-- <case value = "4"><td style="color:blue">已收货&nbsp;&nbsp;<i class="fa fa-check-square" aria-hidden="true"></i></td></case> -->
+	</switch>
+	</tr>
+	<!--支付方式-->
+  <tr>
+  <th align="left" width=300>支付方式:</th>
+	<if condition="$order['pay_style'] eq 0">
+  <td></td>
+	<elseif condition="$order['pay_style'] eq 1">
+  <td>微信支付</td>
+	<else>
+  <td>余额支付</td>
+	</if>
+
+	<!--下单时间-->
+	<th align="right" width=300>下单时间:</th>
+	<if condition="$order['inputtime'] eq null">
+	<td></td>
+	<else>
+	<td><?php echo date("Y-m-d H:i:s",$order['inputtime']) ?></td>
+	</if>
+  </tr>
+
+	<!--支付时间-->
+  <tr>
+  <th align="left" width=300>支付时间:</th>
+	<if condition="$order['pay_time'] eq 0">
+  <td></td>
+	<else>
+	<td><?php echo date("Y-m-d H:i:s",$order['pay_time']) ?></td>
+	</if>
+	<!--发货时间-->
+	<th align="right" width=300>发货时间:</th>
+	<if condition="$order['post_time'] eq 0">
+	<td></td>
+	<else>
+	<td><?php echo date("Y-m-d H:i:s",$order['post_time']) ?></td>
+  </tr>
+	</if>
+  </table>
+
+<!--收货人信息-->
+  <table class="table table-bordered">
+  <th class="well" colspan="4"align="right">收货人信息</th>
+          <tr>
+              <th width="300">收货人:</th>
+              <th width="300">联系电话</th>
+              <th width="300">收货地址</th>
+              <th >配送物流</th>
+          </tr>
+
+          <tr>
+              <td >{$order.receiver_name}	</td>
+              <td >{$order.receiver_mobile}	</td>
+              <td >{$order.receiver_province}{$order.receiver_city}{$order.receiver_area}{$order.receiver_address}</td>
+              <td >{$order.post_logistics}</td>
+          </tr>
+  </table>
+
+<!--商品信息-->
+  <table class="table table-bordered">
+  <th class="well" colspan="5"align="right">商品信息</th>
+          <tr>
+              <th width="300">商品名称</th>
+							<th width="300">商品规格</th>
+              <th width="">商品单价</th>
+              <th width="">商品小计</th>
+              <th width="">数量</th>
+          </tr>
+
+					<foreach name="order_detail" item="vo">
+          <tr>
+              <td >{$vo.gname}</td>
+							<td >{$vo.goods_attr_value}</td>
+              <td >{$vo.goods_price}	</td>
+              <td >{$vo.goods_price}</td>
+              <td >{$vo.num}</td>
+          </tr>
+				</foreach>
+					<tr>
+						<td colspan="5" align="right" >合计:{$order.total_price}</td>
+					</tr>
+
+  </table>
+
+<!--费用信息-->
+  <table class="table table-bordered">
+  <th class="well" colspan="5"align="right">费用信息</th>
+          <tr>
+              <th width="350">总计</th>
+              <th width="300">折扣</th>
+              <th width="300">优惠券</th>
+              <th width="300">运费</th>
+              <th width="150">应付</th>
+          </tr>
+
+
+
+          <tr>
+              <td >{$order.total_price}</td>
+              <td >-{$order.discount}</td>
+              <td >-{$order.coupon}</td>
+              <td >+{$order.freight}</td>
+              <td align="right">总价:{$order.total_actual}</td>
+          </tr>
+  </table>
+
+<!--操作-->
+
+<table class="table  table-bordered">
+<th class="well" colspan="4"align="right">当前可执行操作：</th>
+<tr>
+<!--收货状态-->
+<switch name="$order['post_status']">
+<case value="0" >
+
+	<switch name="$order['order_status']">
+	<case value="0" >	<!--订单状态0是初始化-->
+		<!-- <tr>
+		<th width="300">支付情况</th>
+		<td>
+		<if condition="$order['pay_status'] eq 0">
+		<a href="{:url('AdminOrder/open',array('pid'=>$order['id']))}" class="btn js-ajax-dialog-btn btn-primary"  data-msg="确定付款吗">付款</a>
+		<else>
+		<a href="{:url('AdminOrder/close',array('pid'=>$order['id']))}" class="btn js-ajax-dialog-btn btn-primary"  data-msg="确定取消吗">取消</a>
+		</if>
+		</td>
+		</tr> -->
+	<!--订单状态-->
+	<tr>
+	<th width="300">订单状态</th>
+	<td>
+	<a href="{:url('AdminOrder/order_status',array('pid'=>$order['id']))}" class="btn js-ajax-dialog-btn btn-primary" data-msg="是否确认订单状态？">确认订单</a>
+	</if>
+	</td>
+	</tr>
+	<!--销毁订单-->
+	<tr>
+	<th width="300">订单状态</th>
+	<td>
+	<!-- <a href="{:url('AdminOrder/order_destroy',array('pid'=>$order['id']))}" class="btn js-ajax-dialog-btn btn-primary" data-msg="确定销毁订单吗">销毁订单</a> -->
+  <a class="btn btn-default" onclick="history.back(-1)">返回</a>
+	</td>
+	</tr>
+	</case>
+
+	<case value="1">	<!--订单状态1是确认订单-->
+
+		<!-- <tr>
+		<th width="300">支付情况</th>
+		<td>
+		<if condition="$order['pay_status'] eq 0">
+		<a href="{:url('AdminOrder/open',array('pid'=>$order['id']))}" class="btn js-ajax-dialog-btn btn-primary"  data-msg="确定启用吗">付款</a>
+		<else>
+		<a href="{:url('AdminOrder/close',array('pid'=>$order['id']))}" class="btn js-ajax-dialog-btn btn-primary"  data-msg="确定启用吗">取消</a>
+		</if>
+		</td>
+		</tr> -->
+	<!--订单状态-->
+	<tr>
+	<th width="300">订单状态</th>
+	<td>
+		<a href="{:url('AdminOrder/fgoods',['id'=>$order['id']])}" class="btn btn-primary">发货</a>
+		<a href="{:url('AdminOrder/order_close',array('pid'=>$order['id']))}" class="btn js-ajax-dialog-btn btn-primary" data-msg="确定取消订单吗">取消订单</a>
+	</if>
+	</td>
+	</tr>
+	<!--销毁订单-->
+	<tr>
+	<th width="300">订单状态</th>
+	<td>
+	<!-- <a href="{:url('AdminOrder/order_destroy',array('pid'=>$order['id']))}" class="btn js-ajax-dialog-btn btn-primary" data-msg="确定销毁订单吗">销毁订单</a> -->
+	<a class="btn btn-default" onclick="history.back(-1)">返回</a>
+	</td>
+	</tr>
+
+	</case>
+
+	<case value="2">	<!--订单状态2是销毁订单-->
+
+		<tr>
+		<th width="300">当前状态</th>
+		<td>
+		<a href="#" color="red">订单已销毁</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		<a class="btn btn-default" onclick="history.back(-1)">返回</a>
+		</td>
+		</tr>
+
+	</case>
+	</switch>
+</case>
+<case value="1" >
+	<th width="300">发货状态</th>
+	<td>
+	<!-- <a href="{:url('AdminOrder/collect',array('pid'=>$order['id']))}" class="btn js-ajax-dialog-btn btn-primary" data-msg="确定已收货吗">已收货</a> -->
+	<a  class="btn btn-primary">发货中...</a>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-default" onclick="history.back(-1)">返回</a>
+	</td>
+</case>
+<case value="2" >
+
+	<th width="300">发货状态</th>
+	<td>
+	<a class="btn btn-default">已收货</a>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-default" onclick="history.back(-1)">返回</a>
+	</td>
+
+</case>
+
+<case value="3" >
+	<th width="300">订单状态</th>
+	<td>
+	<a href="#" class="btn js-ajax-dialog-btn btn-primary" data-msg="请在退款处理栏目进行操作">申请退款</a>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-default" onclick="history.back(-1)">返回</a>
+	</td>
+</case>
+
+<case value="4" >
+
+	<th width="300">发货状态</th>
+	<td>
+	<a class="btn btn-default">已收货</a>
+	&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="btn btn-default" onclick="history.back(-1)">返回</a>
+	</td>
+
+</case>
+
+
+
+
+
+</switch>
+
+
+</tr>
+
+
+</table>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+
+
+</body>
+</html>

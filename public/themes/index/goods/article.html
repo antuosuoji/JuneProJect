@@ -1,0 +1,281 @@
+<extend name="public@base"/>
+  <block name="header">
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="javascript:history.back(-1);" ></a>
+			    <p>商品详情</p>
+			</div>
+		</div>
+	</block>
+  <block name="banner">
+		<div class="banner3">
+			<div class="swiper-container">
+                <div class="swiper-wrapper">
+                  <foreach name="imga" item="vo">
+                    <div class="swiper-slide"><a><img src="{:cmf_get_image_url($vo['url'])}"></a></div>
+                  </foreach>
+                </div>
+                <!-- Add Pagination -->
+                <div class="swiper-pagination" style="display: none;"></div>
+                <!-- Add Arrows -->
+                <div class="swiper-button-next" style="display: none;"></div>
+                <div class="swiper-button-prev" style="display: none;"></div>
+            </div>
+		</div>
+	 </block>
+	 <block name="body">
+       <input type="hidden" name="gid" value="{$info['gid']},{$info['category_id']}">
+        <div class="heng"></div>
+
+        <div class="xq_tit">
+            <div class="xq_tit_ch">
+                <div class="xq_tit_top">
+
+                    <div class="xq_tit_fl">
+                      <span>¥</span><span>{$info['gprice']}</span>
+                    </div>
+                    <div class="xq_tit_fr">
+                        <a>
+                            <span></span>
+                            <p class="fxan">分享</p>
+                            <div class="fxbj">
+                                <img src="__TMPL__/public/assets/images/default/fxjt.png">
+                                <div>点击微信分享按钮</br>分享此宝贝</div>
+                            </div>
+                        </a>
+                        <a id="follow" <if condition="checkGoodsIsFollow($info['gid']) eq 'true'">class="bg"</if> >
+                            <span ></span>
+                            <p>关注</p>
+                        </a>
+                        <?php if($info['category_id'] == 6):?>
+                          <a><div>3D</br>试衣</div></a>
+                        <?php endif;?>
+                    </div>
+                </div>
+                <br/><br/>
+                <span class="xq_tit_bot"><a style="color:black">{$info['gname']}</a></span>
+                <br/>
+                <span class="xq_tit_bot">{$info['content']}</span>
+
+            </div>
+        </div>
+
+        <div class="xzan">
+            <div class="xzan_ch">
+                <div>参数</div>
+                <div id='canshu'>
+                    <foreach name='attrs_optional' item='vo'>
+                      {$vo['name']}
+                    </foreach>
+                </div>
+            </div>
+        </div>
+        <div class="xz">
+            <div class="xz_ch" id="xzch">
+                <img class="xz_cha" src="__TMPL__/public/assets/images/default/cha.png">
+            <foreach name='attrs_optional' item='vo'>
+                <div class="xz_cs">
+                    <div class="xz_cs_ch">
+                        <div>{$vo['name']}</div>
+                        <input type="hidden"  value="{$vo['attr_id']}">
+                        <php>$con=explode(',',$vo['content']);</php>
+                        <ul>
+                          <foreach name='con' item='voo'>
+                            <li>{$voo}</li>
+                          </foreach>
+                        </ul>
+                    </div>
+                </div>
+              </foreach>
+                <div class="xz_js">
+                    <div class="xz_js_ch">
+                        <p>数量</p>
+                        <div class="jj">
+                            <span class="jian" id="jian" onclick="jian()">-</span>
+                            <input class="shu" value="1" id="number" onBlur="number()">
+                            <span class="jia" id="jia" onclick="jia()">+</span></div>
+                    </div>
+                </div>
+                <div class="xz_qr">确认</div>
+            </div>
+        </div>
+
+        <div class="heng"></div>
+
+        <ul class="xq_tab">
+            <li class="bg">详情</li>
+            <li>参数</li>
+            <li>评价</li>
+        </ul>
+
+        <div class="heng"></div>
+
+        <ul class="xq_tab2">
+        	<li class="active">
+        		<div class="xq_text">
+        			<!--测试文本，无需写入代码开始-->
+        			{$info['goods_connect']}
+        			<!--测试文本，无需写入代码结束-->
+        		</div>
+        	</li>
+        	<li>
+        		<ul class="xq_canshu">
+              <foreach name='attrs_only' item='vo'>
+        			  <li>{$vo['name']}：{$vo['content']}</li>
+              </foreach>
+        		</ul>
+        	</li>
+        	<li>
+        		<div class="xq_pingjia">
+        			<div class="xq_pingjia_top">
+                        <div><span>评价</span><span>（{:count($goods_comment)}）</span></div>
+                        <div><span>好评</span><span>{$comment_rate}%</span></div>
+                    </div>
+                    <ul class="xq_pingjia_ul">
+                      <foreach name='goods_comment' item='vo'>
+                        <li>
+                            <div class="xq_pingjia_fl">
+                                <div>
+                                  <?php for($i=1;$i<= $vo['score'];$i++):?>
+                                    <img src="__TMPL__/public/assets/images/default/xing.png">
+                                    <?php endfor;?>
+                                </div>
+                                <div class="xq_pingjia_fl">
+                                    <div>
+                                      <span>{$vo['content']}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="xq_pingjia_fr">{:getUserInfoById($vo['userid'])['user_nickname']}</div>
+                        </li>
+                      </foreach>
+                    </ul>
+        		</div>
+
+        	</li>
+        </ul>
+	</block>
+	 <block name="footer">
+        <div class="footer2">
+        	<div class="footer2_ch">
+        	    <li>
+        	    	<a href="{:url('user/Index/cart')}">
+        	    	    <img src="__TMPL__/public/assets/images/default/gwc.png">
+        	    	    <span>（{$num}）</span>
+        	    	</a>
+        	    </li>
+                <li><a href="javascript:;"  id='c' class="addcart">加入购物车</a></li>
+                <li><a href="javascript:;"  id='b' class="addcart">立即购买</a></li>
+            </div>
+        </div>
+        <script type="text/javascript">
+          Wind.use('noty', function () {
+          $('#follow').click(function(){
+            var rst = $('input[name=gid]').val();
+            var res = rst.split(",");
+            var gid = res[0]; //gid
+            var cid = res[1]; //cid
+            $.ajax({
+              url:"{:url('user/Index/follow','',false)}/gid/"+gid+"/cid/"+cid,
+              type:"GET",
+              // data:{'gid':gid,'cid':cid},
+              dataType:"json",
+              success:function (data) {
+
+                if(data.code == 0)
+                {
+                  location.href="{:url('user/Login/index')}";
+                }else if(data.code == 1)
+                {
+                  noty({
+                      text: "关注成功",
+                      type: 'success',
+                      layout: 'center',
+                      modal: true,
+                      timeout: 800,
+                  }).show();
+                }else if(data.code == 2)
+                {
+                  noty({
+                      text: "您已关注",
+                      type: 'success',
+                      layout: 'center',
+                      modal: true,
+                      timeout: 800,
+                  }).show();
+                }
+              }
+            });
+          });
+
+          // 加入购物车
+          $('.addcart').click(function(){
+              $('.xz_qr').attr('id',$(this).attr('id'));
+                $(".xz").fadeIn();
+          });
+          $('.xz_qr').click(function(){
+            var len=$('.xz_cs .xz_cs_ch').length;
+            var num=0;
+            var good_info=new Array();
+            $('.xz_cs .xz_cs_ch').each(function(k,v){
+               $(this).children('ul').find('li').each(function(){
+                if($(this).hasClass('bg')){
+                  good_info[k]= $(v).children().eq(0).html()+","+$(v).children('input').val()+","+$(this).text();
+                  num++;
+                }
+              });
+            })
+            if(len != num)
+            {
+              noty({
+                  text: "请您先选择"+$('#canshu').text(),
+                  type: 'error',
+                  layout: 'center',
+                  modal: true,
+                  timeout: 800,
+              }).show();
+            }else
+            {
+              var number=$("#number").val();
+              var id="{$Request.param.id}";
+              var goods=good_info.join('---');
+              // 存入购物车
+              if($(this).attr('id') === 'c')
+              {
+                $.ajax({
+                  url:"{:url('user/Index/postCart')}",
+                  type:"post",
+                  data:{"goods":goods,"id":id,"number":number},
+                  dataType:"json",
+                  success:function (data) {
+                    if(data.code == 1)
+                    {
+                      noty({
+                        text: data.msg,
+                        type: 'success',
+                        layout: 'center',
+                        modal: true,
+                        timeout: 800,
+                        callback: {
+                            afterClose: function () {
+                              window.location.href="{:url('user/index/cart')}";
+                            }
+                        }
+                      }).show();
+                    }
+                  }
+                })
+              }else if($(this).attr('id') === 'b')
+              {
+                // 购买
+                var  url="{:url('user/Order/buildOrder','',false)}/number/"+number+"/id/"+id+"/goods/"+goods;
+                location.href=url;
+              }
+            }
+          });
+        })
+
+        </script>
+      <script src="__STATIC__/js/wind.js"></script>
+		</block>

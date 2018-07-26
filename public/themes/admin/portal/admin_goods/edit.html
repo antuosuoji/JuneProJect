@@ -1,0 +1,340 @@
+<include file="public@header"/>
+</head>
+<script type="text/html" id="photos-item-wrapper">
+    <li id="savedimage{id}">
+        <input id="photo-{id}" type="hidden" name="photos_url[]" value="{filepath}">
+        <input id="photo-{id}-name" type="text" name="photos_alt[]" value="{name}" style="width: 160px;" title="图片名称">
+        <img id="photo-{id}-preview" src="{url}" style="height:36px;width: 36px;" onclick="parent.image_preview_dialog(this.src);">
+        <a href="javascript:uploadOneImage('图片上传','#photo-{id}');">替换</a>
+        <a href="javascript:(function(){$('#savedimage{id}').remove();})();">移除</a>
+    </li>
+</script>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li><a href="{:url('AdminGoods/index')}">商品列表</a></li>
+        <li><a href="{:url('AdminGoods/add')}">添加商品</a></li>
+    </ul>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#A" data-toggle="tab">通用信息</a></li>
+        <li><a href="#B" data-toggle="tab">详细描述</a></li>
+        <li><a href="#C" data-toggle="tab">商品相册</a></li>
+        <li><a href="#D" data-toggle="tab">商品规格</a></li>
+    </ul>
+
+    <form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('AdminGoods/edit')}">
+
+ <!--通用信息--->
+
+    <div class="tabbable">
+        <div class="tab-content">
+        <div class="tab-pane active" id="A">
+        <table class="table table-bordered">
+        <!--品牌名称-->
+<input type="hidden" name="gid" value="{$goods['gid']}">
+        <tr>
+        <th>商品名称<span class="form-required"> *</span></th>
+        <td>
+        <input class="form-control" type="text" style="width:400px;" name="gname"
+            id="title" required value="{$goods['gname']}" placeholder="商品名称"/ width="50px;">
+        </td>
+        </tr>
+        <!--品牌分类-->
+        <tr>
+        <th width="100">商品分类<span class="form-required">*</span></th>
+        <td>
+        <select class="form-control" name="category_id" style="width: 140px;">
+
+        <!-- <option value='0'>全部</option> -->
+
+        {$categories_tree}
+
+        </select>
+        </td>
+        </tr>
+        <!--品牌管理-->
+        <tr>
+        <th width="100">商品品牌<span class="form-required">*</span></th>
+        <td>
+        <select class="form-control" name="brand_id" style="width: 140px;">
+            <!-- <option value='0'>全部</option> -->
+            <foreach name="brand" item="vo">
+                <option  value="{$vo.id}" <eq name="$goods['brand_id']" value="$vo.id">selected</eq>>{$vo.bname}</option>
+            </foreach>
+        </select>
+        </td>
+        </tr>
+        <!--品牌描述-->
+        <tr>
+        <th>商品描述</th>
+        <td>
+        <textarea class="form-control" style="width:400px;" name="descript" style="height: 50px;">{$goods['content']}</textarea>
+        </td>
+        </tr>
+        <!--品牌价格-->
+        <tr>
+        <th>商品价格</th>
+        <td>
+        <input onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" class="form-control" type="float" style="width: 150px;" name="gprice"  placeholder="只能输入数字" value="{$goods['gprice']}" />
+        </td>
+        </tr>
+
+        <!--vip商品价格-->
+        <!-- <tr>
+        <th>vip商品价格</th>
+        <td>
+        <input onkeyup="if(isNaN(value))execCommand('undo')" onafterpaste="if(isNaN(value))execCommand('undo')" class="form-control" type="float" style="width: 150px;" name="vip_price" placeholder="只能输入数字" value="{$goods['vip_price']}"/>
+        </td>
+        </tr> -->
+         <!--商品缩略图-->
+        <tr>
+        <th>商品封面图</th>
+        <td>
+            <div >
+                <input type="hidden" name="oneImg" id="thumbnail" value="{$goods['goods_image']}">
+                <a style="color:#ffffff" href="javascript:uploadOneImage('图片上传','#thumbnail');">
+                <img src="{:cmf_get_image_url($goods['goods_image'])}"
+                                         id="thumbnail-preview"
+                                         width="135" style="cursor: pointer"/>
+                </a>
+                <input type="button" class="btn btn-sm btn-cancel-thumbnail" value="取消图片">
+            </div>
+        </td>
+        </tr>
+        <!--推荐-->
+        <tr>
+        <th>推荐</th>
+        <td>
+
+        <input type="checkbox" name="tuijian[]" value="1" <if condition="in_array(1,$zhuangt)"> checked </if>>推荐
+        <input type="checkbox" name="tuijian[]" value="2" <if condition="in_array(2,$zhuangt)"> checked </if>>新品
+        <input type="checkbox" name="tuijian[]" value="3" <if condition="in_array(3,$zhuangt)"> checked </if>>热卖
+        </td>
+        </tr>
+
+        <!--上架-->
+        <tr>
+        <th>上架状态</th>
+        <td>
+        <input type="radio" name="shangjia" value="0" <if condition="$goods['shangjia'] eq 0"> checked </if>>上架
+        <input type="radio" name="shangjia" value="1" <if condition="$goods['shangjia'] eq 1"> checked </if>>未上架
+        </td>
+        </tr>
+        <tr>
+        <th>发布时间</th>
+        <td>
+          <input class="form-control js-bootstrap-datetime" type="text" name="createtime"
+                 value="{:date('Y-m-d H:i:s',$goods['createtime'])}" style="width: 160px;">
+        </td>
+        </tr>
+        </table>
+
+        </div>
+ <!--详细描述----->
+
+        <div class="tab-pane" id="B">
+            <table class="table table-bordered">
+            <tr>
+            <th>详细描述</th>
+            <td>
+              <script style="width:800px; height:300px;" type="text/plain" id="content" name="post_content">{$goods.goods_connect|htmlspecialchars_decode}</script>
+            </td>
+            </tr>
+            </table>
+
+        </div>
+
+ <!--商品相册-->
+
+        <div class="tab-pane" id="C">
+
+        <table class="table table-bordered">
+        <tr>
+            <th>相册</th>
+            <td>
+                <ul id="photos" class="pic-list list-unstyled form-inline">
+                 <if condition="$imagess!=null">
+                    <notempty name="imagess">
+                        <foreach name="imagess" item="vo">
+                            <php>$img_url=cmf_get_image_preview_url($vo['url']);</php>
+                            <li id="saved-image{$key}">
+                                <input id="photo-{$key}" type="hidden" name="photos_url[]"
+                                       value="{$vo.url}">
+                                <input class="form-control" id="photo-{$key}-name" type="text"
+                                       name="photos_alt[]"
+                                       value="{$vo.name|default=''}" style="width: 200px;" title="图片名称">
+                                <img id="photo-{$key}-preview"
+                                     src="{:cmf_get_image_preview_url($vo['url'])}"
+                                     style="height:36px;width: 36px;"
+                                     onclick="parent.imagePreviewDialog(this.src);">
+                                <a href="javascript:uploadOneImage('图片上传','#photo-{$key}');">替换</a>
+                                <a href="javascript:(function(){$('#saved-image{$key}').remove();})();">移除</a>
+                            </li>
+                        </foreach>
+                    </notempty>
+                    </if>
+                </ul>
+
+                <a href="javascript:uploadMultiImage('图片上传','#photos','photos-item-wrapper');"
+                   class="btn btn-sm btn-default">选择图片</a>
+            </td>
+        </tr>
+    </table>
+
+        </div>
+            <!--商品规格---->
+        <div class="tab-pane" id="D">
+        <table class="table table-bordered">
+            <tr>
+                <th width="100">商品类型<span class="form-required">*</span></th>
+                <td>
+                <input type="hidden" name="lx" value="{$goods['type_id']}">
+                  <select class="form-control ceshi2" name="status" style="width: 200px;" id="select_id" disabled=disabled>
+                    <foreach name="type" item = "vo">
+                        <option value="{$vo['id']}"  <eq name="$vo.id" value="$goods['type_id']"> selected </eq> >{$vo['name']}</option>
+                    </foreach>
+                  </select>
+            </td>
+            </tr>
+        </table>
+<div class="googs_attr">
+    <table class="table table-bordered" id="attr_list" >
+      <?php foreach($attrData as $k=>$v) :?>
+        <?php $conArr=explode(PHP_EOL,$v['content']);$hascon=getGoodsContent($v['id'],$gid);$hasconArr=explode(",",$hascon);?>
+          <?php  foreach($hasconArr as $kk=>$vvv):?>
+                <li>
+                  <?php if($v['attr_type']== 1):?>
+                      <a href='#' onclick='addNewAttr(this)' >[<?php if($kk==0) echo "+";else echo "-";?>]</a>
+                  <?php else:?>
+                      <a href='#' ></a>
+                  <?php endif;?>
+                  <div><?php echo $v['name'].":";?></div>
+                  <?php if($v['inputtype'] ==0):?>
+                        <input type='text' name="attr[{$v['id']}][]" value="{$vvv}" />
+                  <?php else:?>
+
+                        <select name='attr[{$v["id"]}][]'>
+                            <option>默认请选择</option>
+                              <?php foreach($conArr as $v1):?>
+                              <option value="{$v1}" <?php if((trim($v1)== trim($vvv))) echo "selected"; ?> >{$v1}</option>
+                              <?php endforeach;?>
+                        </select>
+                  <?php endif;?>
+               </li>
+           <?php endforeach;?>
+        <?php endforeach;?>
+    </table>
+</div>
+
+<script type="text/javascript">
+// 为商品属性的 + 号添加一个点击事件
+function addNewAttr(a) {
+  var li=$(a).parent();
+  if($(a).text()=='[+]'){
+    var newli=li.clone();
+    newli.find('input').val("");
+    newli.find('option:selected').removeAttr('selected');
+    newli.find('a').text('[-]');
+    // 把新的li 放在后面
+    li.after(newli);
+  }else{
+    li.remove();
+  }
+
+}
+</script>
+ <!---商品规格结束----->
+
+
+ <!--商品规格选项卡D----->
+
+        </div>
+    </div>
+</div>
+        <!--确认返回-->
+        <div class="col-sm-offset-2 col-sm-10">
+            <button type="submit" class="btn btn-primary js-ajax-submit">{:lang("SAVE")}</button>
+            <a class="btn btn-default" href="__URL__">返回</a>
+        </div>
+    </form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+    var editorURL = GV.WEB_ROOT;
+</script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+<!--文本编辑器-->
+<script type="text/javascript">
+    $(function () {
+
+        editorcontent = new baidu.editor.ui.Editor();
+        editorcontent.render('content');
+        try {
+            editorcontent.sync();
+        } catch (err) {
+        }
+
+        $('.btn-cancel-thumbnail').click(function () {
+            $('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+            $('#thumbnail').val('');
+        });
+
+    });
+
+    function doSelectCategory() {
+        var selectedCategoriesId = $('#js-categories-id-input').val();
+        openIframeLayer("{:url('AdminCategory/select')}?ids=" + selectedCategoriesId, '请选择分类', {
+            area: ['700px', '400px'],
+            btn: ['确定', '取消'],
+            yes: function (index, layero) {
+                //do something
+
+                var iframeWin          = window[layero.find('iframe')[0]['name']];
+                var selectedCategories = iframeWin.confirm();
+                if (selectedCategories.selectedCategoriesId.length == 0) {
+                    layer.msg('请选择分类');
+                    return;
+                }
+                $('#js-categories-id-input').val(selectedCategories.selectedCategoriesId.join(','));
+                $('#js-categories-name-input').val(selectedCategories.selectedCategoriesName.join(' '));
+                //console.log(layer.getFrameIndex(index));
+                layer.close(index); //如果设定了yes回调，需进行手工关闭
+            }
+        });
+    }
+</script>
+<style type="text/css">
+#attr_list{
+    float:left;
+}
+    .googs_attr{
+    font-weight:  bold;
+    border:  1px solid #ebebeb;
+    padding: 10px 0px;
+    font-size: 14px;
+    list-style: none;
+    padding-left: 10px;
+}
+   .googs_attr li select, .googs_attr li input{
+    width: 200px;
+    margin-left: 39px;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #2C3E50;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #dce4ec;
+    border-radius: 0;
+   font-weight: initial;
+ color: #f89;
+   }
+#D .googs_attr li{line-height: 34px;margin-top: 10px;}
+#D .googs_attr li a{display: block;float: left;width: 26px;height: 34px;}
+#D .googs_attr li div{float: left;width: 100px;text-align: right;}
+#D .googs_attr li input{}
+</style>
+</body>
+</html>

@@ -1,0 +1,139 @@
+<include file="public@header" />
+</head>
+<body>
+	<div class="wrap">
+		<ul class="nav nav-tabs">
+			<li class="active"><a href="{:url('AdminCategory/index')}">会员体系</a></li>
+			<!-- <li><a href="{:url('AdminCategory/add')}">添加分类</a></li> -->
+		</ul>
+		<form method="post" class="js-ajax-form" action="{:url('AdminCategory/listOrder')}">
+			<!-- <div class="table-actions">
+				<button type="submit" class="btn btn-primary btn-sm js-ajax-submit">{:lang('SORT')}</button>
+			</div> -->
+			<table class="table table-hover table-bordered table-list">
+				<thead>
+					<tr>
+						<th>用户</th>
+					</tr>
+				</thead>
+			</table>
+		</form>
+    <div class="sidebar" id="sidebar">
+      <div  style="background-color: #2c3e50;">
+          <ul class="nav nav-list">
+              <foreach name="allusers" item="vv">
+                  <li >
+                    <a  href="javacript:;" class="dropdown-toggle">
+                        <span class="menu-text"> {$vv['userid']}</span>
+                    </a>
+
+                       <?php $data=getTreeUserid($allusers,$vv['userid'],"1",$level);?>
+                        <ul class="submenu" style="padding-left:17px;">
+                               <?php foreach($data as $v1):?>
+                                 <?php if($v1['level'] ==1):?>
+                                   <li >
+                                     <a  href="javacript:;" class="dropdown-toggle" >
+																			 <span style="padding-right:5px;"> |---</span>
+                                        <span class="menu-text">{$v1['userid']}</span>
+                                     </a>
+                                     <ul class="submenu" >
+                                        <?php foreach($data as $v2):?>
+                                        <?php if($v2['level'] ==2 && $v2['parentid'] ==$v1['userid']):?>
+                                          <li >
+                                            <a href="javacript:;" class="dropdown-toggle" >
+																							 <span style="padding-right:5px;"> |---</span>
+                                                <span class="menu-text">  {$v2['userid']}  </span>
+                                            </a>
+                                                 <ul class="submenu" >
+                                                   <?php foreach($data as $v3):?>
+                                                   <?php if($v3['level'] ==3 && $v3['parentid'] ==$v2['userid']):?>
+                                                     <li>
+                                                       <a href="javacript:;" class="dropdown-toggle" >
+																												  <span style="padding-right:5px;"> |---</span>
+                                                           <span class="menu-text">  {$v3['userid']}  </span>
+                                                       </a>
+                                                     </li>
+                                                    <?php endif;?>
+                                                   <?php endforeach;?>
+                                                 </ul>
+                                          </li>
+                                        <?php endif;?>
+                                        <?php endforeach;?>
+                                     </ul>
+                                   </li>
+                                 <?php endif;?>
+                               <?php endforeach;?>
+                        </ul>
+
+
+
+
+                  </li>
+            </foreach>
+          </ul>
+      </div>
+    </div>
+	</div>
+	<style media="screen">
+	A:link{text-decoration:none;}
+		A:active{text-decoration:none;}
+	</style>
+  <script type="text/javascript">
+   $('.submenu').css({"display":"none"});
+   $('.sidebar').find('a').css({'background-color':"#2c3e50"});
+   $('.sidebar').find("ul").css({"border-top": "1px dotted #959292"});
+  </script>
+  <script src="__TMPL__/public/assets/js/jquery-1.10.2.min.js"></script>
+  <script src="__STATIC__/js/wind.js"></script>
+  <script src="__TMPL__/public/assets/js/bootstrap.min.js"></script>
+  <script src="__STATIC__/js/admin.js"></script>
+  <script src="__TMPL__/public/assets/simpleboot3/js/adminindex.js"></script>
+  <script>
+      $(function () {
+          $("[data-toggle='tooltip']").tooltip();
+          $("li.dropdown").hover(function () {
+              $(this).addClass("open");
+          }, function () {
+              $(this).removeClass("open");
+          });
+      });
+
+      var ismenumin = $("#sidebar").hasClass("menu-min");
+      $(".nav-list").on("click", function (event) {
+          var closest_a = $(event.target).closest("a");
+          if (!closest_a || closest_a.length == 0) {
+              return
+          }
+          if (!closest_a.hasClass("dropdown-toggle")) {
+              if (ismenumin && "click" == "tap" && closest_a.get(0).parentNode.parentNode == this) {
+                  var closest_a_menu_text = closest_a.find(".menu-text").get(0);
+                  if (event.target != closest_a_menu_text && !$.contains(closest_a_menu_text, event.target)) {
+                      return false
+                  }
+              }
+              return
+          }
+          var closest_a_next = closest_a.next().get(0);
+          if (!$(closest_a_next).is(":visible")) {
+              var closest_ul = $(closest_a_next.parentNode).closest("ul");
+              if (ismenumin && closest_ul.hasClass("nav-list")) {
+                  return
+              }
+              closest_ul.find("> .open > .submenu").each(function () {
+                  if (this != closest_a_next && !$(this.parentNode).hasClass("active")) {
+                      $(this).slideUp(150).parent().removeClass("open")
+                  }
+              });
+          }
+          if (ismenumin && $(closest_a_next.parentNode.parentNode).hasClass("nav-list")) {
+              return false;
+          }
+          $(closest_a_next).slideToggle(150).parent().toggleClass("open");
+          return false;
+      });
+
+
+
+  </script>
+</body>
+</html>

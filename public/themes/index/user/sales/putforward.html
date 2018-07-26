@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<include file="public@head" />
+	<body>
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="{:url('sales/index')}"></a>
+			    <p>提现佣金</p>
+			</div>
+		</div>
+        <ul class="fx3_tab1" style="margin-top:70px;">
+            <li <eq name="$Request.param.status" value="0"> class="bg" </eq> onclick="javascript:location.href='{:url(\'sales/putforward\',array(\'status\'=>0))}'">审核中</li>
+            <li <eq name="$Request.param.status" value="1"> class="bg" </eq> onclick="javascript:location.href='{:url(\'sales/putforward\',array(\'status\'=>1))}'">已完成</li>
+            <li <eq name="$Request.param.status" value="2"> class="bg" </eq> onclick="javascript:location.href='{:url(\'sales/putforward\',array(\'status\'=>2))}'">未通过</li>
+        </ul>
+				<notempty name="list">
+        <ul class="fx3_tab2" >
+            <li class="active">
+                <table class="fx3_bg">
+                    <tr>
+                        <th>提现佣金</th>
+                        <th>时间</th>
+                    </tr>
+										<foreach name="list" item="vo">
+	                    <tr>
+	                        <td>-{$vo['money']}</td>
+	                        <td>{$vo['inputtime']|date='Y-m-d',###}</td>
+	                    </tr>
+										</foreach>
+                </table>
+            </li>
+        </ul>
+				<div class="pagination" style="margin-bottom:40px;">{$page|default=''}</div>
+				<else />
+				<div class="gwc_k" style="margin-top:180px;">
+						<div class="gwc_k_img">
+								<img src="__TMPL__/public/assets/images/default/comm.png">
+								<p>暂无提现记录~</p>
+						</div>
+				</div>
+			</notempty>
+				<include file="user@footer" />
+	</body>
+</html>

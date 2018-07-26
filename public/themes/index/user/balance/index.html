@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<include file="public@head"/>
+	<body>
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="{:url('user/profile/center')}" onclick="javascript:history.back(-1);"></a>
+			    <p>我的余额</p>
+			</div>
+		</div>
+
+		<a class="yue_tz" href="{:url('balance/detail',array('type'=>'c'))}">余额明细</a>
+
+        <div class="yue">
+            <div class="yue_img">
+                <img src="__TMPL__/public/assets/images/default/dpye.png">
+                <p>我的余额</p>
+                <p>{$balance}<span>元</span></p>
+            </div>
+            <div class="yue_ct">
+			    <div class="yue_ct_ch">
+			    	<a href="{:url('balance/recharge')}" style="background: #00cc00;">充值</a>
+			    	<a href="{:url('balance/perfectCard')}">提现</a>
+			    </div>
+		    </div>
+        </div>
+		<include file="user@footer" />
+	</body>
+</html>

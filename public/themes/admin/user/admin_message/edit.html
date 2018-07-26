@@ -1,0 +1,81 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+		<li ><a href="{:url('AdminMessage/index')}">消息管理</a></li>
+		<li class="active"><a href="{:url('AdminMessage/add')}">编辑消息</a></li>
+	</ul>
+	<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('AdminMessage/edit')}">
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>名称:</label>
+			<div class="col-md-6 col-sm-10">
+				<input type="text" class="form-control" name="title" value="{$messInfo.title}">
+				<input type="hidden" class="form-control" name="id" value="{$messInfo.id}">
+				<input type="hidden" class="form-control" name="mode" value="{$messInfo.mode}">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>类别:</label>
+			<div class="col-md-6 col-sm-10">
+				<select class="form-control" name="type_id" >
+						<foreach name="typesinfo" item="vo">
+								<option value="{$vo.id}" <?php if($vo['id'] == $messInfo->type_id) echo "selected='selected'"?>>{$vo.name}</option>
+						</foreach>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label"><span class="form-required">*</span>内容:</label>
+			<div class="col-md-6 col-sm-10">
+		  <script type="text/plain" id="content" name="content">{$messInfo.content}</script>
+			</div>
+		</div>
+		<div class="col-sm-offset-2 col-sm-10">
+			<button type="submit" class="btn btn-primary js-ajax-submit">{:lang("SAVE")}</button>
+			<a class="btn btn-default" href="__URL__">返回</a>
+		</div>
+	</form>
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+<script type="text/javascript">
+    //编辑器路径定义
+    var editorURL = GV.WEB_ROOT;
+</script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="__STATIC__/js/ueditor/ueditor.all.min.js"></script>
+<script type="text/javascript">
+		$('#post_method').find('input').each(function(k,v){
+			$(v).click(function(){
+				if($(v).val() == 0)
+				{
+					$('#group').css("display","block");
+					$('#user').css("display","none");
+				}else
+				{
+					$('#group').css("display","none");
+					$('#user').css("display","block");
+				}
+			});
+		});
+
+		// 实例化百度编辑器
+    $(function () {
+
+        editorcontent = new baidu.editor.ui.Editor();
+        editorcontent.render('content');
+
+        try {
+            editorcontent.sync();
+        } catch (err) {
+        }
+
+        $('.btn-cancel-thumbnail').click(function () {
+            $('#thumbnail-preview').attr('src', '__TMPL__/public/assets/images/default-thumbnail.png');
+            $('#thumbnail').val('');
+        });
+
+    });
+</script>
+</body>
+</html>

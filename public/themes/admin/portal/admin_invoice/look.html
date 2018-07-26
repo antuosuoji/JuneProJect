@@ -1,0 +1,102 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+	<ul class="nav nav-tabs">
+		<li ><a href="{:url('AdminInvoice/index')}">订单列表</a></li>
+		<li class="active"><a href="{:url('AdminInvoice/look')}">查看订单</a></li>
+	</ul>
+&nbsp;
+<div class="order-box">
+  <table class="table table-bordered"  align="content">
+
+	<tr><td class="well" align="center" colspan="4"><strong>基本信息</strong></td></tr>
+  <tr>
+  <td align="center" ><strong>订单号:</strong></td>
+  <td>{$info.order_id}</td>
+  <td align="center" ><strong>发票类型:</strong></td>
+	<eq name="$info.type" value = '0'>
+	<td>个人</td>
+	<else>
+	<td>公司</td>
+	</eq>
+  </tr>
+  <tr>
+  <td align="center" ><strong>公司名称/姓名:</strong></td>
+  <td>{$info.company}</td>
+  <td align="center" ><strong>纳税人识别号:</strong></td>
+  <td>{$info.number}</td>
+  </tr>
+
+	<tr>
+		<td align="center"><strong>订单状态:</strong></td>
+
+
+		<switch name="$info.is_evaluate">
+			<case value="0">
+				<td colspan="3">
+					<span style="color:blue">正常&nbsp;<i class="fa fa-check-square" aria-hidden="true"></i></span>
+				</td>
+			</case>
+			<case value="1">
+				<td colspan="3">
+					<span style="color:red">申请退款&nbsp;<i class="fa fa-window-close" aria-hidden="true"></i></span>
+				</td>
+			</case>
+			<case value="3">
+				<td colspan="3">
+					<span style="color:red">取消订单&nbsp;<i class="fa fa-window-close" aria-hidden="true"></i></span>
+				</td>
+			</case>
+		</switch>
+
+
+
+
+  </tr>
+
+
+	<tr>
+		<td align="center"><strong>支付状态:</strong></td>
+		<eq name = "$info.pay_status" value = "0">
+	  <td colspan="3">
+			<span style="color:red">未支付&nbsp;<i class="fa fa-window-close" aria-hidden="true"></i></span>
+		</td>
+		<else/>
+	  <td colspan="3">
+			<span style="color:blue">已支付&nbsp;<i class="fa fa-check-square" aria-hidden="true"></i></span>
+		</td>
+		</eq>
+  </tr>
+
+	<tr>
+		<td align="center"><strong>手机号码:</strong></td>
+    <td colspan="3">{$info.tel}</td>
+  </tr>
+
+  <tr>
+  <td align="center"><strong>邮箱地址:</strong></td>
+	<td colspan="3">{$info.email}</td>
+	</tr>
+
+  </table>
+
+
+<!--商品信息-->
+  <table class="table table-bordered">
+	<tr><td class="well" align="center" colspan="5"><strong>描述信息</strong></td></tr>
+
+					<tr>
+						<td colspan="5">
+								{$info.description}
+						</td>
+					</tr>
+  </table>
+
+
+</div>
+
+
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

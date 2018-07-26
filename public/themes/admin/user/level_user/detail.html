@@ -1,0 +1,51 @@
+<include file="public@header"/>
+</head>
+<body>
+<div class="wrap js-check-wrap">
+    <ul class="nav nav-tabs">
+        <li class=""><a href="{:url('LevelUser/index')}">分销会员列表</a></li>
+        <li class="active"><a href="javascript:;"><switch name="$Request.param.level" ><case value="1">一级分销</case><case value="2">二级分销</case><default />三级分销</switch></a></li>
+    </ul>
+
+    <form method="post" class="js-ajax-form margin-top-20" >
+        <div class="table-actions">
+            <!-- <button type="submit" class="btn btn-danger btn-sm js-ajax-submit"   data-action="{:url('LevelCommission/delete')}" data-subcheck="true" data-msg="您确定删除吗？">删除</button> -->
+        </div>
+
+        <table class="table table-hover table-bordered table-list">
+            <thead>
+            <tr>
+                <!-- <th width="50">
+                   <input type="checkbox" class="js-check-all" data-direction="x" data-checklist="js-check-x">
+                 </th> -->
+                <th width="50">ID</th>
+                <th>会员</th>
+                <td>注册时间</td>
+                <!-- <th width="160">操作</th> -->
+            </tr>
+            </thead>
+            <tbody>
+            <foreach name="list" item="vo">
+                <tr>
+                    <!-- <th width="50">
+                       <input type="checkbox" class="js-check" data-yid="js-check-y" data-xid="js-check-x" name="ids[]"
+                              value="{$vo.id}" title="ID:{$vo.id}">
+                     </th> -->
+                    <td>{$vo.id}</td>
+                    <td><php>echo getUserInfoById($vo['userid'])['user_login']</php></td>
+                    <td>{$vo.inputtime|date='Y-m-d H:i:s',###}</td>
+                    <td>
+                        <!-- <a class="js-ajax-delete" href="{:url('LevelCommission/delete',['id'=>$vo['id']])}">删除</a> -->
+                    </td>
+                </tr>
+            </foreach>
+            </tbody>
+        </table>
+        <div class="table-actions">
+        </div>
+    </form>
+
+</div>
+<script src="__STATIC__/js/admin.js"></script>
+</body>
+</html>

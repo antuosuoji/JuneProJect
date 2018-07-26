@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <include file="public@head" />
+	<body>
+
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="{:url('order/index',array('all'=>1))}" onclick="javascript:history.back(-1);"></a>
+			    <p>申请退款</p>
+			</div>
+		</div>
+
+       <div class="sqtk">
+
+       <eq name = "$info['post_status']" value = "0">
+         <form class="js-ajax-form" action="{:url('/user/order/Dorefund')}" method="post">
+             <div class="sqtk_inp">
+                 <span>订单编号</span>
+                 <input type="" name="order_money" placeholder="{$orderid}" disabled="disabled" >
+             </div>
+
+                <div class="sqtk_inp">
+                    <span>真实姓名</span>
+                    <input type="" name="name" placeholder="输入姓名...">
+                </div>
+
+                <div class="sqtk_inp">
+                    <span>联系电话</span>
+                    <input type="" name="phone" placeholder="输入电话...">
+                </div>
+
+
+                <div class="sqtk_inp" style="height: 164px;">
+                    <span>退款说明</span>
+                    <textarea type="" name="order_explain" placeholder="请您详细输入退款原因!(300字以内)" ></textarea>
+                </div>
+
+                <input type="hidden" name="order_money" value="{$total_actual}">
+                <input type="hidden" name="orderid" value="{$orderid}">
+                <div class="sqtk_ts">提示：此订单金额为<span>¥{$total_actual}<span></div>
+                  <div class="sqtk_tj_ch">
+                    <div class="sqtk_tj" >
+                      <button type="submit" style="background: gray" class="js-ajax-submit">提交申请</button>
+                      <a href="{:url('/user/order/index')}">取消操作</a>
+                    </div>
+                  </div>
+           </form>
+      <else/>
+
+      <div class="gwc_k" style="margin-top:180px;">
+          <div class="gwc_k_img">
+              <img src="__TMPL__/public/assets/images/default/tanhao2.png">
+              <p>当前为{$info['post_status'] == 1 ?'送货':'货到'}状态,不可执行退款操作</p>
+          </div>
+          <a class="gwc_k_t" href="{:url('order/index',array('all'=>1))}">查看订单状态</a>
+      </div>
+
+      </eq>
+
+       </div>
+<include file="public@scripts" />
+	</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+
+  <include file="public@head" />
+
+
+  <body>
+
+    <div class="header2">
+      <div class="header2_ch">
+        <a class="fanhui" href="{:url('user/profile/center')}"></a>
+          <p>我的订单</p>
+      </div>
+    </div>
+
+    <ul class="wddd_tab1">
+            <li <eq name="$Request.param.all" value="1">class="bg"</eq> onclick="javascript:location.href='{:url('user/order/index',array(\'all\'=>1))}'">全部</li>
+            <li <eq name="$Request.param.pay_status"  value="0">class="bg"</eq> onclick="javascript:location.href='{:url(\'Order/index\',array(\'pay_status\'=>0))}'">待付款</li>
+            <li <eq name="$Request.param.post_status" value="0">class="bg"</eq>  onclick="javascript:location.href='{:url(\'Order/index\',array(\'post_status\'=>0))}'">待发货</li>
+            <li <eq name="$Request.param.post_status" value="1">class="bg"</eq>  onclick="javascript:location.href='{:url(\'Order/index\',array(\'post_status\'=>1))}'">待收货</li>
+            <li <eq name="$Request.param.post_status" value="2">class="bg"</eq>  onclick="javascript:location.href='{:url(\'Order/index\',array(\'post_status\'=>2))}'">已完成</li>
+            <li <eq name="$Request.param.order_status" value="3">class="bg"</eq>  onclick="javascript:location.href='{:url(\'Order/index\',array(\'order_status\'=>3))}'">退货</li>
+
+        </ul>
+        <div class="heng"></div>
+        <ul class="wddd_tab2">
+            <li class="active">
+
+              <!--全部user/evaluate/index-->
+                <div class="wddd_tab2_ul1">
+
+                    <div class="wddd_tab2_li1">
+
+                      <foreach name="orderid" item="res">
+                        <div class="ddh">订单号：<a>{$res.orderid}</a></div>
+                          <foreach name="order" item="vo">
+                                <eq name="$vo['orderid']" value="$res['orderid']">
+                                  <div class="dd_sp">
+                                  <a href="{:url('goods/article/index',array('cid'=>$vo['category_id'],'id'=>$vo['gid']))}"><div class="dd_img" style="background: url({:cmf_get_image_url($vo['goods_image'])}) 50% no-repeat;"></div></a>
+                                  <div class="dd_text"><p>{$vo.gname}{$vo.goods_attr_value}</p><p>{$vo.goods_price}</p></div>
+                                  </p>
+                                  <div class="dd_shu"><span>×</span><span>{$vo.num}</span></div>
+                                  </div>
+                              </eq>
+                        </foreach>
+
+                        <div class="dd_zt">
+                        <p><span></span><span></span></p>
+                        <p class="dd_dsh">  <a href="{:url('user/order/detail',array('id'=>$res['id']))}" style="color: #fff;">查看订单</a></p>
+                        <!--根据支付状态来判定-->
+                        <switch name="$res['pay_status']">
+                        <case value="0">
+                        <!--未支付状态下-->
+                        <p class="dd_dsh"><a href="{:url('user/pay/index',array('orderid'=>$res['orderid']))}" style="color: #fff;">付款</a></p>
+                        <p><a class="js-ajax-dialog-btn dd_dsh" href="{:url('Order/open',array('id'=>$res['id']))}" data-msg="确定取消支付吗">取消</a></p>
+                        </case>
+                        <case value="1">
+                        <!--支付状态下-->
+                          <switch name="$res['post_status']">
+                          <case value="0"><p class="dd_dfh">暂未发货</p></case>    <!--post_status发货状态-->
+                          <case value="1">
+                            <!-- <p class="dd_dsh">待收货</p> -->
+                            <p><a class="js-ajax-dialog-btn dd_dsh" href="{:url('Order/is_collect',array('pid'=>$res['id']))}" data-msg="您确定收货吗">确定收货</a></p>
+                          </case>    <!--已经发货-->
+                          <case value="2">
+                          <p class="dd_dfh"><a class="js-ajax-dialog-btn dd_dfh" href="{:url('Order/is_del',array('id'=>$res['id']))}" data-msg="是否清除此订单信息?">已完成</a></p>                            <!--已经完成-->
+                          <eq name = "$res['is_evaluate']" value = "0">           <!--是否评价-->
+                          <p class="dd_dsh">  <a href="{:url('user/evaluate/lists',array('orderid'=>$res['orderid']))}" style="color: #fff;">待评价</a></p>
+                          <else name = "$res['is_evaluate']" value = "1">
+                          <p class="dd_dfh">评价完成</a></p>
+                          </eq>
+                        </case>
+                        </switch>
+                        </case>
+                        <case value="2">
+                        <!--取消付状态下-->
+                        <p><a class="js-ajax-dialog-btn dd_dfh" href="{:url('Order/delete',array('id'=>$res['id']))}" data-msg="是否删除作废订单?">删除</a></p>
+                        </case>
+                        <case value="3">
+                        <!--取消付状态下-->
+                        <eq name = "$res['is_refund']" value = "0">
+                        <!-- <p><a class="js-ajax-dialog-btn dd_dfh" href="{:url('Order/delete',array('id'=>$res['id']))}" data-msg="是否删除作废订单?">退款受理</a></p> -->
+                          <p class="dd_dfh">退款受理</a></p>
+                        <else/>
+                        <p><a class="js-ajax-dialog-btn dd_dfh" href="{:url('Order/is_del',array('id'=>$res['id']))}" data-msg="是否清除此订单信息?">退款成功</a></p>
+                        </eq>
+                        </case>
+                        </switch>
+
+                        </div>
+                       <div class="heng"></div>
+
+                      </foreach>
+                    </div>
+
+
+
+                </div>
+            </li>
+
+        </ul>
+        <div class="pagination">{$page|default=''}</div>
+				<include file="public@scripts" />
+  </body>
+</html>

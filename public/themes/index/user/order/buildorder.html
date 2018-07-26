@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+  <include file="public@head" />
+	<body>
+		<div class="header2">
+			<div class="header2_ch">
+				<!-- <a class="fanhui" href="#" onclick="javascript:history.back(-1);"></a> -->
+        <a class="fanhui" href="__URL__"></a>
+
+			    <p>确认订单</p>
+			</div>
+		</div>
+		<div class="dizhi">
+      <div class="dz_tit" id="mation">收货信息
+      <?php if(empty($address)) :?>
+      <span style="color:#707070;margin-left:250px;font-size:14px;" onclick="javascript:location.href='{:url(\'Profile/address\',array(\'from\'=>\'order\'))}'">+(添加)</span>
+      <?php else:?>
+      <span style="color:#707070;margin-left:5px;font-size:14px;" onclick="javascript:location.href='{:url(\'Profile/address\',array(\'from\'=>\'order\'))}'"><i style="color:#939393">(点击切换地址)</i>
+      <?php endif;?>
+      </div>
+            <?php  if($address):?>
+            <div class="dz_text" onclick="javascript:location.href='{:url(\'Profile/address\',array(\'from\'=>\'order\'))}'">
+                <div>{$address.receiver_province} {$address.receiver_city} {$address.receiver_area} {$address.address}</div>
+                <div><span>{$address.name}</span><span>{$address.phone}</span></div>
+            </div>
+           <?php endif;?>
+            <div class="caidai"></div>
+        </div>
+
+        <div class="heng"></div>
+
+        <div class="js_sp">
+            <ul>
+							<foreach name="list" item="vo">
+                <li>
+                    <div class="js_sp_li">
+                        <div class="js_sp_img" style="background: url({:cmf_get_image_url($vo.goods_image)}) 50% no-repeat;"></div>
+                        <div class="js_sp_text">
+                        <p>{$vo.gname}</p>
+                        <p><span>¥</span><span class="js_jg">{$vo.price}</span></p>
+                        </div>
+                        <div class="js_sp_shu">×<span class="js_sp_shu_ch">{$vo.number}</span></div>
+                    </div>
+                </li>
+              </foreach>
+            </ul>
+        </div>
+
+        <div class="heng"></div>
+
+        <div class="js_fyxq">
+            <div class="js_fyxq_text">
+                <ul>
+                   <?php if($is_freight):?>
+                    <li><span>运费：</span><span>¥{$freight} </span> ( {$freight_setting['desc']} )</li>
+                    <?php else:?>
+                    <li><span>运费：</span><span>¥ 0</span> ( 满 {$freight_setting['desc']} )</li>
+                    <?php endif;?>
+                    <?php if($discount_info['is_show'] == 1):?>
+                    <li><span>折扣：</span><span>您享有{$discount_info['discount']}折</span></li>
+                  <?php endif;?>
+                    <li><span>共<i style="font-size: 18px;color: #ff6c02;font-weight: normal;font-style: normal;"> {:count($list)} </i>件商品，总计（<?php if($is_freight) echo '含运费';else echo '已免运费';?>）：</span><span id='total'>¥{$total}</span></li>
+                    <li><span>可获得<i style="font-size: 18px;color: #ff6c02;font-weight: normal;font-style: normal;" id="proportion"> {$point} </i>积分</span></li>
+                </ul>
+            </div>
+        </div>
+        <form class="" action="{:url('user/Order/postOrder')}" method="post" onsubmit="return Confirm()">
+        <div class="heng"></div>
+
+        <div class="js_yf">
+            <ul>
+                <li>
+                    <a>
+                        <div>优惠券</div>
+												<select name="coupon" style="padding-left:100px;padding-right: 30px;font-size: 16px;height:100%;float:right;border:0px;background:#fff;color:#939393;margin-right: 30px;appearance:none;-moz-appearance:none;-webkit-appearance:none;">
+													 <option value="">选择优惠券</option>
+													  <foreach name="coupon" item="vo">
+														<option value="{$vo.money},{$vo.code}">满{$vo.least_money}减{$vo.money}元</option>
+													</foreach>
+												<select>
+                    </a>
+                </li>
+                <li>
+                    <a href="{:url('Order/invoice')}">
+                        <div>发票信息</div>
+                        <?php if($voice == false):?>
+                        <div>个人（普通发票）商品明细</div>
+                      <?php else:?>
+                        <div><span style="color:#18BC9C"><i>（普通发票）商品明细已填写完毕</i></span></div>
+                      <?php endif;?>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="heng"></div>
+
+        <div class="liuyan_bg">
+            <div class="liuyan_ch">
+                <textarea class="liuyan" name="message" placeholder="选填：给商家留言（50字以内）"></textarea>
+            </div>
+        </div>
+        <div class="heng"></div>
+        <div class="heng" style="margin-bottom: 80px;"></div>
+        <div class="footer3">
+
+            <div><span>合计：</span><span>¥</span><span id="zongji">{$total}</span></div>
+            <div onclick="javascript:$('form').submit()">提交订单</div>
+        </div>
+        <?php if(\think\Request::instance()->param('cid') && \think\Request::instance()->param('num')):?>
+            <input type="hidden" name="cid" value="{$Request.param.cid}">
+            <input type="hidden" name="num" value="{$Request.param.num}">
+        <?php else:?>
+          <input type="hidden" name="gid" value="{$Request.param.id}">
+          <input type="hidden" name="number" value="{$Request.param.number}">
+          <input type="hidden" name="goods" value="{$Request.param.goods}">
+        <?php endif;?>
+            <input type="hidden" name="useradd" value="{$useradd}">
+      </form>
+	</body>
+	<script type="text/javascript">
+
+		$('.js_yf ul select').change(function(){
+			var down=$(this).val().split(",");
+			down_money=down[0];
+			var total="{$total}";
+			// 积分比利
+			var  proportion="{$proportion}";
+
+			if(down_money > 0)
+			{
+				total=parseFloat(total)-parseInt(down_money);
+				// 总价
+			 $('#total').html('¥'+total);
+			 $('#zongji').html(total);
+			 // 积分
+			 proportion=Math.ceil(proportion * total);
+			 $('#proportion').html(proportion);
+		 }else
+		 {
+			  $('#total').html('¥'+total);
+        $('#zongji').html(total);
+				 proportion=Math.ceil(proportion * total);
+				$('#proportion').html(proportion);
+		 }
+		});
+
+
+    function Confirm(){
+
+      $res = $("#mation span").html();
+
+      if ($res == '+(添加)') {
+
+        Wind.use('noty',function(){
+
+          noty({
+            text   : "请您添加收货地址!~",
+            type   : 'error',
+            layout : 'center',
+            modal  : true,
+            timeout: 1200,
+            }).show();
+        });
+          return false;
+
+        }else{
+
+        return true;
+      }
+
+    }
+
+	</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</html>

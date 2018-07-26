@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <include file="public@head" />
+	<body>
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="#" onclick="javascript:history.back(-1);"></a>
+			    <p>发票信息</p>
+			</div>
+		</div>
+        <div class="fapiao">
+            <div class="fp_tit">发票抬头</div>
+            <ul class="fp_tab1">
+                <li class="bg">个人</li>
+                <li>公司</li>
+            </ul>
+            <ul class="fp_tab2">
+                <li class="active">
+                    <form method="post"  class="js-ajax-form" action="{:url('Order/postInvoice','',false)}">
+											 <input type="hidden" name="type" value="0">
+											  <div class="fp_input"><span>姓名</span><input type="text" name="company" placeholder="请输入姓名"></div>
+                        <div class="heng"></div>
+                        <div class="fp_tit">收票人信息</div>
+                        <div class="fp_input"><span>手机号码</span><input type="text" name="tel" placeholder="请输入手机号"></div>
+                        <div class="fp_input"><span>邮<i></i>箱</span><input type="text" name="email" placeholder="可选填，接收电子发票使用"></div>
+                        <div class="heng"></div>
+                        <div class="fp_tit">普通商品发票内容</div>
+                        <div class="fp_nr"><textarea  placeholder="商品明细，商品内容显示详细商品名称及价格信息。" name="description"></textarea></div>
+                        <div class="heng"></div>
+                        <button class="fp_qr  js-ajax-submit" type="submit" value="确认" name="">确认</button>
+                    </form>
+                </li>
+                <li>
+                    <form method="post"  class="js-ajax-form" action="{:url('Order/postInvoice','',false)}">
+											  <input type="hidden" name="type" value="1">
+                        <div class="fp_input"><span>公司名称</span><input type="text" name="company" placeholder="请输入公司名称"></div>
+                        <div class="fp_input"><span>纳税人识别号</span><input type="text" name="number" placeholder="请输入纳税人识别号"></div>
+                        <div class="heng"></div>
+                        <div class="fp_tit">收票人信息</div>
+                        <div class="fp_input"><span>手机号码</span><input type="text" name="tel" placeholder="请输入手机号"></div>
+                        <div class="fp_input"><span>邮<i></i>箱</span><input type="text" name="email" placeholder="可选填，接收电子发票使用"></div>
+                        <div class="heng"></div>
+                        <div class="fp_tit">普通商品发票内容</div>
+                        <div class="fp_nr"><textarea  placeholder="商品明细，商品内容显示详细商品名称及价格信息。" name="description"></textarea></div>
+                        <div class="heng"></div>
+                       <button class="fp_qr  js-ajax-submit" type="submit" value="确认" name="">确认</button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+	<include file="public@scripts" />
+	</body>
+</html>

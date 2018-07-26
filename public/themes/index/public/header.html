@@ -1,0 +1,21 @@
+<div class="header">
+  <div class="header_ch">
+    <a class="logo" href="__ROOT__/"><img src="__TMPL__/public/assets/images/default/logo.png"></a>
+	<div class="ss_bei"></div>
+
+	<form class="ss_form navbar-form navbar-right" method="post" action="{:cmf_url('goods/list/index')}">
+    <input class="ssk form-control" type="text" name="keyword" placeholder="请输入想要搜索的商品..."
+    value="{:input('param.keyword','')}">
+	<input class="ss_an btn btn-primary" type="submit" type="" name="" value=""style="margin:0"/>
+	</form>
+
+    <div class="header_fr">
+        <img class="ss" src="__TMPL__/public/assets/images/default/ss.png">
+        <a class="daohang" href="{:url('portal/Index/nav')}">
+          <span></span>
+          <span></span>
+          <span></span>
+        </a>
+      </div>
+  </div>
+</div>

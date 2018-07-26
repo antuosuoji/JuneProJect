@@ -1,0 +1,22 @@
+
+<include file="public@head"/>
+	<body>
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="#" onclick="javascript:history.back(-1);"></a>
+			    <p>{$category.name}</p>
+			</div>
+		</div>
+
+        <div class="ggao">
+            <ul>
+									<portal:articles order="is_top DESC" item="vo" categoryIds="$category.id">
+									<li>
+			             <a href="{:url('portal/Article/index',array('id'=>$vo['id']))}">{$vo.post_title}</a>
+									 </li>
+			            </portal:articles>
+						</ul>
+        </div>
+
+	</body>
+</html>

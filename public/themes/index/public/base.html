@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+  <block name="head">
+    <include file="public@head"/>
+  </block>
+
+	<body>
+    <block name="header">
+      <include file="public@header"/>
+    </block>
+    <block name="banner">
+		<div class="banner">
+			<div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <slides id="1" >
+                        <div class="swiper-slide"><a href="{$vo.url}" target="_blank"><img src="{:cmf_get_image_url($vo.image)}"></a></div>
+                    </slides>
+                </div>
+              <!-- Add Pagination -->
+                <div class="swiper-pagination" style="display: none;"></div>
+                <!-- Add Arrows -->
+                <div class="swiper-button-next" style="display: none;"></div>
+                <div class="swiper-button-prev" style="display: none;"></div>
+            </div>
+		</div>
+   </block>
+    <block name="body">
+		<div class="in1">
+			<div class="in1_ch">
+			    <a href="#">
+			    	<img src="__TMPL__/public/assets/images/default/in1.png">
+			    </a>
+		    </div>
+		</div>
+
+		<div class="in2">
+			<div class="in2_ch">
+			    <ul>
+			    	<li><a href="#">私人定制</a></li>
+			    <li><a href="javascript:;" onclick="qimoChatClick()">专家咨询</a></li>
+			    	<li><a href="#">帮您找</a></li>
+			    	<li><a href="#">环保</a></li>
+			    </ul>
+		    </div>
+		</div>
+
+		<div class="heng"></div>
+
+		<div class="in3">
+			<div class="in3_ch">
+				<div class="gg">公告：</div>
+				<div class="gg_lun">
+					<div class="swiper-container">
+          <div class="swiper-wrapper">
+            <portal:articles limit="5" order="post.published_time DESC" item="vo" categoryIds="1">
+               <div class="swiper-slide"><a href="{:url('portal/Article/index',array('id'=>$vo['id']))}">{$vo.post_title}</a></div>
+               <!-- <div class="swiper-slide"><a href="{:url('portal/Article/index',array('id'=>$vo['id'],'cid'=>1))}">{$vo.post_title}</a></div> -->
+            </portal:articles>
+          </div>
+          <div class="swiper-pagination" style="display: none;"></div>
+          </div>
+				</div>
+			</div>
+		</div>
+
+		<div class="heng"></div>
+
+		<div class="in4">
+			<div class="in4_ch">
+				<ul class="in4_ul">
+            <slides id="3" >
+    					<li><a <empty name="$vo.url">href="javascript:;"<else/> href="{$vo['url']}"</empty> ><img src="{:cmf_get_image_url($vo.image)}"></a></li>
+            </slides>
+				</ul>
+			</div>
+		</div>
+
+		<div class="heng"></div>
+
+		<div class="in5 tuijian1">
+			<div class="in5_ch">
+        <slides id="4" >
+          <a <empty name="$vo.url">href="javascript:;"<else/> href="{$vo['url']}"</empty> ><img src="{:cmf_get_image_url($vo.image)}"></a>
+        </slides>
+			</div>
+		</div>
+		<div class="heng"></div>
+		<div class="in6">
+			<div class="in6_ch">
+				<div class="in6_tit">精品推荐</div>
+				<a class="more" href="{:url('goods/List/index',array('sid'=>1))}"></a>
+			</div>
+		</div>
+		<div class="heng"></div>
+		<div class="in7">
+			<div class="in7_ch">
+				<ul class="in7_ul">
+
+<!--精品推荐-->
+          <foreach name="jingping" item="vo">
+					<li>
+						<a href="{:url('goods/Article/index',array('cid'=>$vo['category_id'],'id'=>$vo.gid))}">
+							<div style="background: url({:cmf_get_image_url($vo.goods_image)}) 50% no-repeat;background-size: 100%;"></div>
+							<div>{$vo.gname|msubstr=###,0,10}</div>
+							<div><span>价格：¥ </span><span>{$vo.gprice}</span></div>
+						</a>
+					</li>
+        </foreach>
+				</ul>
+			</div>
+		</div>
+		<div class="heng"></div>
+		<div class="in6">
+			<div class="in6_ch">
+				<div class="in6_tit">热销产品</div>
+				<a class="more" href="{:url('goods/List/index',array('sid'=>3))}"></a>
+			</div>
+		</div>
+		<div class="heng"></div>
+		<div class="in7">
+			<div class="in7_ch">
+				<ul class="in7_ul">
+<!--热销产品-->
+<foreach name="rexiao" item="vo">
+					<li>
+						<a href="{:url('goods/Article/index',array('cid'=>$vo['category_id'],'id'=>$vo.gid))}">
+							<div style="background: url({:cmf_get_image_url($vo.goods_image)}) 50% no-repeat;background-size: 100%;"></div>
+							<div>{$vo.gname|msubstr=###,0,10}</div>
+							<div><span>价格：¥ </span><span>{$vo.gprice}</span></div>
+						</a>
+					</li>
+</foreach>
+				</ul>
+			</div>
+		</div>
+		<div class="heng"></div>
+
+		<div class="in5 tuijian2">
+			<div class="in5_ch">
+        <slides id="5" >
+          <a <empty name="$vo.url">href="javascript:;"<else/> href="{$vo['url']}"</empty> ><img src="{:cmf_get_image_url($vo.image)}"></a>
+        </slides>
+			</div>
+		</div>
+
+		<div class="heng"></div>
+
+		<div class="in6">
+			<div class="in6_ch">
+				<div class="in6_tit">新品推荐</div>
+				<a class="more" href="{:url('goods/List/index',array('sid'=>2))}"></a>
+			</div>
+		</div>
+
+		<div class="heng"></div>
+
+		<div class="in7">
+			<div class="in7_ch">
+				<ul class="in7_ul">
+
+<!--新品推荐-->
+
+<foreach name="$xinpin" item="vo">
+					<li>
+            <a href="{:url('goods/Article/index',array('cid'=>$vo['category_id'],'id'=>$vo.gid))}">
+							<div style="background: url({:cmf_get_image_url($vo.goods_image)}) 50% no-repeat;background-size: 100%;"></div>
+							<div>{$vo.gname|msubstr=###,0,10}</div>
+							<div><span>价格：¥ </span><span>{$vo.gprice}</span></div>
+						</a>
+					</li>
+</foreach>
+				</ul>
+			</div>
+		</div>
+
+		<div class="heng"></div>
+  </block>
+  <block name="footer">
+   <include file="public@footer" />
+  </block>
+	</body>
+  <script type='text/javascript' src='https://webchat.7moor.com/javascripts/7moorInit.js?accessId=1616f890-87d8-11e8-8d56-490eedb5bc38&autoShow=false&language=ZHCN' async='async'>
+</script>
+</html>

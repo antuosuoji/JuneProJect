@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<include file="public@head" />
+	<body>
+
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="{:url('user/profile/center')}"></a>
+			    <p>我的分销</p>
+			</div>
+		</div>
+		<include file="user/sales@head" />
+        <div class="fx1">
+            <div class="fx1_ch">
+                <ul class="yjtx">
+                    <li>
+                        <P>成功提现佣金（元）</P>
+                        <P>{$already_put}</P>
+                    </li>
+                    <span></span>
+                    <li>
+                        <P>可提现佣金（元）</P>
+                        <P>{$able_put}</P>
+                    </li>
+                </ul>
+                <div class="yjtx_an"><div><a href="{:url('sales/put')}" style="color:#fff">佣金提现</a></div></div>
+            </div>
+        </div>
+
+        <div class="heng"></div>
+
+        <div class="fx2" style="margin-bottom:40px;">
+            <div class="fx2_ch">
+                <ul class="fx1_ul">
+                    <li>
+                        <a href="{:url('sales/levelcommission',array('level'=>1))}">
+                            <div style="background: url(__TMPL__/public/assets/images/default/fx1.png) 50% no-repeat;"></div>
+                            <div>分销佣金</div>
+                            <div><span>{$comm_total}</span>元</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{:url('sales/commission')}">
+                            <div style="background: url(__TMPL__/public/assets/images/default/fx2.png) 50% no-repeat;"></div>
+                            <div>佣金明细</div>
+                            <div><span>{$comm_num}</span>笔</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{:url('sales/putforward',array('status'=>0))}">
+                            <div style="background: url(__TMPL__/public/assets/images/default/fx3.png) 50% no-repeat;"></div>
+                            <div>提现明细</div>
+                            <div><span>{$put}</span>笔</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{:url('sales/downline')}">
+                            <div style="background: url(__TMPL__/public/assets/images/default/fx4.png) 50% no-repeat;"></div>
+                            <div>我的下线</div>
+                            <div><span>{$downline}</span>人</div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{:url('sales/spread')}">
+                            <div style="background: url(__TMPL__/public/assets/images/default/fx5.png) 50% no-repeat;"></div>
+                            <div>推广二维码</div>
+                            <div></div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+				<include file="user@footer" />
+	</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<include file="public@head" />
+	<body>
+
+		<div class="header2">
+			<div class="header2_ch">
+				<a class="fanhui" href="#" onclick="javascript:history.back(-1);"></a>
+			    <p>会员资料</p>
+			</div>
+		</div>
+
+       <div class="ziliao">
+           <form>
+                <div class="ziliao_tx">
+                    <div class="zl_tx"><div><img src="images/touxiang.png"></div></div>
+                </div>
+                <div>
+                    <span>手机号</span>
+                    <a href="#">未绑定手机号</a>
+                </div>
+                <div>
+                    <span>昵称</span>
+                    <input type="" name="" placeholder="请输入昵称">
+                </div>
+                <div>
+                    <span>性别</span>
+                    <select>
+                        <option>男</option>
+                        <option>女</option>
+                    </select>
+                </div>
+                <div>
+                    <span>生日</span>
+                    <input class="zl_sr" type="" name="" placeholder="点击选择出生日期" readonly  unselectable="on">
+                </div>
+                <div>
+                    <span>微信号</span>
+                    <input type="" name="" placeholder="请输入您的微信号">
+                </div>
+                <div>
+                    <span>所在城市</span>
+                    <a class="btn btn-info btn-lg active" role="button" id="sel_city">点击选取省市区</a>
+                </div>
+                <a class="ziliao_qr"><input type="submit" value="确认修改"></a>
+           </form>
+       </div>
+			 <script type="text/javascript">
+			 $(function(){
+						 var calendar = new datePicker();
+						 calendar.init({
+						 'trigger': '.zl_sr', /*按钮选择器，用于触发弹出插件*/
+						 'type': 'date',/*模式：date日期；datetime日期时间；time时间；ym年月；*/
+						 'minDate':'1900-1-1',/*最小日期*/
+						 'maxDate':'2100-12-31',/*最大日期*/
+						 'onSubmit':function(){/*确认时触发事件*/
+							 var theSelectData=calendar.value;
+						 },
+						 'onClose':function(){/*取消时触发事件*/
+						 }
+						});
+						});
+			 </script>
+<script src="js/datePicker.js"></script>
+<script src="js/picker.min.js"></script>
+<script src="js/city.js"></script>
+<script src="js/dizhi.js"></script>
+	</body>
+</html>

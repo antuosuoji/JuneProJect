@@ -1,0 +1,66 @@
+<include file="public@head" />
+<body>
+
+	<div class="header2">
+		<div class="header2_ch">
+			<a class="fanhui" href="#" onclick="javascript:history.back(-1);"></a>
+				<p>我的评价</p>
+		</div>
+	</div>
+
+			<div class="wddd_tab2_li1" style="margin-top: 80px;">
+					<div class="ddh">订单号：{$com['orderid']}</div>
+					<div class="dd_sp">
+						<div class="dd_img" style="background: url({:cmf_get_image_url($com['goods_image'])}) 50% no-repeat;"></div>
+							<div class="dd_text">
+									<p>{$com['gname']}{$com['goods_attr_value']}</p>
+									<p>{$com['goods_price']}</p>
+							</div>
+							<div class="dd_shu"><span>×</span><span>{$com['num']}</span></div>
+					</div>
+					<div class="heng"></div>
+			</div>
+
+			<form method="post" class="form-horizontal js-ajax-form margin-top-20" action="{:url('user/evaluate/comment')}">
+			<div class="pjia">
+					<div class="pjia_ch">
+							<form>
+								  <input type="hidden" name="orderid" value="{$com['orderid']}">
+									<input type="hidden" name="goods_id" value="{$com['gid']}">
+									<input type="hidden" name="id" value="{$com['id']}">
+									<div class="pj_xx"><span>商品评分：</span><div id="star_grade"></div></div>
+									<input type="hidden" name="score" value="5" id="score">
+									<div class="pjia_wen">
+										<textarea placeholder="请填写评价内容(不超过50字)" name ="content"></textarea>
+									</div>
+									<!-- <div class="nmpj"><input type="checkbox" name="">匿名评价</div> -->
+									<a class="pjia_tj"><button class="btn btn-primary btn-block js-ajax-submit" type="submit">提交评价</button></a>
+							</form>
+					</div>
+			</div>
+	</form>
+</body>
+	<style>
+
+	</style>
+<include file="public@scripts" />
+<script src="__TMPL__/public/assets/js/default/markingSystem.js"></script>
+<script type="text/javascript">
+
+	$("#star_grade").markingSystem({
+			num: 5,
+			havePoint: false,
+			haveGrade: false,
+			unit: '星',
+			grade: 5,
+			height: 20,
+			width: 20,
+	})
+	//
+	$('#star_grade').click(function(){
+		var num=$('.set_image_top').children().length;
+		$('#score').val(num);
+
+	});
+</script>
+</html>
